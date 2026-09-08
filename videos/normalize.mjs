@@ -36,22 +36,34 @@ function autoCrop(w, h, aspect) {
   return [cw, ch, cx, cy];
 }
 
-// start: sekunda, od ktorej bierzemy 2 s do przodu (boomerang da 4 s)
-// crop:  [w, h, x, y] w pikselach zrodla -- tylko gdy domyslne nie wystarcza
+// start:   sekunda, od ktorej bierzemy 2 s do przodu (boomerang da 4 s)
+// crop:    [w, h, x, y] w pikselach zrodla -- tylko gdy domyslne nie wystarcza
+// display: IMIE KANDYDATA W APLIKACJI. Pliki to wideo wlasnych piesow autorki,
+//          wiec w talii wystepuja pod innymi imionami -- inaczej Karmel
+//          "widzialby" rodzine, a filtr familyIds ma temu zapobiegac.
+//          Te imiona to fikcja i mozna je tu dowolnie zmieniac.
+// age/sex: rowniez fikcja kandydata; brak = karta pokaze kreske
 const OVERRIDES = {
+  'Orotava.mp4': { display: 'Tofik' },
+  'Okruszek.mp4': { display: 'Bajgiel' },
+  'Kwiatuch.mp4': { display: 'Szpilka' },
+  'Ciastek.mp4': { display: 'Piegus' },
+  'Baltic.mp4': { display: 'Rogal' },
+  'Aurora.mp4': { display: 'Malina' },
+  'Auris.mp4': { display: 'Fasola' },
   // age i sex sa FIKCJA kandydatow -- wpisz je tutaj, a karta je pokaze.
   // Dopoki brak, karta pokazuje kreske, zeby nie zmyslac danych po cichu.
   'Pindzia.mp4':   { start: 1.0, crop: [560, 492, 0, 0],
-    note: 'Pysk wypelnia kadr juz w zrodle, wiec bierzemy pelna szerokosc.' },
+    note: 'Pysk wypelnia kadr juz w zrodle, wiec bierzemy pelna szerokosc.', display: 'Sernik'},
   'Lola.mp4':      { start: 7.2, crop: [340, 298, 10, 50],
-    note: 'Kadr od 7,2 s -- wczesniej w ujeciu jest ludzka reka, czego specyfikacja zabrania.' },
+    note: 'Kadr od 7,2 s -- wczesniej w ujeciu jest ludzka reka, czego specyfikacja zabrania.', display: 'Kluska'},
   'Mafinka.mp4':   { start: 2.0, crop: [300, 263, 87, 61],
-    note: 'Zrodlo bylo planem calej sylwetki w biegu; krop trafil w glowe.' },
+    note: 'Zrodlo bylo planem calej sylwetki w biegu; krop trafil w glowe.', display: 'Truskawka'},
   'Skowronek.mp4': { start: 1.5, crop: [340, 298, 32, 81],
-    note: 'Czerwony sweterek w kadrze -- czerwien nie niesie tu znaczenia, wiec CIG-2.2 nie jest naruszone.' },
+    note: 'Czerwony sweterek w kadrze -- czerwien nie niesie tu znaczenia, wiec CIG-2.2 nie jest naruszone.', display: 'Kajtek'},
   'Misiek.mp4':    { start: 1.5, crop: [340, 298, 194, 96],
-    note: 'Glowa przesunieta w prawo w zrodle, krop przesuniety za nia.' },
-  'Fistaszka.mp4': { start: 1.5, crop: [280, 246, 186, 64], display: 'Fistaszek',
+    note: 'Glowa przesunieta w prawo w zrodle, krop przesuniety za nia.', display: 'Pączek'},
+  'Fistaszka.mp4': { start: 1.5, crop: [280, 246, 186, 64], display: 'Bąbel',
     note: 'Plik nazwany w dopelniaczu; imie w aplikacji w mianowniku. Glowa zajmowala 27% szerokosci, wiec krop ciasny i skalowanie 2,7x.' },
 };
 
@@ -140,12 +152,16 @@ writeFileSync(`${SRC}/REJESTR.md`, `# Rejestr wideo
 
 Wygenerowane przez \`videos/normalize.mjs\`. Nie edytowac recznie.
 
+Wszystkie klipy to **wideo wlasnych piesow autorki**. W talii wystepuja pod
+**zmienionymi imionami** -- pliki zrodlowe nosza imiona prawdziwe, a kandydaci
+fikcyjne, zeby talia nie czytala sie jako rodzina Karmela. Mapowanie ponizej.
+
 Specyfikacja z \`design/tokens.json\`: **${V.targetWidth}×${V.targetHeight}**, ${V.seconds[0]}–${V.seconds[1]} s,
 ${V.fps} fps, bez sciezki audio, petla plynna (boomerang), budzet ${V.maxBytes / 1000} kB.
 
-| Klip | Zrodlo | Pochodzenie | Licencja | Zgodnosc | Waga |
+| Kandydat | Plik zrodlowy | Pochodzenie | Licencja | Zgodnosc | Waga |
 |---|---|---|---|---|---|
-${rows.map((r) => `| \`${r.name}.mp4\` | \`${r.src}\` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | ${r.ok ? 'zgodne' : '**do poprawy**'} | ${(r.bytes / 1000).toFixed(0)} kB, crf ${r.crf} |`).join('\n')}
+${rows.map((r) => `| **${r.display}** (\`${r.name}.mp4\`) | \`${r.src}\` | wideo wlasnych piesow autorki | material wlasny, brak osob trzecich | ${r.ok ? 'zgodne' : '**do poprawy**'} | ${(r.bytes / 1000).toFixed(0)} kB, crf ${r.crf} |`).join('\n')}
 
 ## Uwagi per klip
 
@@ -156,9 +172,11 @@ ${rows.map((r) => `**${r.display}** (\`${r.name}.mp4\`, krop ${r.crop.join('×')
 **Konstancja Tanjga** · 8 września 2026 · Tinder for Chihuahua
 `);
 writeFileSync(`${ROOT}app/src/deck.generated.ts`, `// WYGENEROWANE przez videos/normalize.mjs -- nie edytowac recznie.
+// video jest sciezka RELATYWNA -- w aplikacji dokladany jest import.meta.env.BASE_URL,
+// bo na GitHub Pages strona stoi pod /<repo>/ i sciezka absolutna by sie zlamala.
 export type Candidate = { name: string; video: string; age: number | null; sex: 'M' | 'F' | null };
 export const DECK: readonly Candidate[] = [
-${rows.map((r) => `  { name: '${r.display}', video: '/videos/${r.name}.mp4', age: ${r.age ?? 'null'}, sex: ${r.sex ? `'${r.sex}'` : 'null'} },`).join('\n')}
+${rows.map((r) => `  { name: '${r.display}', video: 'videos/${r.name}.mp4', age: ${r.age ?? 'null'}, sex: ${r.sex ? `'${r.sex}'` : 'null'} },`).join('\n')}
 ] as const;
 `);
 console.log(`rejestr: videos/REJESTR.md`);

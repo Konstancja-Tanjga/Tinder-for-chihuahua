@@ -133,7 +133,7 @@ function renderCard() {
       <div class="zone yes">${heart}<div class="label">TAK</div></div>
     </div>
     <div class="card" id="card">
-      <div class="media"><video class="clip" src="${cand.video}" muted playsinline loop autoplay preload="auto"></video></div>
+      <div class="media"><video class="clip" src="${import.meta.env.BASE_URL}${cand.video}" muted playsinline loop autoplay preload="auto"></video></div>
       <div class="rule"></div>
       <div class="name"><b>${name}</b><span>${cand.age ?? '&mdash;'}</span></div>
     </div>
