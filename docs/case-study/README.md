@@ -9,7 +9,7 @@ Lokalna PWA na iPhone 13 Pro Max dla dwóch chihuahua: **Karmel** (5 lat) i **Au
 | | |
 |---|---|
 | **Rola** | Lead designer — research, IA, design system, UI |
-| **Zakres** | 9 ekranów w dwóch skalach, design system, protokół testu |
+| **Zakres** | 9 ekranów w dwóch skalach, CIG i tokeny, protokół testu |
 | **Rama** | Speculative design — zakładamy, że psy obsłużą ekran |
 | **Stack** | PWA · Vite + React + TS · Tailwind · bez backendu |
 | **Status** | Design zamknięty poza gestem wejścia w tryb ludzki |
@@ -47,21 +47,24 @@ zbiera sygnał i przekazuje go swatce. Wyjściem produktu jest ranking preferenc
 cold startu, który zabił konkurencję.
 
 ### 02 · Research: psi odbiorca
-`wall/ch02-research.png` · **do zrobienia**
+![Research](wall/ch02-research.png)
+`wall/ch02-research.png` · **gotowe**
 **Co to jest:** dziesięć ustaleń z literatury, każde sparowane z wymaganiem projektowym.
 **Dlaczego:** użytkownika nie da się zapytać, więc wymagania muszą przyjść z badań.
 **Na co patrzeć:** 429 i 555 nm (paleta), 20/75 (skala ×4), 70–80 Hz (dlaczego 120 Hz to
 wymaganie), oraz to, że psi input z natury przypomina swipe, a nie tap.
 
 ### 03 · Persony
-`wall/ch03-persony.png` · **do zrobienia**
+![Persony](wall/ch03-personas.png)
+`wall/ch03-personas.png` · **gotowe**
 **Co to jest:** dwie persony psie opisane profilem sensorycznym i motoryką, plus persona
 ludzka opisana rolą.
 **Dlaczego:** Karmel i Auri mają tę samą bazę dichromata, ale nie ten sam próg kontrastu.
 **Na co patrzeć:** na wniosek „projektujemy dla Auri, testujemy Karmelem".
 
 ### 04 · User journey: sesja psa
-[`wall/ch04-journey-sesja-psa.png`](wall/ch04-journey-sesja-psa.png) · **gotowe**
+![Sesja psa](wall/ch04-journey-sesja-psa.png)
+`wall/ch04-journey-sesja-psa.png` · **gotowe**
 **Co to jest:** jedenaście kroków sesji w swimlane, z oznaczeniem, gdzie każdy się dzieje.
 **Dlaczego:** nagroda jest fizyczna, więc pętla nie domyka się na ekranie — a to zmienia
 architekturę produktu, nie tylko copy.
@@ -69,14 +72,16 @@ architekturę produktu, nie tylko copy.
 nagrody — najważniejszy krok pętli dzieje się wtedy, gdy aplikacja nie robi nic.
 
 ### 05 · User journey: swatka
-[`wall/ch05-journey-swatka.png`](wall/ch05-journey-swatka.png) · **gotowe**
+![Journey swatki](wall/ch05-journey-swatka.png)
+`wall/ch05-journey-swatka.png` · **gotowe**
 **Co to jest:** pięć kroków journeya człowieka, od setupu do spotkania w parku.
 **Dlaczego:** pokazuje, że wyjściem aplikacji nie jest match, a ranking preferencji.
 **Na co patrzeć:** na krok 04 — zatwierdzenie człowieka jest drugą połową double opt-in
 przepisanego z Tindera i Bumble, tylko strony się zmieniły.
 
 ### 06 · Service blueprint
-[`wall/ch06-blueprint.png`](wall/ch06-blueprint.png) · **gotowe**
+![Service blueprint](wall/ch06-blueprint.png)
+`wall/ch06-blueprint.png` · **gotowe**
 **Co to jest:** front-stage kontra back-stage, z linią interakcji, linią widoczności i
 warstwą ryzyk.
 **Dlaczego:** journey mówi, co się dzieje; blueprint mówi, co musi zadziałać pod spodem,
@@ -98,23 +103,35 @@ darmowy dostęp do ich porażek.
 **Dlaczego:** kierunek trzeba wybrać przed budową design systemu, a nie po.
 **Na co patrzeć:** na to, że wybrany kierunek też ma wadę i jest ona nazwana.
 
-### 09 · Design system i tokeny
-`wall/ch09-design-system.png` · **do zrobienia**
-**Co to jest:** paleta, typografia i dwie skale — dog scale i human scale.
-**Dlaczego:** to najważniejsza decyzja architektury systemu i nie ma jej w żadnym gotowym
-design systemie.
-**Na co patrzeć:** na `#0033FF` i `#D6F000` — obie barwy leżą blisko szczytów czułości
-psich czopków.
+### 09 · Canine Interface Guidelines
+![Canine Interface Guidelines](wall/ch09-cig.png)
+`wall/ch09-cig.png` · **gotowe**
+**Co to jest:** dwadzieścia dziewięć numerowanych praw interfejsu dla psa w sześciu grupach,
+plus warstwa platformowa PWA na iOS i checklista zgodności. Generowane z
+`design/tokens.json`, więc ani jedna liczba nie jest wpisana ręcznie.
+**Dokument jest po angielsku** — `design/cig.html` — bo to specyfikacja
+przeznaczona do dokumentacji; wersja robocza po polsku leży w
+`design/cig.pl.html`. Oba pliki wychodzą z jednego generatora, więc
+nie mogą się rozjechać.
+**Dlaczego:** Human Interface Guidelines opisują człowieka — palec, 44 pt celu, czerwień jako
+ostrzeżenie, tekst jako treść. Każde z tych założeń pęka na dichromacie o ostrości 20/75,
+którego urządzeniem wejściowym jest nos. W trybie psim HIG nie są niewystarczające, są
+szkodliwe, więc własne wytyczne to konieczność, nie ambicja.
+**Na co patrzeć:** na tabelę podziału odpowiedzialności — CIG rządzi trybem psim, HIG
+ludzkim, a dla H1–H4 nie przepisujemy HIG, tylko notujemy trzy odstępstwa. I na warstwę
+platformową: bez `touch-action: none` swipe nigdy nie dotrze do aplikacji.
 
 ### 10 · Ekrany trybu psiego
-`wall/ch10-tryb-psi.png` · **do zrobienia**
+![Tryb psi](wall/ch10-dog-mode.png)
+`wall/ch10-dog-mode.png` · **gotowe**
 **Co to jest:** D1–D5 w skali ×4, bez chrome.
 **Dlaczego:** to jedyna część, którą widzi pies.
 **Na co patrzeć:** na strzałkę pod ikoną zamiast celu do stuknięcia, i na D5, w którym nie
 ma ani jednego piksela acid.
 
 ### 11 · Ekrany trybu ludzkiego
-`wall/ch11-tryb-ludzki.png` · **do zrobienia**
+![Tryb ludzki](wall/ch11-human-mode.png)
+`wall/ch11-human-mode.png` · **gotowe**
 **Co to jest:** H1–H4 w normalnej gęstości.
 **Dlaczego:** dopiero zestawienie obu trybów pokazuje, czy system dwóch skal się trzyma.
 **Na co patrzeć:** na H1 — ranking i wykres czasu decyzji. Rosnący czas to spadające
@@ -131,13 +148,19 @@ następnego dnia.
 
 ## Materiały źródłowe
 
-- [`design/foundation.html`](../../design/foundation.html) — fundament projektowy: research,
+Ścieżki, nie linki — GitHub pokazuje pliki `.html` jako surowy kod, więc linkowanie ich
+wprowadzałoby w błąd. Do przeglądania służą panele PNG powyżej.
+
+- `design/foundation.html` — fundament projektowy: research,
   benchmark, persony, journey, deliverables
-- [`design/journey.html`](../../design/journey.html) — oba journeye jako swimlane
-- [`design/blueprint.html`](../../design/blueprint.html) — service blueprint
-- [`design/canvas/`](../../design/canvas/) — pliki źródłowe ekranów (`.dc.html`) i canvas
-- [`design/exports/`](../../design/exports/) — źródła paneli PNG
-- [`CLAUDE.md`](../../CLAUDE.md) — zasady projektu i design system w formie tekstowej
+- `design/journey.html` — oba journeye jako swimlane
+- `design/blueprint.html` — service blueprint
+- `design/cig.html` — Canine Interface Guidelines (EN), generowane z tokenów
+- `design/cig.pl.html` — CIG po polsku, z tego samego generatora
+- `design/tokens.json` — jedyne źródło prawdy dla liczb i barw
+- `design/canvas/` — pliki źródłowe ekranów (`.dc.html`) i canvas
+- `design/exports/` — źródła paneli PNG
+- `CLAUDE.md` — zasady projektu i design system w formie tekstowej
 
 ---
 

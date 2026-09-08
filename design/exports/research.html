@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Newsreader:ital,wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root{--ground:#EFF1EC;--panel:#E4E8DE;--tint:#E0E5F5;--warm:#EFE9D6;--ink:#10131A;--muted:#58606E;--faint:#97A08F;--blue:#1B34D8;--acid:#7E8A00;--rule:#CFD5C8;--rule-strong:#A9B2A0}
+  *{box-sizing:border-box}
+  body{margin:0;width:1800px;padding:44px 40px;background:var(--ground);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.5}
+  h1{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:44px;line-height:1.03;margin:0 0 10px;letter-spacing:-0.015em}
+  p{margin:0}
+  code{font-family:'IBM Plex Mono',Menlo,monospace;font-size:0.85em;background:var(--panel);padding:1px 5px}
+  .eyebrow{font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;color:var(--acid);margin-bottom:12px}
+  .lede{color:var(--muted);font-size:17px;max-width:100ch;margin-bottom:24px}
+  .grid{display:grid;grid-template-columns:34px minmax(0,1.08fr) minmax(0,1fr);border-top:2px solid var(--rule-strong)}
+  .n{padding:14px 0 14px 0;border-bottom:1px solid var(--rule);font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;font-weight:600;color:var(--faint);font-variant-numeric:tabular-nums}
+  .f{padding:14px 30px 14px 0;border-bottom:1px solid var(--rule)}
+  .f .k{font-family:'IBM Plex Mono',Menlo,monospace;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--muted);display:block;margin-bottom:5px}
+  .f p{font-size:15.5px;line-height:1.45}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+  .chips span{font-family:'IBM Plex Mono',Menlo,monospace;font-size:10.5px;font-weight:600;background:var(--panel);padding:3px 8px;letter-spacing:0.03em}
+  .r{padding:14px 18px;border-bottom:1px solid var(--rule);background:var(--tint)}
+  .r .k{font-family:'IBM Plex Mono',Menlo,monospace;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--blue);display:block;margin-bottom:5px}
+  .r p{font-size:15.5px;line-height:1.45}
+  .head{display:grid;grid-template-columns:34px minmax(0,1.08fr) minmax(0,1fr);border-bottom:2px solid var(--rule-strong)}
+  .head span{font-family:'IBM Plex Mono',Menlo,monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--muted);padding:0 0 10px}
+  .head span:nth-child(3){padding-left:18px}
+  .note{margin-top:24px;background:var(--warm);padding:16px 20px;max-width:120ch;font-size:15.5px;line-height:1.5}
+  .credit{margin-top:26px;padding-top:14px;border-top:2px solid var(--ink);font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--muted);display:flex;gap:22px}
+</style></head><body>
+
+<p class="eyebrow">Tinder for Chihuahua &middot; Chapter 02 &middot; Research</p>
+<h1>Ten findings, ten requirements</h1>
+<p class="lede">You cannot ask this user anything, so the requirements have to come from the literature. Each finding below is paired with the constraint it imposes &mdash; the right-hand column is not commentary, it is the specification.</p>
+
+<div class="head"><span></span><span>Finding</span><span>What it requires</span></div>
+<div class="grid">
+
+  <div class="n">01</div>
+  <div class="f"><span class="k">Colour vision</span><p>Two cone classes, peaking at 429&ndash;435 nm and 555 nm. Red and green are indistinguishable &mdash; not a poorer palette, a differently shaped colour space.</p><div class="chips"><span>429&ndash;435 nm</span><span>555 nm</span><span>dichromat</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>The palette is blue and yellow-green. Tinder's red-pink skin is ruled out <strong>functionally, not aesthetically</strong>. The touchscreen literature recommends exactly this pair.</p></div>
+
+  <div class="n">02</div>
+  <div class="f"><span class="k">Visual acuity</span><p>Miller and Murphy put a typical dog at 20/75; visual-evoked-potential work on beagles gives 20/45&ndash;20/85. The dog sees at 6 m what we see at 22.</p><div class="chips"><span>20/75</span><span>20/45&ndash;20/85</span><span>~4&times;</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>Roughly four times the human scale. Detail does not exist; the carriers are silhouette, colour mass and motion &mdash; never a typeface or a thin line.</p></div>
+
+  <div class="n">03</div>
+  <div class="f"><span class="k">Flicker fusion</span><p>The canine threshold sits around 70&ndash;80 Hz against ~60 Hz in humans. A screen refreshing 60 times a second, fluid to us, may visibly flicker to a dog.</p><div class="chips"><span>70&ndash;80 Hz dog</span><span>~60 Hz human</span><span>120 Hz</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>ProMotion stops being a luxury and becomes a <strong>hardware requirement</strong>. Animate <code>transform</code> and <code>opacity</code> only, so nothing drops to 60.</p></div>
+
+  <div class="n">04</div>
+  <div class="f"><span class="k">Gesture morphology</span><p>Canine screen input naturally resembles a swipe and a drag rather than a discrete, precise tap. This is the single most consequential finding in the set.</p><div class="chips"><span>swipe &gt; tap</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>The Tinder gesture is, <em>by coincidence</em>, the right gesture &mdash; not a metaphor borrowed from a human app. Every drag counts, the distance threshold is low, direction comes from the screen half. No taps, no long-presses.</p></div>
+
+  <div class="n">05</div>
+  <div class="f"><span class="k">Physics of contact</span><p>A wet nose on capacitive glass is a large, moist, multi-point patch. It is not a cursor.</p><div class="chips"><span>patch &ne; point</span><span>1500 ms</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>Treat input as an area: take the centroid, ignore the touch count, debounce, and lock input for 1500 ms after each decision so one long drag cannot register three. <strong>Undo is a core function</strong>, because the mistake is the norm.</p></div>
+
+  <div class="n">06</div>
+  <div class="f"><span class="k">Conspecific attention</span><p>Dogs look longer at dog faces than at human faces regardless of familiarity, and fixate primarily on the eye region.</p><div class="chips"><span>muzzle &gt; face</span><span>eyes</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>The video frames the muzzle and eyes filling the shot. No full-body wides, no scenery, no people. A hard spec for the source clips, not a suggestion.</p></div>
+
+  <div class="n">07</div>
+  <div class="f"><span class="k">What a swipe means</span><p>A dog discriminates image features, but a two-dimensional image need not stand for its real-world referent &mdash; dogs recognise their owner far less well from a photograph than from a face.</p><div class="chips"><span>preference signal</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>The swipe is a real preference about <em>what is on the screen</em>, not a declaration about a mate. So the product's output is a ranking and session data, <strong>never a match</strong>. Hence two users, one screen.</p></div>
+
+  <div class="n">08</div>
+  <div class="f"><span class="k">Value to the older dog</span><p>The Messerli Research Institute in Vienna showed touchscreen games working as cognitive enrichment, aimed specifically at ageing dogs &mdash; they called it sudoku for dogs. Auri is twelve.</p><div class="chips"><span>12 years</span><span>enrichment</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>A second, serious reason to exist beside a promise made to two dogs. It changes the success metric: what counts is regularity and in-session engagement, not card count.</p></div>
+
+  <div class="n">09</div>
+  <div class="f"><span class="k">Reward</span><p>Dogs work for food, and canine engagement in an on-screen task rises with a person present in the room.</p><div class="chips"><span>physical reward</span><span>human present</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>The screen is not the reward &mdash; it <em>announces</em> one. The loop closes in the room, with a treat from a hand. So we design an interaction where the human sits alongside rather than leaving the dog with a phone.</p></div>
+
+  <div class="n">10</div>
+  <div class="f"><span class="k">Age and contrast</span><p>In older dogs we expect reduced contrast sensitivity from changes in the lens. Auri and Karmel share the same dichromat baseline but not the same threshold.</p><div class="chips"><span>older dog sets the floor</span></div></div>
+  <div class="r"><span class="k">Requirement</span><p>Minimum contrast and minimum target size are set by the twelve-year-old, not the five-year-old. If it reads for her, it reads for both; the converse does not hold.</p></div>
+
+</div>
+
+<div class="note"><strong>One honest caveat.</strong> Finding 10 is the only claim in this set not supported by a source in the bibliography. It is the most load-bearing assumption in the project &mdash; the whole &ldquo;design for Auri&rdquo; principle rests on it &mdash; so it is marked as an expectation to verify on the dog, not as a finding from the literature.</div>
+
+<p class="credit"><span>Konstancja Tanjga</span><span>8 września 2026</span><span>Tinder for Chihuahua</span></p>
+</body></html>

@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8">
+<title>Ramka 428×926</title>
+<!-- Chrome headless=new ma minimalna szerokosc okna (~500 px) i ignoruje
+     --window-size=428. Zrzuty aplikacji byly przez to uciete: strona
+     renderowala sie w 500 css, a obraz mial 428. Ten iframe daje prawdziwy
+     layout viewport 428x926, wiec zrzut odpowiada telefonowi.
+     Wylacznie do developmentu -- nie wchodzi do builda. -->
+<style>
+  html,body{margin:0;background:#3a3a3a;display:flex;align-items:flex-start;justify-content:flex-start}
+  iframe{width:428px;height:926px;border:0;display:block}
+</style></head>
+<body><iframe src="/" title="app"></iframe></body></html>

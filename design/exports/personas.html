@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Newsreader:ital,wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root{--ground:#EFF1EC;--panel:#E4E8DE;--tint:#E0E5F5;--warm:#EFE9D6;--ink:#10131A;--muted:#58606E;--faint:#97A08F;--blue:#1B34D8;--acid:#7E8A00;--acid-fill:#C8D400;--rule:#CFD5C8;--rule-strong:#A9B2A0}
+  *{box-sizing:border-box}
+  body{margin:0;width:1800px;padding:44px 40px;background:var(--ground);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.5}
+  h1{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:44px;line-height:1.03;margin:0 0 10px;letter-spacing:-0.015em}
+  p{margin:0}
+  .eyebrow{font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;color:var(--acid);margin-bottom:12px}
+  .lede{color:var(--muted);font-size:17px;max-width:104ch;margin-bottom:26px}
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;background:var(--rule)}
+  .c{background:var(--panel);padding:24px 26px;display:flex;flex-direction:column;gap:16px}
+  .c.human{background:var(--tint)}
+  .ch{display:flex;flex-direction:column;gap:5px}
+  .ch strong{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-size:34px;font-weight:800;letter-spacing:-0.02em;line-height:1}
+  .ch em{font-style:italic;color:var(--muted);font-size:16px;line-height:1.35}
+  dl{margin:0;display:flex;flex-direction:column}
+  dl>div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;padding:9px 0;border-top:1px solid var(--rule-strong)}
+  dt{font-family:'IBM Plex Mono',Menlo,monospace;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);padding-top:4px}
+  dd{margin:0;font-size:15.5px;line-height:1.45}
+  .v{border-top:2px solid var(--ink);padding-top:12px;display:flex;flex-direction:column;gap:5px;margin-top:auto}
+  .v span{font-family:'IBM Plex Mono',Menlo,monospace;font-size:9.5px;font-weight:600;letter-spacing:0.11em;text-transform:uppercase;color:var(--acid)}
+  .v p{font-size:16px;line-height:1.42}
+  .out{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;background:var(--rule);margin-top:2px}
+  .o{background:var(--ground);padding:20px 24px;display:flex;flex-direction:column;gap:8px}
+  .o span{font-family:'IBM Plex Mono',Menlo,monospace;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue)}
+  .o strong{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-size:21px;font-weight:800;letter-spacing:-0.01em;line-height:1.15}
+  .o p{font-size:15.5px;line-height:1.48;color:var(--muted)}
+  .credit{margin-top:26px;padding-top:14px;border-top:2px solid var(--ink);font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--muted);display:flex;gap:22px}
+</style></head><body>
+
+<p class="eyebrow">Tinder for Chihuahua &middot; Chapter 03 &middot; Personas</p>
+<h1>Two users on paws, one on two legs</h1>
+<p class="lede">The canine personas are described by sensory profile, motor behaviour and motivation, because none of that can be asked for. The human persona has a completely different structure, because her problem is not perception &mdash; it is role.</p>
+
+<div class="cards">
+
+  <div class="c">
+    <div class="ch"><strong>Karmel</strong><em>Primary swiper &mdash; and the stress test for input</em></div>
+    <dl>
+      <div><dt>Age, sex</dt><dd>5 years, male</dd></div>
+      <div><dt>Sensory</dt><dd>Dichromat; acuity ~20/75; flicker threshold 70&ndash;80 Hz. Sees blue and yellow-green.</dd></div>
+      <div><dt>Motor</dt><dd>Quick, agile. Will produce the messiest, longest, multi-point nose drags in the house.</dd></div>
+      <div><dt>Motivation</dt><dd>Novelty, treat, your attention &mdash; in that order.</dd></div>
+      <div><dt>Goal</dt><dd>Someone to love who is not his mother.</dd></div>
+      <div><dt>Frustration</dt><dd>He touched it and nothing happened. Sound too quiet. Screen too far away.</dd></div>
+    </dl>
+    <div class="v"><span>Role in the process</span><p>Karmel tests input tolerance. If his swipe registers, anyone's will.</p></div>
+  </div>
+
+  <div class="c">
+    <div class="ch"><strong>Auri</strong><em>The user for whom this app has real value</em></div>
+    <dl>
+      <div><dt>Age, sex</dt><dd>12 years, female. Karmel's mother.</dd></div>
+      <div><dt>Sensory</dt><dd>Same dichromat baseline, but reduced contrast sensitivity from age-related changes in the lens.</dd></div>
+      <div><dt>Motor</dt><dd>Calmer. Longer pause before deciding, fewer trials per session.</dd></div>
+      <div><dt>Motivation</dt><dd>Routine, quiet, the human's presence, food.</dd></div>
+      <div><dt>Goal</dt><dd>Someone to love who is not her son.</dd></div>
+      <div><dt>Hidden value</dt><dd>Cognitive stimulation &mdash; precisely the population Vienna's &ldquo;sudoku for dogs&rdquo; was aimed at.</dd></div>
+    </dl>
+    <div class="v"><span>Role in the process</span><p>Auri sets the thresholds: minimum contrast, minimum target size, maximum session length.</p></div>
+  </div>
+
+  <div class="c human">
+    <div class="ch"><strong>Konstancja</strong><em>Owner, operator, matchmaker &mdash; and the only one who understands why any of this exists</em></div>
+    <dl>
+      <div><dt>Tasks</dt><dd>Prepare the deck and profiles, run the session, sit alongside, reward, read the result, arrange the real meeting.</dd></div>
+      <div><dt>Goal</dt><dd>Two less bored dogs, one real meeting &mdash; and the satisfaction of a thing she built herself.</dd></div>
+      <div><dt>Need</dt><dd>Setup in minutes, not hours. A result legible at a glance. Silence once the session is over.</dd></div>
+      <div><dt>Constraint</dt><dd>She cannot be in two modes at once: while the dog works, she rewards &mdash; she does not tap.</dd></div>
+    </dl>
+    <div class="v"><span>Role in the process</span><p>She is the interpreter. The app hands her a signal; the decision stays hers.</p></div>
+  </div>
+
+</div>
+
+<div class="out">
+  <div class="o"><span>Conclusion one</span><strong>Design for Auri, stress-test with Karmel</strong><p>The two dogs share a dichromat baseline but not a contrast threshold. Every floor &mdash; contrast, target size, session length &mdash; is validated on the twelve-year-old. The younger dog then copes by definition, and his sloppy input is what proves the tolerance.</p></div>
+  <div class="o"><span>Conclusion two</span><strong>These are two interfaces, not one</strong><p>Dog mode: full screen, no chrome, four-times scale, blue and yellow-green. Human mode: normal density, normal typography, legible data. They must be separated &mdash; and the dog must not be able to reach the second one.</p></div>
+</div>
+
+<p class="credit"><span>Konstancja Tanjga</span><span>8 września 2026</span><span>Tinder for Chihuahua</span></p>
+</body></html>
