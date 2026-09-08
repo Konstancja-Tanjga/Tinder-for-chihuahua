@@ -103,6 +103,10 @@ darmowy dostęp do ich porażek.
 **Co to jest:** dwadzieścia dziewięć numerowanych praw interfejsu dla psa w sześciu grupach,
 plus warstwa platformowa PWA na iOS i checklista zgodności. Generowane z
 [`design/tokens.json`](../../design/tokens.json), więc ani jedna liczba nie jest wpisana ręcznie.
+**Dokument jest po angielsku** — [`design/cig.html`](../../design/cig.html) — bo to specyfikacja
+przeznaczona do dokumentacji; wersja robocza po polsku leży w
+[`design/cig.pl.html`](../../design/cig.pl.html). Oba pliki wychodzą z jednego generatora, więc
+nie mogą się rozjechać.
 **Dlaczego:** Human Interface Guidelines opisują człowieka — palec, 44 pt celu, czerwień jako
 ostrzeżenie, tekst jako treść. Każde z tych założeń pęka na dichromacie o ostrości 20/75,
 którego urządzeniem wejściowym jest nos. W trybie psim HIG nie są niewystarczające, są
@@ -140,7 +144,8 @@ następnego dnia.
   benchmark, persony, journey, deliverables
 - [`design/journey.html`](../../design/journey.html) — oba journeye jako swimlane
 - [`design/blueprint.html`](../../design/blueprint.html) — service blueprint
-- [`design/cig.html`](../../design/cig.html) — Canine Interface Guidelines, generowane z tokenów
+- [`design/cig.html`](../../design/cig.html) — Canine Interface Guidelines (EN), generowane z tokenów
+- [`design/cig.pl.html`](../../design/cig.pl.html) — CIG po polsku, z tego samego generatora
 - [`design/tokens.json`](../../design/tokens.json) — jedyne źródło prawdy dla liczb i barw
 - [`design/canvas/`](../../design/canvas/) — pliki źródłowe ekranów (`.dc.html`) i canvas
 - [`design/exports/`](../../design/exports/) — źródła paneli PNG
