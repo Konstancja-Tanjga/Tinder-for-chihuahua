@@ -2,12 +2,22 @@ import './style.css';
 import { TOKENS } from './tokens.generated';
 import * as audio from './audio';
 import * as log from './log';
+import { DECK as CANDIDATES } from './deck.generated';
 
 const { dragThreshold, cooldown } = TOKENS.input;
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
-/* ---- talia: CIG-5.1, dolna granica 6 --------------------------------------- */
-const DECK = ['Lola', 'Fistaszek', 'Bruno', 'Miśka', 'Kajtek', 'Tofik'].slice(0, TOKENS.session.deckMin);
+/* ---- talia: CIG-5.1, dolna granica 6 ---------------------------------------
+   Kandydaci przychodza z videos/normalize.mjs, wiec imiona i klipy nie moga sie
+   rozjechac. Tasujemy i bierzemy deckMin, zeby przy siedmiu klipach nie bylo tak,
+   ze jeden nigdy nie trafia do sesji. Kolejnosc idzie do logu, wiec sesja jest
+   odtwarzalna. */
+function shuffled<T>(xs: readonly T[]) {
+  const a = [...xs];
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j]!, a[i]!]; }
+  return a;
+}
+const DECK = shuffled(CANDIDATES).slice(0, TOKENS.session.deckMin);
 
 type Screen = 'pick' | 'warmup' | 'card' | 'reward' | 'end';
 type Dog = 'Karmel' | 'Auri';
@@ -115,20 +125,26 @@ function renderWarmup() {
 }
 
 function renderCard() {
-  const name = DECK[state.idx]!;
+  const cand = DECK[state.idx]!;
+  const name = cand.name;
   app.innerHTML = `<div class="screen">
     <div class="zones">
       <div class="zone no">${xGlyph}<div class="label">NIE</div></div>
       <div class="zone yes">${heart}<div class="label">TAK</div></div>
     </div>
     <div class="card" id="card">
-      <div class="media"><span class="ph">[ placeholder &middot; wideo pyska 4 s ]</span>${dogSvg(TOKENS.color.acid, TOKENS.color.ink, 240)}</div>
+      <div class="media"><video class="clip" src="${cand.video}" muted playsinline loop autoplay preload="auto"></video></div>
       <div class="rule"></div>
-      <div class="name"><b>${name}</b><span>4</span></div>
+      <div class="name"><b>${name}</b><span>${cand.age ?? '&mdash;'}</span></div>
     </div>
     ${humanbar(state.dog)}
     <div class="cooldown" id="cool" style="width:0"></div>
   </div>`;
+  // Atrybut autoplay bywa ignorowany, a CIG-7.5 wymaga, zeby klip startowal sam.
+  // muted + playsinline sa warunkiem, zeby iOS na to pozwolil.
+  document.querySelector<HTMLVideoElement>('.clip')?.play().catch(() => {
+    log.add({ kind: 'note', text: 'wideo nie wystartowalo samo -- sprawdz muted i playsinline' });
+  });
   wireUndo();
 }
 
@@ -190,7 +206,7 @@ function wireUndo() {
 
 /* ---- decyzja ---------------------------------------------------------------- */
 function decide(decision: 'yes' | 'no', startedAt: number, dragPx: number, patch: number, touches: number, src: 'touch' | 'mouse') {
-  const card = DECK[state.idx]!;
+  const card = DECK[state.idx]!.name;
   log.add({ kind: 'decision', src, card, decision, latencyMs: Math.round(performance.now() - startedAt), dragPx: Math.round(dragPx), patchMm: log.px2mm(patch), touches });
   state.history.push({ card, decision });
   state.lockUntil = performance.now() + cooldown;
@@ -336,6 +352,18 @@ window.addEventListener('keydown', (ev) => {
   if (state.screen === 'end' && (ev.key === 'l' || ev.key === 'L')) openLog();
 });
 
+/* Parametr deweloperski: ?dev=card wchodzi od razu na karte, ?dev=end na koniec.
+   Sluzy do zrzutow ekranu i do sprawdzania jednego ekranu bez przechodzenia sesji.
+   Nie ma wplywu na dzialanie bez parametru. */
+const devScreen = new URLSearchParams(location.search).get('dev');
+if (devScreen === 'card' || devScreen === 'end') {
+  state.dog = 'Karmel';
+  log.setSubject(state.dog);
+  state.screen = devScreen === 'end' ? 'end' : 'card';
+  if (devScreen === 'end') state.history = DECK.map((d) => ({ card: d.name, decision: 'yes' as const }));
+  log.add({ kind: 'note', text: `tryb deweloperski: start na ${devScreen}` });
+}
+
 log.startFps();
-log.add({ kind: 'note', text: `spike D2-D3-D5; talia ${DECK.length}; prog ${dragThreshold} px; cooldown ${cooldown} ms; ekran dotykowy: ${hasTouch}` });
+log.add({ kind: 'note', text: `spike D1-D5; talia ${DECK.map((d) => d.name).join(', ')}; prog ${dragThreshold} px; cooldown ${cooldown} ms; ekran dotykowy: ${hasTouch}` });
 render();
