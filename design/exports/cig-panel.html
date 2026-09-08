@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Newsreader:ital,wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root{--ground:#EFF1EC;--panel:#E4E8DE;--tint:#E0E5F5;--warm:#EFE9D6;--ink:#10131A;--muted:#58606E;--faint:#97A08F;--blue:#1B34D8;--acid:#7E8A00;--acid-fill:#C8D400;--rule:#CFD5C8;--rule-strong:#A9B2A0}
+  *{box-sizing:border-box}
+  body{margin:0;width:1800px;padding:44px 40px;background:var(--ground);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55}
+  h1{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:44px;line-height:1.03;margin:0 0 10px;letter-spacing:-0.015em}
+  p{margin:0}
+  code{font-family:'IBM Plex Mono',Menlo,monospace;font-size:0.85em;background:var(--panel);padding:1px 5px}
+  .eyebrow{font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;color:var(--acid);margin-bottom:12px}
+  .mono{font-family:'IBM Plex Mono',Menlo,monospace;font-size:10px;letter-spacing:0.11em;text-transform:uppercase;font-weight:600}
+  .top{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:34px;padding-bottom:24px;border-bottom:2px solid var(--ink)}
+  .lede{color:var(--muted);font-size:17px;max-width:78ch}
+  .thesis{background:var(--tint);padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+  .thesis .mono{color:var(--blue)}
+  .thesis p{font-size:15.5px;line-height:1.5}
+  .sw{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;background:var(--rule);margin-top:12px}
+  .sw>div{background:var(--ground)}
+  .sw i{display:block;height:40px}
+  .sw span{display:block;padding:7px 9px;font-family:'IBM Plex Mono',Menlo,monospace;font-size:9.5px;color:var(--muted)}
+  .sw span b{display:block;color:var(--ink);font-size:11px;letter-spacing:0.07em;text-transform:uppercase}
+  h2{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:24px;margin:30px 0 14px;letter-spacing:-0.015em}
+  table{border-collapse:collapse;width:100%;font-size:15px}
+  th{text-align:left;padding:10px 16px 10px 0;border-bottom:2px solid var(--rule-strong);font-family:'IBM Plex Mono',Menlo,monospace;font-size:10px;letter-spacing:0.11em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+  td{padding:11px 16px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.42}
+  td:first-child{font-weight:600;white-space:nowrap}
+  td b{color:var(--blue);font-weight:600}
+  td.dev{background:var(--warm)}
+  td.dev b{color:var(--acid)}
+  .groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;background:var(--rule)}
+  .g{background:var(--ground);padding:16px 18px;display:flex;flex-direction:column;gap:7px}
+  .g .h{display:flex;align-items:baseline;gap:10px}
+  .g .h .mono{color:var(--blue)}
+  .g .h strong{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-size:19px;font-weight:800;letter-spacing:-0.01em}
+  .g .h em{margin-left:auto;font-style:normal;font-family:'IBM Plex Mono',Menlo,monospace;font-size:10px;color:var(--faint);letter-spacing:0.08em}
+  .g p{font-size:14.5px;line-height:1.45}
+  .g .why{color:var(--muted);font-size:13px;line-height:1.4}
+  .plat{margin-top:2px;background:var(--warm);padding:18px 20px;display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:26px;align-items:start}
+  .plat pre{margin:0;font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;line-height:1.75;color:var(--ink)}
+  .plat .mono{color:var(--acid)}
+  .credit{margin-top:28px;padding-top:14px;border-top:2px solid var(--ink);font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--muted);display:flex;gap:22px}
+</style></head><body>
+
+<p class="eyebrow">Tinder for Chihuahua &middot; Rozdzia&#322; 09 &middot; CIG 1.0</p>
+
+<div class="top">
+  <div>
+    <h1>Canine Interface Guidelines</h1>
+    <p class="lede">Human Interface Guidelines opisuj&#261; cz&#322;owieka: palec, 44 pt celu, czerwie&#324; jako ostrze&#380;enie, tekst jako tre&#347;&#263;. Ka&#380;de z tych za&#322;o&#380;e&#324; p&#281;ka na naszym u&#380;ytkowniku &mdash; dichromacie o ostro&#347;ci 20/75, kt&oacute;rego urz&#261;dzeniem wej&#347;ciowym jest nos. Wi&#281;c w trybie psim HIG nie s&#261; niewystarczaj&#261;ce. S&#261; <strong>szkodliwe</strong>.</p>
+    <div class="sw">
+      <div><i style="background:#000000;box-shadow:inset 0 0 0 1px var(--rule-strong)"></i><span><b>ink</b>#000000 &middot; podłoże</span></div>
+      <div><i style="background:#0033FF"></i><span><b>blue</b>#0033FF &middot; sygnał, blisko 429 nm</span></div>
+      <div><i style="background:#D6F000"></i><span><b>acid</b>#D6F000 &middot; sygnał, blisko 555 nm</span></div>
+      <div><i style="background:#FFFFFF"></i><span><b>white</b>#FFFFFF &middot; figura</span></div>
+    </div>
+  </div>
+  <div class="thesis">
+    <p class="mono">Jedno &#378;r&oacute;d&#322;o prawdy</p>
+    <p>Wszystkie liczby w tym dokumencie pochodz&#261; z <code>design/tokens.json</code> i s&#261; wstawiane przy generowaniu. Ani jedna nie jest wpisana r&#281;cznie.</p>
+    <p>Audyt review wykaza&#322;, &#380;e cooldown &#380;y&#322; w siedmiu plikach, a paleta w dziesi&#281;ciu artboardach. Ten plik istnieje, &#380;eby to si&#281; nie powt&oacute;rzy&#322;o.</p>
+    <p class="mono" style="color:var(--acid);padding-top:2px">29 praw &middot; 6 grup &middot; ka&#380;de ze sprawdzeniem</p>
+  </div>
+</div>
+
+<h2>Gdzie rz&#261;dzi CIG, a gdzie HIG</h2>
+<table>
+  <thead><tr><th>Zagadnienie</th><th>Tryb psi &middot; D1&ndash;D5</th><th>Tryb ludzki &middot; H1&ndash;H4</th></tr></thead>
+  <tbody>
+    <tr><td>Minimalny cel</td><td><b>CIG-2.3</b> &mdash; 214&times;300 px</td><td>HIG &mdash; 44&times;44 px, przyjmujemy bez zmian</td></tr>
+    <tr><td>Kolor semantyczny</td><td><b>CIG-2.2</b> &mdash; czerwie&#324; i zielen&#324; zakazane jako kod</td><td class="dev"><b>Odst&#281;pstwo.</b> HIG dopuszcza czerwie&#324; destrukcyjn&#261;; zostajemy przy blue &harr; acid dla sp&oacute;jno&#347;ci obu tryb&oacute;w</td></tr>
+    <tr><td>Typografia</td><td><b>CIG-2.3</b> &mdash; display 112 px</td><td class="dev"><b>Odst&#281;pstwo.</b> HIG zak&#322;ada SF Pro i Dynamic Type; u&#380;ywamy Anton i Barlow, bo to&#380;samo&#347;&#263; musi &#322;&#261;czy&#263; oba tryby</td></tr>
+    <tr><td>Gesty</td><td><b>CIG-3.1</b> &mdash; wy&#322;&#261;cznie przesuni&#281;cie</td><td>HIG &mdash; stukni&#281;cia i standardowe gesty, bez zmian</td></tr>
+    <tr><td>Bezpieczne obszary</td><td><b>CIG-7.3</b> &mdash; 47 px i 34 px</td><td>HIG &mdash; identycznie</td></tr>
+    <tr><td>Redukcja ruchu</td><td><b>CIG-4.3</b> &mdash; nie stosujemy, ruch jest informacj&#261;</td><td>HIG &mdash; <code>prefers-reduced-motion</code> respektowane</td></tr>
+  </tbody>
+</table>
+
+<h2>Sze&#347;&#263; grup praw</h2>
+<div class="groups">
+  <div class="g"><div class="h"><span class="mono">CIG-1</span><strong>Użytkownik</strong><em>6 praw</em></div><p>Dichromat: czopki przy <b>429–435 nm</b> i <b>555 nm</b>. czerwony i zielony są nieodróżnialne.</p><p class="why">To nie ubóstwo palety, a inna geometria przestrzeni barw.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-2</span><strong>Percepcja</strong><em>6 praw</em></div><p>Znaczenie niesie <b>wyłącznie opozycja blue ↔ acid</b> (<code>#0033FF</code> ↔ <code>#D6F000</code>).</p><p class="why">Obie barwy leżą blisko szczytów czułości psich czopków.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-3</span><strong>Wejście</strong><em>6 praw</em></div><p>Prymitywem interakcji jest <b>drag</b>. Zakazane: tap, long-press, double-tap, pinch, swipe krawędziowy.</p><p class="why">Psi input na ekranie z natury przypomina przesunięcie i przeciągnięcie. Gest Tindera jest przypadkiem właściwym gestem.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-4</span><strong>Sprzężenie zwrotne</strong><em>5 praw</em></div><p>Każde „tak" <b>natychmiast coś robi</b>. Żadnego stosu „może później".</p><p class="why">Lekcja z cmentarza apek o pracę: swipe, który tylko odkłada ofertę, nie oszczędza niczego.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-5</span><strong>Sesja</strong><em>3 praw</em></div><p>Talia liczy <b>6–12 kart</b> i się kończy.</p><p class="why">Dolna granica to 6, bo rosnący czas decyzji jest sygnałem do skrócenia talii.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-6</span><strong>Granica trybów</strong><em>3 praw</em></div><p><b>Pies nie wchodzi w tryb ludzki.</b> Gest przejścia musi być niewykonalny nosem — wymaga dwóch punktów kontaktu naraz albo sekwencji.</p><p class="why">Tryb ludzki zawiera dane, edycję profili i zatwierdzanie spotkań. Nos nie może tam trafić przypadkiem.</p></div>
+</div>
+
+<div class="plat">
+  <div>
+    <p class="mono" style="margin-bottom:8px">CIG-7 &middot; Warstwa platformowa</p>
+    <pre>touch-action: none;
+overscroll-behavior: none;
+-webkit-user-select: none;
+user-select: none;
+-webkit-touch-callout: none;
+-webkit-tap-highlight-color: transparent;</pre>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:9px">
+    <p style="font-size:15.5px;line-height:1.5"><strong>Bez pierwszych trzech regu&#322; prawo wej&#347;cia jest niespe&#322;nialne.</strong> Nos przeci&#261;gni&#281;ty po ekranie zaznaczy tekst, wywo&#322;a lup&#281; powi&#281;kszaj&#261;c&#261; i przewinie stron&#281;. To nie detal implementacji &mdash; to warunek, &#380;eby swipe w og&oacute;le dotar&#322; do aplikacji.</p>
+    <p style="font-size:14.5px;line-height:1.45;color:var(--muted)">Do tego dwa ograniczenia iOS, kt&oacute;re kszta&#322;tuj&#261; przep&#322;yw: d&#378;wi&#281;k wymaga gestu u&#380;ytkownika, wi&#281;c <strong>D2 rozgrzewka</strong> musi odblokowa&#263; AudioContext, inaczej szczekni&#281;cie na D4 nie zagra. A wideo odtwarza si&#281; samo tylko jako <code>muted</code> <code>playsinline</code> <code>loop</code> <code>autoplay</code>, wi&#281;c &#347;cie&#380;ka d&#378;wi&#281;kowa profilu jest bez znaczenia.</p>
+  </div>
+</div>
+
+<p class="credit"><span>Konstancja Tanjga</span><span>8 września 2026</span><span>Tinder for Chihuahua</span></p>
+</body></html>

@@ -25,6 +25,18 @@ Wyjściem produktu jest ranking preferencji, nie „match".
 
 ## Design system
 
+**`design/tokens.json` jest jedynym źródłem prawdy dla liczb i barw.** Dokument CIG, panel
+do use case, konfiguracja Tailwinda i Storybook czytają stąd. Nie wpisujemy wartości na
+sztywno — audyt wykazał, że cooldown żył w siedmiu plikach, a paleta w dziesięciu
+artboardach. Zmiana wartości to jedna edycja plus `node design/exports/build-cig.mjs`.
+
+Wytyczne interfejsu: **CIG, Canine Interface Guidelines** — `design/cig.html`, 29 praw w
+sześciu grupach plus warstwa platformowa i checklista zgodności. Generowane z tokenów.
+Podział odpowiedzialności: **CIG rządzi trybem psim D1–D5, HIG trybem ludzkim H1–H4.**
+Dla H1–H4 nie przepisujemy HIG — odsyłamy i notujemy tylko odstępstwa (kolor semantyczny,
+typografia, redukcja ruchu).
+
+
 Kierunek **plakatowy**. Dwie skale w jednym systemie.
 
 | Token | Wartość | Rola |

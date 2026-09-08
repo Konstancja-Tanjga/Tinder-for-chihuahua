@@ -98,13 +98,18 @@ darmowy dostęp do ich porażek.
 **Dlaczego:** kierunek trzeba wybrać przed budową design systemu, a nie po.
 **Na co patrzeć:** na to, że wybrany kierunek też ma wadę i jest ona nazwana.
 
-### 09 · Design system i tokeny
-`wall/ch09-design-system.png` · **do zrobienia**
-**Co to jest:** paleta, typografia i dwie skale — dog scale i human scale.
-**Dlaczego:** to najważniejsza decyzja architektury systemu i nie ma jej w żadnym gotowym
-design systemie.
-**Na co patrzeć:** na `#0033FF` i `#D6F000` — obie barwy leżą blisko szczytów czułości
-psich czopków.
+### 09 · Canine Interface Guidelines
+[`wall/ch09-cig.png`](wall/ch09-cig.png) · **gotowe**
+**Co to jest:** dwadzieścia dziewięć numerowanych praw interfejsu dla psa w sześciu grupach,
+plus warstwa platformowa PWA na iOS i checklista zgodności. Generowane z
+[`design/tokens.json`](../../design/tokens.json), więc ani jedna liczba nie jest wpisana ręcznie.
+**Dlaczego:** Human Interface Guidelines opisują człowieka — palec, 44 pt celu, czerwień jako
+ostrzeżenie, tekst jako treść. Każde z tych założeń pęka na dichromacie o ostrości 20/75,
+którego urządzeniem wejściowym jest nos. W trybie psim HIG nie są niewystarczające, są
+szkodliwe, więc własne wytyczne to konieczność, nie ambicja.
+**Na co patrzeć:** na tabelę podziału odpowiedzialności — CIG rządzi trybem psim, HIG
+ludzkim, a dla H1–H4 nie przepisujemy HIG, tylko notujemy trzy odstępstwa. I na warstwę
+platformową: bez `touch-action: none` swipe nigdy nie dotrze do aplikacji.
 
 ### 10 · Ekrany trybu psiego
 `wall/ch10-tryb-psi.png` · **do zrobienia**
@@ -135,6 +140,8 @@ następnego dnia.
   benchmark, persony, journey, deliverables
 - [`design/journey.html`](../../design/journey.html) — oba journeye jako swimlane
 - [`design/blueprint.html`](../../design/blueprint.html) — service blueprint
+- [`design/cig.html`](../../design/cig.html) — Canine Interface Guidelines, generowane z tokenów
+- [`design/tokens.json`](../../design/tokens.json) — jedyne źródło prawdy dla liczb i barw
 - [`design/canvas/`](../../design/canvas/) — pliki źródłowe ekranów (`.dc.html`) i canvas
 - [`design/exports/`](../../design/exports/) — źródła paneli PNG
 - [`CLAUDE.md`](../../CLAUDE.md) — zasady projektu i design system w formie tekstowej

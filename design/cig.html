@@ -1,0 +1,496 @@
+<title>Canine Interface Guidelines</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&amp;family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;600&amp;display=swap">
+<style>
+  :root{--ground:#EFF1EC;--panel:#E4E8DE;--tint:#E0E5F5;--warm:#EFE9D6;--ink:#10131A;--muted:#58606E;--faint:#97A08F;--blue:#1B34D8;--acid:#7E8A00;--acid-fill:#C8D400;--rule:#CFD5C8;--rule-strong:#A9B2A0}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0D1014;--panel:#171B21;--tint:#171C2E;--warm:#1E1B14;--ink:#EDEFEA;--muted:#9AA3B1;--faint:#5A6470;--blue:#7E92FF;--acid:#C3D122;--acid-fill:#C8D400;--rule:#242A33;--rule-strong:#3A424E}}
+  :root[data-theme="dark"]{--ground:#0D1014;--panel:#171B21;--tint:#171C2E;--warm:#1E1B14;--ink:#EDEFEA;--muted:#9AA3B1;--faint:#5A6470;--blue:#7E92FF;--acid:#C3D122;--acid-fill:#C8D400;--rule:#242A33;--rule-strong:#3A424E}
+  body{background:var(--ground);color:var(--ink);font-family:'Newsreader',Georgia,'Times New Roman',serif;font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;margin:0;letter-spacing:-0.015em;text-wrap:balance}
+  p{margin:0}
+  a{color:var(--blue);text-underline-offset:2px}a:hover{color:var(--ink)}
+  code{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:0.86em;background:var(--panel);padding:1px 5px}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;letter-spacing:0.09em;text-transform:uppercase;font-weight:600}
+  .law{display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:16px 0;border-bottom:1px solid var(--rule)}
+  .law .id{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600;color:var(--blue);padding-top:3px}
+  .law .rule{font-size:17.5px;line-height:1.5}
+  .law .meta{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;padding-top:9px}
+  @media(max-width:720px){.law .meta{grid-template-columns:minmax(0,1fr)}.law{grid-template-columns:58px minmax(0,1fr);gap:12px}}
+  .law .meta > div{font-size:14.5px;line-height:1.45;color:var(--muted)}
+  .law .meta b{display:block;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:0.11em;text-transform:uppercase;margin-bottom:3px}
+  .law .why b{color:var(--acid)}
+  .law .chk{background:var(--tint);padding:9px 11px}
+  .law .chk b{color:var(--blue)}
+  .wrap{max-width:1040px;margin:0 auto;padding:52px 24px 88px}
+  header.top{display:flex;flex-direction:column;gap:18px;padding-bottom:32px;border-bottom:2px solid var(--ink)}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 24px;color:var(--muted)}
+  .deck{font-size:21px;line-height:1.5;max-width:62ch}
+  h1{font-size:clamp(36px,5.4vw,56px);line-height:1.03}
+  section{padding-top:54px}
+  .thesis{background:var(--tint);padding:24px 26px;margin-top:26px;max-width:76ch;display:flex;flex-direction:column;gap:10px}
+  .thesis .mono{color:var(--blue)}
+  .swatches{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;background:var(--rule);margin-top:26px}
+  .sw{background:var(--ground);padding:0}
+  .sw i{display:block;height:56px}
+  .sw span{display:block;padding:10px 12px;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:0.05em;color:var(--muted)}
+  .sw span b{display:block;color:var(--ink);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px}
+  footer{margin-top:64px;padding-top:20px;border-top:2px solid var(--ink);color:var(--muted);font-size:15px;display:flex;gap:24px;flex-wrap:wrap}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="meta mono"><span>Tinder for Chihuahua</span><span>CIG 1.0</span><span>8 września 2026</span></p>
+    <h1>Canine Interface Guidelines</h1>
+    <p class="deck">Wytyczne interfejsu dla użytkownika, którego <em>nie da się zapytać</em>: dichromata o ostrości 20/75, którego urządzeniem wejściowym jest nos.</p>
+  </header>
+
+  <div class="thesis">
+    <p class="mono">Dlaczego nie HIG</p>
+    <p>Human Interface Guidelines opisują człowieka: palec, 44 pt celu, czerwień jako ostrzeżenie, tekst jako treść. Każde z tych założeń pęka na naszym użytkowniku, więc w trybie psim HIG nie są niewystarczające — są <strong>szkodliwe</strong>. CIG opisuje 37 praw dla psa; dla człowieka odsyłamy do HIG i notujemy tylko odstępstwa.</p>
+    <p style="color:var(--muted);font-size:16px">Wszystkie liczby w tym dokumencie pochodzą z <code>design/tokens.json</code> i są w niego wstawiane przy generowaniu. Nie ma tu ani jednej wartości wpisanej ręcznie.</p>
+  </div>
+
+  <div class="swatches">
+    <div class="sw"><i style="background:#000000;box-shadow:inset 0 0 0 1px var(--rule-strong)"></i><span><b>ink</b>#000000<br>podłoże</span></div>
+    <div class="sw"><i style="background:#0033FF"></i><span><b>blue</b>#0033FF<br>sygnał, blisko 429 nm</span></div>
+    <div class="sw"><i style="background:#D6F000"></i><span><b>acid</b>#D6F000<br>sygnał, blisko 555 nm</span></div>
+    <div class="sw"><i style="background:#FFFFFF"></i><span><b>white</b>#FFFFFF<br>figura</span></div>
+  </div>
+
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-1</p>
+      <h2 style="font-size:30px;line-height:1.12">Użytkownik</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:70ch">Specyfikacja, nie opis. Wszystko dalej wynika z tych sześciu wierszy.</p>
+    </div>
+    <div style="border-top:2px solid var(--rule-strong)">
+      <div class="law">
+        <span class="id">CIG-1.1</span>
+        <div>
+          <p class="rule">Dichromat: czopki przy <b>429–435 nm</b> i <b>555 nm</b>. czerwony i zielony są nieodróżnialne.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>To nie ubóstwo palety, a inna geometria przestrzeni barw.</div>
+            <div class="chk"><b>Sprawdzenie</b>Żadna informacja potrzebna psu nie jest zakodowana w opozycji czerwony–zielony.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-1.2</span>
+        <div>
+          <p class="rule">Ostrość <b>20/75</b> (zakres 20/45–20/85), czyli około <b>4×</b> słabsza od ludzkiej.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Detal nie istnieje. Nośnikiem jest sylwetka, plama koloru i ruch.</div>
+            <div class="chk"><b>Sprawdzenie</b>Każdy element trybu psiego przechodzi próg rozmiaru z CIG-2.3.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-1.3</span>
+        <div>
+          <p class="rule">Próg fuzji migotania <b>70–80 Hz</b>, wobec ~60 Hz u człowieka.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Ekran 60 Hz, dla nas płynny, może dla psa widocznie migać.</div>
+            <div class="chk"><b>Sprawdzenie</b>Odświeżanie 120 Hz utrzymane; patrz CIG-2.5.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-1.4</span>
+        <div>
+          <p class="rule">Urządzeniem wejściowym jest <b>nos</b>.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Mokry nos to duża, wilgotna, wielopunktowa plama kontaktu.</div>
+            <div class="chk"><b>Sprawdzenie</b>Interakcja nie wymaga precyzji ani stuknięcia; patrz CIG-3.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-1.5</span>
+        <div>
+          <p class="rule">Próg kontrastu i rozmiaru ustala <b>Auri, 12 lat</b>, nie młodszy pies.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Jeśli coś jest czytelne dla starszej suczki, jest czytelne dla obojga. Odwrotnie nie.</div>
+            <div class="chk"><b>Sprawdzenie</b>Testy prowadzone na obu psach, ale progi walidowane na starszym.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-1.6</span>
+        <div>
+          <p class="rule">Pies <b>nie odczytuje obrazu jako reprezentacji</b> realnego psa.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Rozróżnia cechy obrazu, ale obraz nie musi dla niego zastępować odpowiednika w świecie.</div>
+            <div class="chk"><b>Sprawdzenie</b>Wyjściem produktu jest ranking preferencji, nigdy „match".</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-2</p>
+      <h2 style="font-size:30px;line-height:1.12">Percepcja</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:70ch">Co wolno pokazać i jak duże to musi być.</p>
+    </div>
+    <div style="border-top:2px solid var(--rule-strong)">
+      <div class="law">
+        <span class="id">CIG-2.1</span>
+        <div>
+          <p class="rule">Znaczenie niesie <b>wyłącznie opozycja blue ↔ acid</b> (<code>#0033FF</code> ↔ <code>#D6F000</code>).</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Obie barwy leżą blisko szczytów czułości psich czopków.</div>
+            <div class="chk"><b>Sprawdzenie</b>Rampa neutralna (7 odcieni) nie występuje w żadnej roli sygnałowej.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-2.2</span>
+        <div>
+          <p class="rule">Zakaz kodowania stanu barwą czerwoną lub zieloną.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Dla dichromata obie są szarością, więc semantyka nie istnieje.</div>
+            <div class="chk"><b>Sprawdzenie</b>Grep po artboardach trybu psiego nie znajduje czerwieni ani zieleni.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-2.3</span>
+        <div>
+          <p class="rule">Minimalny cel w trybie psim <b>214×300 px</b>. Skala typografii display 112 / name 80 / value 44.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Około 4× skali ludzkiej, wprost z ostrości 20/75.</div>
+            <div class="chk"><b>Sprawdzenie</b>Strefy decyzji mają 214×926 px, czyli pełną wysokość ramki.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-2.4</span>
+        <div>
+          <p class="rule">Figura i tło rozdzielone maksymalnym kontrastem: #000000 przeciw #FFFFFF, #D6F000 przeciw #000000.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Kontrast, nie barwa, jest u psa głównym kanałem informacji.</div>
+            <div class="chk"><b>Sprawdzenie</b>Każdy sygnał czytelny po konwersji do skali szarości.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-2.5</span>
+        <div>
+          <p class="rule"><b>120 Hz jest wymaganiem sprzętowym</b>, nie luksusem. Animacje wyłącznie na <code>transform</code> i <code>opacity</code>.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Przy progu 70–80 Hz ekran 60 Hz może być dla psa widocznie migający.</div>
+            <div class="chk"><b>Sprawdzenie</b>Nic nie renderuje się w 30 fps; brak animacji layoutu.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-2.6</span>
+        <div>
+          <p class="rule">Tekst jest <b>wyłącznie dla człowieka</b>.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Pies nie czyta. Litera nie może być jedynym nośnikiem informacji.</div>
+            <div class="chk"><b>Sprawdzenie</b>Każdy komunikat trybu psiego ma nośnik nietekstowy: kształt, ruch albo dźwięk.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-3</p>
+      <h2 style="font-size:30px;line-height:1.12">Wejście</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:70ch">Wejście to plama, nie punkt — i przesunięcie, nie stuknięcie.</p>
+    </div>
+    <div style="border-top:2px solid var(--rule-strong)">
+      <div class="law">
+        <span class="id">CIG-3.1</span>
+        <div>
+          <p class="rule">Prymitywem interakcji jest <b>drag</b>. Zakazane: tap, long-press, double-tap, pinch, swipe krawędziowy.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Psi input na ekranie z natury przypomina przesunięcie i przeciągnięcie. Gest Tindera jest przypadkiem właściwym gestem.</div>
+            <div class="chk"><b>Sprawdzenie</b>Żaden handler nie nasłuchuje zdarzenia stuknięcia w trybie psim.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-3.2</span>
+        <div>
+          <p class="rule">Wskaźnik to <b>centroid plamy, liczba punktów ignorowana</b>.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Kontakt nosa to obszar, nie kursor; liczba punktów jest przypadkowa.</div>
+            <div class="chk"><b>Sprawdzenie</b>Logika decyzji nie odczytuje <code>touches.length</code>.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-3.3</span>
+        <div>
+          <p class="rule">Próg przesunięcia <b>40 px</b>. Kierunek wyznacza połowa ekranu: 2 strefy po 214 px na pełnej wysokości 926 px.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Niski próg i ogromne strefy zdejmują z psa wymóg precyzji.</div>
+            <div class="chk"><b>Sprawdzenie</b>Każdy drag dłuższy niż 40 px daje decyzję.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-3.4</span>
+        <div>
+          <p class="rule">Po decyzji blokada wejścia <b>1500 ms</b>.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Jedno długie pociągnięcie nosem nie może zarejestrować trzech decyzji.</div>
+            <div class="chk"><b>Sprawdzenie</b>Dwie decyzje w odstępie mniejszym niż 1500 ms są niemożliwe.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-3.5</span>
+        <div>
+          <p class="rule">Cofnięcie jest <b>funkcją rdzeniową</b>, w skali ludzkiej, dostępne dla człowieka obok.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>mokry nos myli się regularnie. W apkach ludzkich undo bywa funkcją premium; tutaj pomyłka jest normą.</div>
+            <div class="chk"><b>Sprawdzenie</b>Cofnięcie widoczne na D3 i osiągalne bez wychodzenia z sesji.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-3.6</span>
+        <div>
+          <p class="rule">Jedyny wyjątek od zakazu stuknięć: <b>D2</b>.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>kalibracja plamy kontaktu i skojarzenie nos → skutek.</div>
+            <div class="chk"><b>Sprawdzenie</b>Wyjątek zapisany w arkuszu tokenów i w CLAUDE.md; nie rozszerza się na inne ekrany.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-4</p>
+      <h2 style="font-size:30px;line-height:1.12">Sprzężenie zwrotne</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:70ch">Co się dzieje po decyzji — i gdzie ta pętla naprawdę się zamyka.</p>
+    </div>
+    <div style="border-top:2px solid var(--rule-strong)">
+      <div class="law">
+        <span class="id">CIG-4.1</span>
+        <div>
+          <p class="rule">Każde „tak" <b>natychmiast coś robi</b>. Żadnego stosu „może później".</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Lekcja z cmentarza apek o pracę: swipe, który tylko odkłada ofertę, nie oszczędza niczego.</div>
+            <div class="chk"><b>Sprawdzenie</b>Decyzja wywołuje dźwięk, zapowiedź nagrody i wpis w rankingu w tym samym momencie.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-4.2</span>
+        <div>
+          <p class="rule">Dźwięk jest nośnikiem <b>pierwszorzędnym</b>: bark 0.8 s, squeak 0.4 s, knock 0.2 s.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>U psa słuch bije wzrok, zwłaszcza przy ostrości 20/75.</div>
+            <div class="chk"><b>Sprawdzenie</b>Każde zdarzenie decyzyjne ma przypisany dźwięk; poziomy z tokenów.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-4.3</span>
+        <div>
+          <p class="rule">Ruch jest informacją, nie ozdobą. <code>prefers-reduced-motion</code> dotyczy trybu ludzkiego.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>dotyczy trybu ludzkiego; w trybie psim ruch jest nośnikiem informacji, więc nie wyłączamy.</div>
+            <div class="chk"><b>Sprawdzenie</b>Wyłączenie animacji w trybie psim nie jest zaimplementowane i nie powinno być.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-4.4</span>
+        <div>
+          <p class="rule">Nagroda jest <b>fizyczna</b>. Ekran ją zapowiada nagrodę.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Pętla zamyka się smaczkiem z ręki, w pokoju — nie na szkle.</div>
+            <div class="chk"><b>Sprawdzenie</b>D4 zawiera jawny sygnał dla człowieka, że czas na smaczek.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-4.5</span>
+        <div>
+          <p class="rule">Obecność człowieka w pomieszczeniu jest <b>wymagana</b>.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Zaangażowanie psa w zadanie na ekranie rośnie przy człowieku obok.</div>
+            <div class="chk"><b>Sprawdzenie</b>Projekt nie przewiduje sesji, w której pies zostaje sam z telefonem.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-5</p>
+      <h2 style="font-size:30px;line-height:1.12">Sesja</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:70ch">Aplikacja ma koniec. To nie oszczędność, to decyzja.</p>
+    </div>
+    <div style="border-top:2px solid var(--rule-strong)">
+      <div class="law">
+        <span class="id">CIG-5.1</span>
+        <div>
+          <p class="rule">Talia liczy <b>6–12 kart</b> i się kończy.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Dolna granica to 6, bo rosnący czas decyzji jest sygnałem do skrócenia talii.</div>
+            <div class="chk"><b>Sprawdzenie</b>Po ostatniej karcie pojawia się stan końcowy, a nie kolejna karta.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-5.2</span>
+        <div>
+          <p class="rule">Brak feedu, brak powiadomień, brak streaków.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Zmęczenie swipe'em jest rozpoznanym zjawiskiem: monetyzacja ponad cel, powtarzalna praca zamiast przyjemności.</div>
+            <div class="chk"><b>Sprawdzenie</b>Kod nie zawiera harmonogramu powiadomień ani licznika serii.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-5.3</span>
+        <div>
+          <p class="rule">Metryką sukcesu jest <b>regularność i zaangażowanie w sesji</b>, nie czas w aplikacji.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Wartością dla starszego psa jest stymulacja poznawcza, a ta nie skaluje się długością sesji.</div>
+            <div class="chk"><b>Sprawdzenie</b>H1 raportuje czas decyzji i punkt spadku, nie łączny czas ekranu.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-6</p>
+      <h2 style="font-size:30px;line-height:1.12">Granica trybów</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:70ch">Jedno prawo, ale bez niego produkt nie ma sensu.</p>
+    </div>
+    <div style="border-top:2px solid var(--rule-strong)">
+      <div class="law">
+        <span class="id">CIG-6.1</span>
+        <div>
+          <p class="rule"><b>Pies nie wchodzi w tryb ludzki.</b> Gest przejścia musi być niewykonalny nosem — wymaga dwóch punktów kontaktu naraz albo sekwencji.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Tryb ludzki zawiera dane, edycję profili i zatwierdzanie spotkań. Nos nie może tam trafić przypadkiem.</div>
+            <div class="chk"><b>Sprawdzenie</b>Żaden ekran D1–D5 nie zawiera pojedynczego celu prowadzącego do H1–H4.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-6.2</span>
+        <div>
+          <p class="rule">Ekran końca sesji nie ma <b>żadnej afordancji „dalej"</b>.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Afordancja wielkości nosa jest afordancją dla nosa, niezależnie od intencji.</div>
+            <div class="chk"><b>Sprawdzenie</b>D5 nie zawiera obramowanego ani wypełnionego prostokąta o wymiarach celu.</div>
+          </div>
+        </div>
+      </div>
+      <div class="law">
+        <span class="id">CIG-6.3</span>
+        <div>
+          <p class="rule">Poziom systemu domyka <b>Dostęp nadzorowany</b> iOS.</p>
+          <div class="meta">
+            <div class="why"><b>Dlaczego</b>Blokuje wyjście z aplikacji do Ustawień; prawo 6.1 dotyczy wnętrza aplikacji.</div>
+            <div class="chk"><b>Sprawdzenie</b>Procedura sesji zawiera włączenie Dostępu nadzorowanego przed podaniem telefonu psu.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-7</p>
+      <h2 style="font-size:30px;line-height:1.12">Warstwa platformowa</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:74ch">Warstwa platformowa PWA na iOS. Bez pierwszych trzech reguł nos przeciągnięty po ekranie zaznaczy tekst, wywoła lupę i przewinie stronę — czyli prawo wejścia jest niespełnialne. To nie detal implementacji.</p>
+    </div>
+    <div style="border-top:2px solid var(--rule-strong)">
+      <div class="law"><span class="id">CIG-7.1</span><div><p class="rule">Blokady przeglądarki, na <code>html</code> i <code>body</code>:</p>
+        <div style="background:var(--color-code,var(--panel));padding:12px 14px;margin-top:9px;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.8">touch-action: none;<br>overscroll-behavior: none;<br>-webkit-user-select: none;<br>user-select: none;<br>-webkit-touch-callout: none;<br>-webkit-tap-highlight-color: transparent;</div>
+        <div class="meta"><div class="why"><b>Dlaczego</b>Bez pierwszych trzech nos przeciągnięty po ekranie zaznaczy tekst, wywoła lupę powiększającą i przewinie stronę. Prawo CIG-3 jest wtedy niespełnialne.</div><div class="chk"><b>Sprawdzenie</b>Przeciągnięcie palcem po ekranie na urządzeniu nie zaznacza tekstu, nie pokazuje lupy i nie odbija strony.</div></div></div></div>
+      <div class="law"><span class="id">CIG-7.2</span><div><p class="rule">Viewport <code>width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no</code>, manifest <code>display: standalone</code>, orientacja <code>portrait</code>, tło i motyw <code>#000000</code>.</p>
+        <div class="meta"><div class="why"><b>Dlaczego</b>Standalone zdejmuje pasek Safari, <code>viewport-fit=cover</code> oddaje pełną ramkę 428×926 px.</div><div class="chk"><b>Sprawdzenie</b>Po dodaniu do ekranu głównego nie widać interfejsu przeglądarki.</div></div></div></div>
+      <div class="law"><span class="id">CIG-7.3</span><div><p class="rule">Bezpieczne obszary: górny 47 px, dolny 34 px, przez <code>env(safe-area-inset-*)</code>.</p>
+        <div class="meta"><div class="why"><b>Dlaczego</b>Prawdziwy pasek statusu i wskaźnik ekranu głównego rysują się na naszym layoucie. Udawanego paska nie rysujemy nigdy.</div><div class="chk"><b>Sprawdzenie</b>Żaden artboard nie zawiera namalowanego paska statusu; treść nie wchodzi pod wskaźnik.</div></div></div></div>
+      <div class="law"><span class="id">CIG-7.4</span><div><p class="rule"><b>Odblokowanie dźwięku na D2 rozgrzewka.</b></p>
+        <div class="meta"><div class="why"><b>Dlaczego</b>iOS nie pozwala odtworzyć dźwięku bez gestu użytkownika. Szczeknięcie na D4 nie zagra, jeśli AudioContext nie został wcześniej odblokowany. pierwsze dotknięcie psa jest jedynym gestem przed pętlą decyzji, więc to ono musi odblokować dźwięk.</div><div class="chk"><b>Sprawdzenie</b>Szczeknięcie gra przy pierwszym „tak" w sesji, a nie dopiero przy drugim.</div></div></div></div>
+      <div class="law"><span class="id">CIG-7.5</span><div><p class="rule">Wideo profilu z atrybutami <code>muted</code> <code>playsinline</code> <code>loop</code> <code>autoplay</code>.</p>
+        <div class="meta"><div class="why"><b>Dlaczego</b>iOS odtwarza wideo automatycznie tylko wyciszone i w linii. ścieżka dźwiękowa profilu jest bez znaczenia — dźwięk gra osobno z odblokowanego AudioContext.</div><div class="chk"><b>Sprawdzenie</b>Wideo startuje samo na urządzeniu, bez gestu i bez pełnego ekranu.</div></div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-8</p>
+      <h2 style="font-size:30px;line-height:1.12">Gdzie rządzi HIG, a nie my</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:74ch">Budujemy PWA, więc Human Interface Guidelines nas formalnie nie obowiązują — Apple nie recenzuje strony dodanej do ekranu głównego. Ale w trybie ludzkim HIG opisuje <strong>oczekiwania</strong>, a te obowiązują niezależnie od tego, kto je wymusza. Dla H1–H4 nie przepisujemy HIG: odsyłamy do niego i zapisujemy tylko odstępstwa.</p>
+    </div>
+    <div class="tw" style="overflow-x:auto;border-top:2px solid var(--rule-strong)">
+    <table style="border-collapse:collapse;width:100%;min-width:620px;font-size:16px">
+      <thead><tr>
+        <th style="text-align:left;padding:12px 18px 12px 0;border-bottom:1px solid var(--rule)" class="mono">Zagadnienie</th>
+        <th style="text-align:left;padding:12px 18px 12px 0;border-bottom:1px solid var(--rule)" class="mono">Tryb psi D1–D5</th>
+        <th style="text-align:left;padding:12px 0;border-bottom:1px solid var(--rule)" class="mono">Tryb ludzki H1–H4</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule);font-weight:600">Minimalny cel</td><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule)"><b>CIG-2.3</b> — 214×300 px</td><td style="padding:13px 0;border-bottom:1px solid var(--rule);color:var(--muted)">HIG — 44×44 px, przyjmujemy bez zmian</td></tr>
+        <tr><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule);font-weight:600">Kolor semantyczny</td><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule)"><b>CIG-2.2</b> — czerwień i zieleń zakazane</td><td style="padding:13px 0;border-bottom:1px solid var(--rule);color:var(--muted)"><b>Odstępstwo.</b> HIG dopuszcza czerwień destrukcyjną; my zostajemy przy blue ↔ acid dla spójności obu trybów</td></tr>
+        <tr><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule);font-weight:600">Typografia</td><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule)"><b>CIG-2.3</b> — display 112 px</td><td style="padding:13px 0;border-bottom:1px solid var(--rule);color:var(--muted)"><b>Odstępstwo.</b> HIG zakłada SF Pro i Dynamic Type; my używamy Anton i Barlow, bo tożsamość musi łączyć oba tryby</td></tr>
+        <tr><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule);font-weight:600">Gesty</td><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule)"><b>CIG-3.1</b> — tylko przesunięcie</td><td style="padding:13px 0;border-bottom:1px solid var(--rule);color:var(--muted)">HIG — stuknięcia i standardowe gesty, przyjmujemy bez zmian</td></tr>
+        <tr><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule);font-weight:600">Bezpieczne obszary</td><td style="padding:13px 18px 13px 0;border-bottom:1px solid var(--rule)"><b>CIG-7.3</b></td><td style="padding:13px 0;border-bottom:1px solid var(--rule);color:var(--muted)">HIG — identycznie, 47 px i 34 px</td></tr>
+        <tr><td style="padding:13px 18px 13px 0;font-weight:600">Redukcja ruchu</td><td style="padding:13px 18px 13px 0"><b>CIG-4.3</b> — nie stosujemy, ruch jest informacją</td><td style="padding:13px 0;color:var(--muted)">HIG — <code>prefers-reduced-motion</code> respektowane</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <p class="mono" style="color:var(--acid)">CIG-9</p>
+      <h2 style="font-size:30px;line-height:1.12">Checklista zgodności</h2>
+      <p style="color:var(--muted);font-size:17px;max-width:74ch">Każde prawo ma sprawdzenie, które da się wykonać na gotowym ekranie. Prawo bez sprawdzenia jest ozdobą, więc na tej liście nie ma ani jednego.</p>
+    </div>
+    <div style="border-top:2px solid var(--rule-strong)">
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-1.1</span><span style="font-size:15.5px;line-height:1.45">Żadna informacja potrzebna psu nie jest zakodowana w opozycji czerwony–zielony.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-1.2</span><span style="font-size:15.5px;line-height:1.45">Każdy element trybu psiego przechodzi próg rozmiaru z CIG-2.3.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-1.3</span><span style="font-size:15.5px;line-height:1.45">Odświeżanie 120 Hz utrzymane; patrz CIG-2.5.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-1.4</span><span style="font-size:15.5px;line-height:1.45">Interakcja nie wymaga precyzji ani stuknięcia; patrz CIG-3.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-1.5</span><span style="font-size:15.5px;line-height:1.45">Testy prowadzone na obu psach, ale progi walidowane na starszym.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-1.6</span><span style="font-size:15.5px;line-height:1.45">Wyjściem produktu jest ranking preferencji, nigdy „match".</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-2.1</span><span style="font-size:15.5px;line-height:1.45">Rampa neutralna (7 odcieni) nie występuje w żadnej roli sygnałowej.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-2.2</span><span style="font-size:15.5px;line-height:1.45">Grep po artboardach trybu psiego nie znajduje czerwieni ani zieleni.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-2.3</span><span style="font-size:15.5px;line-height:1.45">Strefy decyzji mają 214×926 px, czyli pełną wysokość ramki.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-2.4</span><span style="font-size:15.5px;line-height:1.45">Każdy sygnał czytelny po konwersji do skali szarości.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-2.5</span><span style="font-size:15.5px;line-height:1.45">Nic nie renderuje się w 30 fps; brak animacji layoutu.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-2.6</span><span style="font-size:15.5px;line-height:1.45">Każdy komunikat trybu psiego ma nośnik nietekstowy: kształt, ruch albo dźwięk.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-3.1</span><span style="font-size:15.5px;line-height:1.45">Żaden handler nie nasłuchuje zdarzenia stuknięcia w trybie psim.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-3.2</span><span style="font-size:15.5px;line-height:1.45">Logika decyzji nie odczytuje <code>touches.length</code>.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-3.3</span><span style="font-size:15.5px;line-height:1.45">Każdy drag dłuższy niż 40 px daje decyzję.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-3.4</span><span style="font-size:15.5px;line-height:1.45">Dwie decyzje w odstępie mniejszym niż 1500 ms są niemożliwe.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-3.5</span><span style="font-size:15.5px;line-height:1.45">Cofnięcie widoczne na D3 i osiągalne bez wychodzenia z sesji.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-3.6</span><span style="font-size:15.5px;line-height:1.45">Wyjątek zapisany w arkuszu tokenów i w CLAUDE.md; nie rozszerza się na inne ekrany.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-4.1</span><span style="font-size:15.5px;line-height:1.45">Decyzja wywołuje dźwięk, zapowiedź nagrody i wpis w rankingu w tym samym momencie.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-4.2</span><span style="font-size:15.5px;line-height:1.45">Każde zdarzenie decyzyjne ma przypisany dźwięk; poziomy z tokenów.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-4.3</span><span style="font-size:15.5px;line-height:1.45">Wyłączenie animacji w trybie psim nie jest zaimplementowane i nie powinno być.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-4.4</span><span style="font-size:15.5px;line-height:1.45">D4 zawiera jawny sygnał dla człowieka, że czas na smaczek.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-4.5</span><span style="font-size:15.5px;line-height:1.45">Projekt nie przewiduje sesji, w której pies zostaje sam z telefonem.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-5.1</span><span style="font-size:15.5px;line-height:1.45">Po ostatniej karcie pojawia się stan końcowy, a nie kolejna karta.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-5.2</span><span style="font-size:15.5px;line-height:1.45">Kod nie zawiera harmonogramu powiadomień ani licznika serii.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-5.3</span><span style="font-size:15.5px;line-height:1.45">H1 raportuje czas decyzji i punkt spadku, nie łączny czas ekranu.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-6.1</span><span style="font-size:15.5px;line-height:1.45">Żaden ekran D1–D5 nie zawiera pojedynczego celu prowadzącego do H1–H4.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-6.2</span><span style="font-size:15.5px;line-height:1.45">D5 nie zawiera obramowanego ani wypełnionego prostokąta o wymiarach celu.</span></div>
+      <div style="display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)"><span class="mono" style="color:var(--blue);font-size:11.5px;letter-spacing:0.04em">CIG-6.3</span><span style="font-size:15.5px;line-height:1.45">Procedura sesji zawiera włączenie Dostępu nadzorowanego przed podaniem telefonu psu.</span></div>
+    </div>
+  </section>
+
+  <footer><span><strong>Konstancja Tanjga</strong></span><span>8 września 2026</span><span>Tinder for Chihuahua</span></footer>
+</div>
