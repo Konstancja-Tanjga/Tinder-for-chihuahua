@@ -9,9 +9,11 @@ const app = document.querySelector<HTMLDivElement>('#app')!;
 /* ---- talia: CIG-5.1, dolna granica 6 --------------------------------------- */
 const DECK = ['Lola', 'Fistaszek', 'Bruno', 'Miśka', 'Kajtek', 'Tofik'].slice(0, TOKENS.session.deckMin);
 
-type Screen = 'warmup' | 'card' | 'reward' | 'end';
+type Screen = 'pick' | 'warmup' | 'card' | 'reward' | 'end';
+type Dog = 'Karmel' | 'Auri';
 const state = {
-  screen: 'warmup' as Screen,
+  screen: 'pick' as Screen,
+  dog: 'Karmel' as Dog,
   idx: 0,
   warmHits: 0,
   lockUntil: 0,
@@ -19,7 +21,7 @@ const state = {
 };
 
 /* ---- sylwetka: placeholder do czasu wideo z Groka (CIG-7.5) ---------------- */
-const dog = (fill: string, eye: string, size: number) => `
+const dogSvg = (fill: string, eye: string, size: number) => `
 <svg width="${size}" height="${(size * 124) / 120}" viewBox="0 0 120 124" aria-hidden="true">
   <polygon points="32,60 6,4 58,30" fill="${fill}"/><polygon points="88,60 114,4 62,30" fill="${fill}"/>
   <polygon points="60,30 92,58 84,96 60,110 36,96 28,58" fill="${fill}"/>
@@ -71,13 +73,42 @@ function humanbar(who: string) {
   </div>`;
 }
 
+/* ---- D1: wybor psa. CIG mowi wprost, ze ten ekran dotyka CZLOWIEK, wiec
+   klikniecie jest tu wlasciwe. Kafle sa gigantyczne, zeby dalo sie je trafic
+   bez czytania. */
+function renderPick() {
+  const tile = (dog: Dog, bg: string, fg: string, sex: string, age: number) => `
+    <button class="tile" data-dog="${dog}" style="background:${bg};color:${fg}">
+      ${dogSvg(fg, bg, 150)}
+      <b>${dog}</b>
+      <span>${sex} &middot; ${age} lat</span>
+    </button>`;
+  app.innerHTML = `<div class="screen"><div class="pick">
+    <div class="pickhead">
+      <span>Kto teraz szuka</span><span>Dotyka człowiek</span>
+    </div>
+    ${tile('Karmel', TOKENS.color.blue, TOKENS.color.acid, 'Samiec', 5)}
+    ${tile('Auri', TOKENS.color.acid, TOKENS.color.ink, 'Suczka', 12)}
+  </div></div>`;
+  app.querySelectorAll<HTMLButtonElement>('.tile').forEach((b) => {
+    b.addEventListener('click', () => {
+      state.dog = (b.dataset.dog as Dog) ?? 'Karmel';
+      log.setSubject(state.dog);
+      log.add({ kind: 'note', text: `wybrany pies: ${state.dog}` });
+      state.screen = 'warmup';
+      state.warmHits = 0;
+      render();
+    });
+  });
+}
+
 function renderWarmup() {
   app.innerHTML = `<div class="screen">
     ${humanbar('Rozgrzewka')}
     <div class="warm">
       <svg class="ball" viewBox="0 0 264 264"><circle cx="132" cy="132" r="130" fill="${TOKENS.color.acid}"/><path d="M132 2 V262" stroke="${TOKENS.color.ink}" stroke-width="9"/><path d="M40 42 C104 90 104 174 40 222" fill="none" stroke="${TOKENS.color.ink}" stroke-width="9"/><path d="M224 42 C160 90 160 174 224 222" fill="none" stroke="${TOKENS.color.ink}" stroke-width="9"/></svg>
       <div class="word">Dotknij</div>
-      <div class="hint"><b>Cały ekran jest celem &middot; ${state.warmHits} / 3</b><span>CIG-3.6: to jedyny ekran, na którym liczy się dotknięcie. Trzy trafienia kalibrują plamę kontaktu i odblokowują dźwięk.</span></div>
+      <div class="hint"><b>Cały ekran jest celem &middot; ${state.warmHits} / 3</b><span>CIG-3.6: to jedyny ekran, na którym liczy się dotknięcie. Trzy trafienia kalibrują plamę kontaktu i odblokowują dźwięk.${hasTouch ? '' : '<br><br><strong>Bez ekranu dotykowego:</strong> klikaj myszką, a na karcie przeciągaj z wciśniętym przyciskiem. Na ekranie końcowym log otworzy klawisz L. Zdarzenia z myszki są znakowane osobno i nie wchodzą do pomiaru plamy kontaktu.'}</span></div>
     </div>
   </div>`;
   wireUndo();
@@ -91,11 +122,11 @@ function renderCard() {
       <div class="zone yes">${heart}<div class="label">TAK</div></div>
     </div>
     <div class="card" id="card">
-      <div class="media"><span class="ph">[ placeholder &middot; wideo pyska 4 s ]</span>${dog(TOKENS.color.acid, TOKENS.color.ink, 240)}</div>
+      <div class="media"><span class="ph">[ placeholder &middot; wideo pyska 4 s ]</span>${dogSvg(TOKENS.color.acid, TOKENS.color.ink, 240)}</div>
       <div class="rule"></div>
       <div class="name"><b>${name}</b><span>4</span></div>
     </div>
-    ${humanbar('Karmel')}
+    ${humanbar(state.dog)}
     <div class="cooldown" id="cool" style="width:0"></div>
   </div>`;
   wireUndo();
@@ -112,7 +143,7 @@ function renderEnd() {
   const yes = state.history.filter((h) => h.decision === 'yes').length;
   const f = log.fps();
   app.innerHTML = `<div class="screen"><div class="end">
-    ${dog(TOKENS.color.blue, TOKENS.color.ink, 130)}
+    ${dogSvg(TOKENS.color.blue, TOKENS.color.ink, 130)}
     <div class="word">Koniec</div>
     <div class="stats">
       <div><b>Kart</b><span>${DECK.length}</span></div>
@@ -122,14 +153,21 @@ function renderEnd() {
     </div>
     <div class="note">Talia się skończyła. Aplikacja nie doładuje kolejnych kart.<br>Dalej tylko z ręki człowieka — ten ekran nie ma celu do dotknięcia.<br><br>Log sesji: przytrzymaj <strong>dwa palce oddalone od siebie</strong>.</div>
   </div>
-  <div class="log" id="log"><h2>Log sesji</h2><pre id="logtext"></pre><button class="close" id="logclose">Zamknij</button></div>
+  <div class="log" id="log"><h2>Log sesji</h2><pre id="logtext"></pre><div class="actions"><button class="primary" id="again">Nowa sesja</button><button id="logclose">Zamknij</button></div></div>
   </div>`;
-  const close = document.querySelector<HTMLButtonElement>('#logclose')!;
-  close.addEventListener('click', () => document.querySelector('#log')!.classList.remove('open'));
+  document.querySelector<HTMLButtonElement>('#logclose')!
+    .addEventListener('click', () => document.querySelector('#log')!.classList.remove('open'));
+  document.querySelector<HTMLButtonElement>('#again')!
+    .addEventListener('click', () => {
+      log.add({ kind: 'note', text: 'nowa sesja -- powrot do D1' });
+      state.screen = 'pick'; state.idx = 0; state.warmHits = 0; state.history = []; state.lockUntil = 0;
+      render();
+    });
 }
 
 function render() {
-  if (state.screen === 'warmup') renderWarmup();
+  if (state.screen === 'pick') renderPick();
+  else if (state.screen === 'warmup') renderWarmup();
   else if (state.screen === 'card') renderCard();
   else if (state.screen === 'end') renderEnd();
 }
@@ -151,9 +189,9 @@ function wireUndo() {
 }
 
 /* ---- decyzja ---------------------------------------------------------------- */
-function decide(decision: 'yes' | 'no', startedAt: number, dragPx: number, patch: number, touches: number) {
+function decide(decision: 'yes' | 'no', startedAt: number, dragPx: number, patch: number, touches: number, src: 'touch' | 'mouse') {
   const card = DECK[state.idx]!;
-  log.add({ kind: 'decision', card, decision, latencyMs: Math.round(performance.now() - startedAt), dragPx: Math.round(dragPx), patchMm: log.px2mm(patch), touches });
+  log.add({ kind: 'decision', src, card, decision, latencyMs: Math.round(performance.now() - startedAt), dragPx: Math.round(dragPx), patchMm: log.px2mm(patch), touches });
   state.history.push({ card, decision });
   state.lockUntil = performance.now() + cooldown;
 
@@ -195,66 +233,109 @@ function runCooldownBar() {
   requestAnimationFrame(step);
 }
 
-/* ---- wejscie ---------------------------------------------------------------- */
-let drag: { x: number; y: number; t: number; max: number; patch: number; touches: number } | null = null;
+/* ---- wejscie ---------------------------------------------------------------
+   Jedna logika, dwa zrodla. Dotyk jest sciezka docelowa i tylko on daje plame
+   kontaktu. Myszka jest sciezka DEWELOPERSKA na szczebel 1 drabiny testow --
+   laptop nie ma ekranu dotykowego, wiec bez niej logiki decyzji nie da sie
+   sprawdzic przed wyjsciem na telefon. Zdarzenia sa znakowane zrodlem, zeby
+   myszka nie zanizala statystyki plamy. */
+type Src = 'touch' | 'mouse';
+let drag: { x: number; y: number; t: number; max: number; patch: number; touches: number; src: Src } | null = null;
 let holdTimer: number | null = null;
 
-app.addEventListener('touchstart', (ev) => {
-  const tl = ev.touches;
-  const c = centroid(tl);
-  const patch = patchPx(tl);
+const hasTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
 
-  // Gest trybu ludzkiego, tylko na D5 i tylko przy realnie rozstawionych punktach.
-  if (state.screen === 'end' && tl.length >= 2 && spread(tl) > 120) {
-    holdTimer = window.setTimeout(() => {
-      const panel = document.querySelector('#log');
-      const text = document.querySelector('#logtext');
-      if (panel && text) { text.textContent = log.report(); panel.classList.add('open'); }
-    }, 800);
-    return;
-  }
-
+function begin(x: number, y: number, patch: number, touches: number, src: Src) {
+  if (state.screen === 'pick') return;
   if (state.screen === 'warmup') {
     // CIG-3.6 + CIG-7.4: jedyny ekran, gdzie liczy sie dotkniecie -- i to ono
     // odblokowuje dzwiek, bo iOS nie zrobi tego bez gestu.
     const ok = audio.unlock();
     audio.play('squeak');
     state.warmHits++;
-    log.add({ kind: 'warmup', hit: state.warmHits, patchMm: log.px2mm(patch), touches: tl.length, audioUnlocked: ok });
+    log.add({ kind: 'warmup', src, hit: state.warmHits, patchMm: log.px2mm(patch), touches, audioUnlocked: ok });
     if (state.warmHits >= 3) { state.screen = 'card'; render(); } else renderWarmup();
     return;
   }
-
   if (state.screen !== 'card') return;
   if (performance.now() < state.lockUntil) {
-    log.add({ kind: 'rejected', reason: 'cooldown', dragPx: 0, patchMm: log.px2mm(patch), touches: tl.length });
+    log.add({ kind: 'rejected', src, reason: 'cooldown', dragPx: 0, patchMm: log.px2mm(patch), touches });
     return;
   }
-  drag = { x: c.x, y: c.y, t: performance.now(), max: 0, patch, touches: tl.length };
-}, { passive: true });
+  drag = { x, y, t: performance.now(), max: 0, patch, touches, src };
+}
 
-app.addEventListener('touchmove', (ev) => {
+function move(x: number, y: number, patch: number, touches: number) {
   if (!drag) return;
-  const c = centroid(ev.touches);
-  drag.max = Math.max(drag.max, Math.hypot(c.x - drag.x, c.y - drag.y));
-  drag.patch = Math.max(drag.patch, patchPx(ev.touches));
-  drag.touches = Math.max(drag.touches, ev.touches.length);
-}, { passive: true });
+  drag.max = Math.max(drag.max, Math.hypot(x - drag.x, y - drag.y));
+  drag.patch = Math.max(drag.patch, patch);
+  drag.touches = Math.max(drag.touches, touches);
+}
 
-app.addEventListener('touchend', () => {
+function finish() {
   if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
   if (!drag) return;
   const d = drag; drag = null;
   if (d.max < dragThreshold) {
     // CIG-3.1: sam dotyk nie jest decyzja. Zapisujemy, bo to mierzy, jak czesto
     // pies dotyka bez przesuniecia.
-    log.add({ kind: 'rejected', reason: 'below-threshold', dragPx: Math.round(d.max), patchMm: log.px2mm(d.patch), touches: d.touches });
+    log.add({ kind: 'rejected', src: d.src, reason: 'below-threshold', dragPx: Math.round(d.max), patchMm: log.px2mm(d.patch), touches: d.touches });
     return;
   }
   // CIG-3.3: kierunek wyznacza polowa ekranu, w ktorej dotyk sie ZACZAL.
-  decide(d.x < window.innerWidth / 2 ? 'no' : 'yes', d.t, d.max, d.patch, d.touches);
+  decide(d.x < window.innerWidth / 2 ? 'no' : 'yes', d.t, d.max, d.patch, d.touches, d.src);
+}
+
+function openLog() {
+  const panel = document.querySelector('#log');
+  const text = document.querySelector('#logtext');
+  if (panel && text) { text.textContent = log.report(); panel.classList.add('open'); }
+}
+
+/* ---- dotyk ---- */
+app.addEventListener('touchstart', (ev) => {
+  const tl = ev.touches;
+  const c = centroid(tl);
+  const patch = patchPx(tl);
+  // CIG-6.1: gest trybu ludzkiego, tylko na D5 i tylko przy realnie rozstawionych
+  // punktach -- iOS potrafi zaraportowac mokry nos jako kilka punktow dotyku.
+  if (state.screen === 'end' && tl.length >= 2 && spread(tl) > 120) {
+    holdTimer = window.setTimeout(openLog, 800);
+    return;
+  }
+  begin(c.x, c.y, patch, tl.length, 'touch');
 }, { passive: true });
 
+app.addEventListener('touchmove', (ev) => {
+  const c = centroid(ev.touches);
+  move(c.x, c.y, patchPx(ev.touches), ev.touches.length);
+}, { passive: true });
+
+app.addEventListener('touchend', finish, { passive: true });
+
+/* ---- myszka: wylacznie development ---- */
+let mouseDown = false;
+app.addEventListener('mousedown', (ev) => {
+  if (ev.button !== 0) return;
+  mouseDown = true;
+  begin(ev.clientX, ev.clientY, 0, 1, 'mouse');
+});
+app.addEventListener('mousemove', (ev) => {
+  if (!mouseDown) return;
+  move(ev.clientX, ev.clientY, 0, 1);
+});
+window.addEventListener('mouseup', () => {
+  if (!mouseDown) return;
+  mouseDown = false;
+  finish();
+});
+
+/* ---- klawiatura: log na D5 bez gestu dwoma palcami ----
+   Klawiatura jest z natury niewykonalna dla nosa, wiec nie lamie CIG-6.1. */
+window.addEventListener('keydown', (ev) => {
+  if (state.screen === 'end' && (ev.key === 'l' || ev.key === 'L')) openLog();
+});
+
 log.startFps();
-log.add({ kind: 'note', text: `spike D2-D3-D5; talia ${DECK.length}; prog ${dragThreshold} px; cooldown ${cooldown} ms` });
+log.add({ kind: 'note', text: `spike D2-D3-D5; talia ${DECK.length}; prog ${dragThreshold} px; cooldown ${cooldown} ms; ekran dotykowy: ${hasTouch}` });
 render();

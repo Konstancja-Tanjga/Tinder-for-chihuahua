@@ -114,3 +114,21 @@ html, body {
 .log h2 { font-family: var(--font-display); font-size: 30px; color: var(--acid); margin: 0 0 10px; text-transform: uppercase; }
 .log pre { font-family: ui-monospace, Menlo, monospace; font-size: 10.5px; line-height: 1.6; color: var(--grey-100); white-space: pre-wrap; margin: 0 0 14px; }
 .log .close { min-height: 44px; border: 2px solid var(--white); background: none; color: var(--white); font-family: var(--font-text); font-weight: 800; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; padding: 0 16px; }
+
+/* ---- D1 wybor psa: CIG mowi, ze ten ekran dotyka czlowiek --------------- */
+.pick { position: absolute; inset: 0; padding: var(--safe-top) 20px calc(var(--safe-bottom) + 20px); display: flex; flex-direction: column; gap: 16px; }
+.pickhead { display: flex; justify-content: space-between; padding: 10px 4px 0; font-weight: 800; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey-500); }
+.tile {
+  flex: 1; border: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  font-family: var(--font-text); cursor: pointer;
+  /* cel gigantyczny, CIG-2.3 -- ale ten ekran obsluguje czlowiek */
+  min-height: 300px;
+}
+.tile b { font-family: var(--font-display); font-size: 62px; line-height: 1; text-transform: uppercase; }
+.tile span { font-weight: 800; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.8; }
+
+/* nowa sesja siedzi W PANELU LOGU, czyli za gestem czlowieka -- na D5 nie moze
+   byc celu trafialnego nosem (CIG-6.2) */
+.log .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.log .actions button { min-height: 44px; border: 2px solid var(--white); background: none; color: var(--white); font-family: var(--font-text); font-weight: 800; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; padding: 0 16px; }
+.log .actions button.primary { background: var(--acid); border-color: var(--acid); color: var(--ink); }

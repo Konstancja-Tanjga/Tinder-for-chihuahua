@@ -7,18 +7,29 @@ import { TOKENS } from './tokens.generated';
 // Stala jest zalezna od urzadzenia -- przy innym telefonie trzeba ja zmienic.
 const MM_PER_PX = 71.5 / TOKENS.frame.width;
 
+/** Skad przyszlo zdarzenie. Myszka to sciezka DEWELOPERSKA -- jej zdarzenia nie
+ *  moga wchodzic do statystyki plamy kontaktu, bo to jedyna liczba, po ktora
+ *  robimy test z psem. */
+export type Src = 'touch' | 'mouse';
+
 export type Entry =
-  | { kind: 'decision'; card: string; decision: 'yes' | 'no'; latencyMs: number; dragPx: number; patchMm: number; touches: number }
-  | { kind: 'rejected'; reason: 'below-threshold' | 'cooldown'; dragPx: number; patchMm: number; touches: number }
-  | { kind: 'warmup'; hit: number; patchMm: number; touches: number; audioUnlocked: boolean }
+  | { kind: 'decision'; src: Src; card: string; decision: 'yes' | 'no'; latencyMs: number; dragPx: number; patchMm: number; touches: number }
+  | { kind: 'rejected'; src: Src; reason: 'below-threshold' | 'cooldown'; dragPx: number; patchMm: number; touches: number }
+  | { kind: 'warmup'; src: Src; hit: number; patchMm: number; touches: number; audioUnlocked: boolean }
   | { kind: 'undo'; card: string }
   | { kind: 'note'; text: string };
 
-const entries: (Entry & { atMs: number })[] = [];
+export type Dog = 'Karmel' | 'Auri';
+let subject: Dog | null = null;
+/** Bez tego log nie wie, ktory pies generowal dane -- a plama kontaktu Karmela
+ *  i Auri to dwie rozne liczby, ktore maja zastapic dwa rozne placeholdery. */
+export function setSubject(d: Dog) { subject = d; }
+
+const entries: (Entry & { atMs: number; dog: Dog | null })[] = [];
 const t0 = performance.now();
 
 export const px2mm = (px: number) => +(px * MM_PER_PX).toFixed(1);
-export function add(e: Entry) { entries.push({ ...e, atMs: Math.round(performance.now() - t0) }); }
+export function add(e: Entry) { entries.push({ ...e, atMs: Math.round(performance.now() - t0), dog: subject }); }
 export function all() { return entries; }
 
 /* ---- licznik klatek: CIG-2.5 mowi, ze 120 Hz to wymaganie, wiec mierzymy ---- */
@@ -42,7 +53,9 @@ export function report() {
   const dec = entries.filter((e) => e.kind === 'decision') as Extract<Entry, { kind: 'decision' }>[] & { atMs: number }[];
   const rej = entries.filter((e) => e.kind === 'rejected') as Extract<Entry, { kind: 'rejected' }>[] & { atMs: number }[];
   const warm = entries.filter((e) => e.kind === 'warmup') as Extract<Entry, { kind: 'warmup' }>[] & { atMs: number }[];
-  const patches = entries.map((e) => ('patchMm' in e ? e.patchMm : 0)).filter((x) => x > 0);
+  // TYLKO dotyk -- myszka nie ma plamy kontaktu i zanizylaby srednia
+  const patches = entries.filter((e) => 'src' in e && e.src === 'touch' && 'patchMm' in e).map((e) => (e as { patchMm: number }).patchMm).filter((x) => x > 0);
+  const byMouse = entries.filter((e) => 'src' in e && e.src === 'mouse').length;
   const f = fps();
   const avg = (xs: number[]) => (xs.length ? +(xs.reduce((a, b) => a + b, 0) / xs.length).toFixed(1) : 0);
   const lines = [
@@ -56,13 +69,18 @@ export function report() {
     ``,
     `ROZGRZEWKA  ${warm.length} dotkniec, audio odblokowane: ${warm.some((w) => w.audioUnlocked)}`,
     `DECYZJE  ${dec.length}  (tak: ${dec.filter((d) => d.decision === 'yes').length}, nie: ${dec.filter((d) => d.decision === 'no').length})`,
+    `        z dotyku: ${dec.filter((d) => d.src === 'touch').length}, z myszki: ${dec.filter((d) => d.src === 'mouse').length}`,
     `        sredni czas decyzji ${avg(dec.map((d) => d.latencyMs))} ms`,
     `        sredni drag ${avg(dec.map((d) => d.dragPx))} px, prog ${TOKENS.input.dragThreshold} px`,
     `ODRZUCONE  ${rej.length}  (ponizej progu: ${rej.filter((r) => r.reason === 'below-threshold').length}, w cooldownie: ${rej.filter((r) => r.reason === 'cooldown').length})`,
     `        odrzucone w cooldownie to dowod, ze CIG-3.4 jest potrzebny`,
     ``,
-    `PLAMA KONTAKTU  srednio ${avg(patches)} mm, max ${patches.length ? Math.max(...patches) : 0} mm`,
-    `        to wartosc do wpisania w tokeny zamiast placeholdera`,
+    `PLAMA KONTAKTU  ${patches.length} pomiarow z dotyku lacznie -- to wartosci do wpisania w tokeny zamiast placeholderow`,
+    ...(['Karmel', 'Auri'] as Dog[]).map((d) => {
+      const ps = entries.filter((e) => e.dog === d && 'src' in e && e.src === 'touch' && 'patchMm' in e).map((e) => (e as { patchMm: number }).patchMm).filter((x) => x > 0);
+      return `        ${d.padEnd(7)} srednio ${avg(ps)} mm, max ${ps.length ? Math.max(...ps) : 0} mm  (${ps.length} pomiarow)`;
+    }),
+    byMouse ? `        UWAGA: ${byMouse} zdarzen z myszki pominieto -- myszka nie ma plamy kontaktu` : `        wszystkie zdarzenia z dotyku`,
     ``,
     `ZDARZENIA`,
     ...entries.map((e) => `  ${String(e.atMs).padStart(6)} ms  ${JSON.stringify(e)}`),
