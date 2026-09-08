@@ -1,0 +1,694 @@
+<title>Nos zamiast palca</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&amp;family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;600&amp;display=swap">
+<style>
+  :root {
+    --ground: #EFF1EC;
+    --panel: #E4E8DE;
+    --tint: #E0E5F5;
+    --ink: #10131A;
+    --muted: #58606E;
+    --blue: #1B34D8;
+    --acid: #7E8A00;
+    --acid-fill: #C8D400;
+    --rule: #CFD5C8;
+    --rule-strong: #A9B2A0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0D1014;
+      --panel: #171B21;
+      --tint: #171C2E;
+      --ink: #EDEFEA;
+      --muted: #9AA3B1;
+      --blue: #7E92FF;
+      --acid: #C3D122;
+      --acid-fill: #C8D400;
+      --rule: #242A33;
+      --rule-strong: #3A424E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0D1014;
+    --panel: #171B21;
+    --tint: #171C2E;
+    --ink: #EDEFEA;
+    --muted: #9AA3B1;
+    --blue: #7E92FF;
+    --acid: #C3D122;
+    --acid-fill: #C8D400;
+    --rule: #242A33;
+    --rule-strong: #3A424E;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 56px 24px 96px; }
+  .col { max-width: 66ch; }
+
+  h1, h2, h3, h4 {
+    font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 800;
+    text-wrap: balance;
+    margin: 0;
+    letter-spacing: -0.015em;
+  }
+  h1 { font-size: clamp(38px, 6vw, 64px); line-height: 1.02; }
+  h2 { font-size: clamp(26px, 3.4vw, 34px); line-height: 1.1; }
+  h3 { font-size: 21px; line-height: 1.2; font-weight: 600; }
+  h4 { font-size: 17px; line-height: 1.25; font-weight: 600; }
+  p { margin: 0; }
+  a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:hover { color: var(--ink); }
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+  .mono {
+    font-family: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---- header ---- */
+  header.top { display: flex; flex-direction: column; gap: 22px; padding-bottom: 40px; border-bottom: 2px solid var(--ink); }
+  .meta { display: flex; flex-wrap: wrap; gap: 10px 26px; color: var(--muted); }
+  .deck { font-size: 22px; line-height: 1.5; max-width: 60ch; }
+  .deck em { font-style: italic; color: var(--ink); }
+  .thesis {
+    background: var(--tint);
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 72ch;
+  }
+  .thesis .mono { color: var(--blue); }
+  .thesis p { font-size: 19px; }
+
+  /* ---- sections ---- */
+  section { padding-top: 64px; }
+  .sechead { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .sechead .mono { color: var(--acid); }
+  .lede { color: var(--muted); max-width: 64ch; font-size: 18px; }
+  .stack { display: flex; flex-direction: column; gap: 18px; }
+  .stack.tight { gap: 12px; }
+
+  /* ---- finding / consequence ---- */
+  .findings { display: flex; flex-direction: column; gap: 0; }
+  .finding {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 32px;
+    padding: 26px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .finding:first-child { border-top: 2px solid var(--rule-strong); }
+  .f-claim { display: flex; flex-direction: column; gap: 10px; }
+  .f-claim .mono { color: var(--muted); }
+  .data { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
+  .data span {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    background: var(--panel);
+    color: var(--ink);
+    padding: 4px 9px;
+    letter-spacing: 0.03em;
+  }
+  .f-impl { background: var(--tint); padding: 20px 22px; display: flex; flex-direction: column; gap: 9px; }
+  .f-impl .mono { color: var(--blue); }
+  @media (max-width: 760px) { .finding { grid-template-columns: minmax(0, 1fr); gap: 18px; } }
+
+  /* ---- tables ---- */
+  .tablewrap { overflow-x: auto; border-top: 2px solid var(--rule-strong); }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 16px; }
+  th, td { text-align: left; vertical-align: top; padding: 15px 18px 15px 0; border-bottom: 1px solid var(--rule); }
+  th {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  td:first-child { font-weight: 600; white-space: nowrap; padding-right: 24px; }
+  td.take { color: var(--ink); }
+  td.take strong { color: var(--blue); font-weight: 600; }
+
+  /* ---- personas ---- */
+  .personas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 760px) { .personas { grid-template-columns: minmax(0, 1fr); } }
+  .persona { background: var(--panel); padding: 26px 26px 24px; display: flex; flex-direction: column; gap: 18px; }
+  .persona.human { background: var(--tint); }
+  .p-head { display: flex; flex-direction: column; gap: 6px; }
+  .p-role { color: var(--muted); font-size: 16px; font-style: italic; }
+  .spec { display: flex; flex-direction: column; gap: 0; margin: 0; }
+  .spec > div { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 14px; padding: 9px 0; border-top: 1px solid var(--rule); }
+  .spec dt {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--muted); padding-top: 4px;
+  }
+  .spec dd { margin: 0; font-size: 16.5px; line-height: 1.5; }
+  .verdict { border-top: 2px solid var(--ink); padding-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .verdict .mono { color: var(--acid); }
+  .verdict p { font-size: 17.5px; }
+
+  /* ---- journey ---- */
+  .journey { display: flex; flex-direction: column; gap: 0; counter-reset: step; border-top: 2px solid var(--rule-strong); }
+  .step { display: grid; grid-template-columns: 54px 92px minmax(0, 1fr); gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  .step-n {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--muted);
+  }
+  .where {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 8px; align-self: start; text-align: center;
+  }
+  .where.glass { background: var(--blue); color: var(--ground); }
+  .where.room { background: var(--acid-fill); color: #10131A; }
+  .step p { font-size: 17px; }
+  @media (max-width: 620px) {
+    .step { grid-template-columns: 40px minmax(0, 1fr); }
+    .where { grid-column: 2; justify-self: start; margin-bottom: 4px; }
+    .step p { grid-column: 2; }
+  }
+
+  /* ---- screens ---- */
+  .screens { display: flex; flex-direction: column; gap: 0; border-top: 2px solid var(--rule-strong); }
+  .screen { display: grid; grid-template-columns: 66px minmax(0, 1.05fr) minmax(0, 1.3fr); gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  .screen code {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size: 12.5px; font-weight: 600; color: var(--blue);
+  }
+  .screen .nm { font-weight: 600; font-size: 17px; }
+  .screen .jb { color: var(--muted); font-size: 16px; }
+  .newflag { color: var(--acid); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 600; }
+  @media (max-width: 700px) { .screen { grid-template-columns: 60px minmax(0, 1fr); } .screen .jb { grid-column: 2; } }
+
+  /* ---- principles ---- */
+  .principles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; background: var(--rule); }
+  @media (max-width: 700px) { .principles { grid-template-columns: minmax(0, 1fr); } }
+  .principle { background: var(--ground); padding: 22px 24px; display: flex; flex-direction: column; gap: 8px; }
+  .principle .mono { color: var(--muted); }
+  .principle h4 { color: var(--ink); }
+  .principle p { font-size: 16.5px; color: var(--muted); }
+
+  /* ---- deliverables ---- */
+  .deliv { display: flex; flex-direction: column; gap: 0; border-top: 2px solid var(--rule-strong); }
+  .deliv > div { padding: 18px 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 24px; }
+  .deliv h4 { padding-top: 1px; }
+  .deliv p { font-size: 16.5px; color: var(--muted); }
+  @media (max-width: 700px) { .deliv > div { grid-template-columns: minmax(0, 1fr); gap: 8px; } }
+
+  /* ---- questions ---- */
+  .qs { display: flex; flex-direction: column; gap: 2px; background: var(--rule); }
+  .q { background: var(--panel); padding: 18px 22px; display: flex; flex-direction: column; gap: 6px; }
+  .q p:first-child { font-weight: 600; font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-size: 17.5px; }
+  .q p:last-child { color: var(--muted); font-size: 16px; }
+
+  /* ---- sources ---- */
+  .sources { columns: 2; column-gap: 40px; font-size: 15px; line-height: 1.5; }
+  @media (max-width: 700px) { .sources { columns: 1; } }
+  .sources li { break-inside: avoid; margin-bottom: 11px; }
+  .sources ul { margin: 0; padding-left: 18px; }
+  footer { margin-top: 72px; padding-top: 22px; border-top: 2px solid var(--ink); color: var(--muted); font-size: 15px; }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="meta mono"><span>Tinder for Chihuahua</span><span>Fundament projektowy</span><span class="num">8 września 2026</span><span>Speculative design</span></p>
+    <h1>Nos zamiast palca</h1>
+    <p class="deck">Aplikacja, której użytkownik jest dichromatem o ostrości wzroku 20/75, a jego urządzeniem wejściowym jest mokry nos. Wszystko inne wynika <em>z tego jednego zdania</em>.</p>
+    <div class="thesis">
+      <p class="mono">Teza</p>
+      <p><strong>Jeden ekran, dwóch użytkowników.</strong> Pies przesuwa kartę i tym samym wyraża prawdziwą preferencję wobec tego, co widzi. Człowiek tę preferencję czyta i podejmuje decyzję o realnym spotkaniu. Aplikacja nie kojarzy psów — aplikacja zbiera sygnał i przekazuje go swatce.</p>
+      <p>Zakładamy, że Karmel i Auri obsłużą ekran. Research poniżej nie służy ocenie, czy to możliwe — służy temu, żeby zaprojektować to dobrze.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Research</p>
+      <h2>Kim jest użytkownik, którego nie da się zapytać</h2>
+      <p class="lede">Dziesięć ustaleń o psim odbiorze ekranu, każde sparowane z konsekwencją projektową. Kolumna po prawej to nie komentarz — to wymaganie.</p>
+    </div>
+
+    <div class="findings">
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Widzenie barw</p>
+          <p>Pies ma dwa typy czopków: krótkofalowy z maksimum czułości przy 429–435 nm i średnio-długofalowy przy 555 nm. Czerwień i zieleń są dla niego nierozróżnialne — to nie ubóstwo palety, to inna geometria przestrzeni barw.</p>
+          <div class="data"><span>429–435 nm</span><span>555 nm</span><span>dichromat</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Paleta to niebieski i żółto-zielony. Żadna informacja potrzebna psu nie może być zakodowana w opozycji czerwony–zielony, więc klasyczna czerwono-różowa skóra Tindera jest wykluczona nie estetycznie, a funkcjonalnie. Literatura o psich touchscreenach rekomenduje dokładnie tę parę.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Ostrość wzroku</p>
+          <p>Miller i Murphy oszacowali ostrość typowego psa na 20/75; pomiary potencjałów wzrokowych u beagle'i dają zakres 20/45–20/85. Pies widzi z 6 metrów to, co my z 22.</p>
+          <div class="data"><span>20/75</span><span>zakres 20/45–20/85</span><span>~4× mniej</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Skala psia to około czterokrotność skali ludzkiej. Detal nie istnieje. Nośnikiem znaczenia jest sylwetka, duża plama koloru i ruch — nigdy krój, cienka linia ani ikona 24 px.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Częstotliwość migotania</p>
+          <p>Próg fuzji migotania u psa to około 70–80 Hz, wobec ~60 Hz u człowieka. Ekran odświeżany 60 razy na sekundę, dla nas płynny, może dla psa widocznie migać.</p>
+          <div class="data"><span>70–80 Hz pies</span><span>~60 Hz człowiek</span><span>120 Hz ProMotion</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>ProMotion w iPhonie 13 Pro Max przestaje być luksusem i staje się wymaganiem sprzętowym. Animacje wyłącznie na <code>transform</code> i <code>opacity</code>, żeby nie spadły do 60 fps. Nic, co renderuje się w 30 fps.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Morfologia gestu</p>
+          <p>Psi input na ekranie z natury przypomina przesunięcie i przeciągnięcie, a nie precyzyjne, punktowe stuknięcie. To najważniejsze ustalenie całego researchu.</p>
+          <div class="data"><span>swipe &gt; tap</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Gest Tindera jest przypadkiem <em>właściwym</em> gestem dla psa — to nie metafora przeniesiona z apki ludzkiej, to zbieżność z psią motoryką. Liczy się każdy drag, próg dystansu jest niski, kierunek wyznacza połowa ekranu. Zero tapów, zero long-pressów, zero double-tapów.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Fizyka dotyku</p>
+          <p>Mokry nos na szkle pojemnościowym to duża, wilgotna, wielopunktowa plama kontaktu — nie kursor.</p>
+          <div class="data"><span>plama ≠ punkt</span><span>cooldown 1,5 s</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Wejście traktujemy jako obszar: bierzemy centroid, ignorujemy liczbę punktów, debounce'ujemy, a po każdej decyzji dajemy blokadę ~1,5 s, żeby jedno długie pociągnięcie nosem nie zarejestrowało trzech swipe'ów. Undo musi być funkcją pierwszej klasy, bo pomyłka jest normą, nie wyjątkiem.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Uwaga na psa</p>
+          <p>Psy patrzą dłużej na psie pyski niż na ludzkie twarze, niezależnie od znajomości, i fiksują wzrok przede wszystkim na okolicy oczu.</p>
+          <div class="data"><span>pysk &gt; twarz</span><span>fiksacja na oczach</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Kadr wideo to pysk i oczy wypełniające klatkę. Bez planów całej sylwetki, bez tła, bez ludzi w kadrze. To twarda specyfikacja dla materiałów z Groka, nie sugestia.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Znaczenie swipe'a</p>
+          <p>Pies rozróżnia cechy obrazu, ale obraz dwuwymiarowy nie musi dla niego reprezentować swojego realnego odpowiednika — psy rozpoznają właściciela ze zdjęcia wyraźnie słabiej niż z prawdziwej twarzy.</p>
+          <div class="data"><span>sygnał preferencji</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Swipe Karmela to prawdziwa preferencja wobec <em>tego, co jest na ekranie</em> — nie deklaracja wyboru partnera. Dlatego wyjściem aplikacji jest ranking preferencji i dane z sesji, a nie „match". Match dzieje się na spacerze i decyduje o nim człowiek. Stąd dwóch użytkowników w tezie.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Wartość dla Auri</p>
+          <p>Zespół Messerli Research Institute w Wiedniu pokazał, że gry na ekranie dotykowym działają jako wzbogacenie poznawcze, i celował tym szczególnie w psy starsze — nazwali to „sudoku dla psów". Auri ma dwanaście lat.</p>
+          <div class="data"><span>12 lat</span><span>enrichment</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Aplikacja dostaje drugi, poważny powód istnienia obok obietnicy danej psom: codzienna krótka sesja to stymulacja poznawcza dla starzejącej się suczki. To zmienia metrykę sukcesu — liczy się regularność i zaangażowanie w sesji, nie liczba kart.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Nagroda</p>
+          <p>Psy pracują za jedzenie, a obecność człowieka w pomieszczeniu poprawia ich zaangażowanie w zadanie na ekranie.</p>
+          <div class="data"><span>nagroda fizyczna</span><span>człowiek obecny</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Ekran nie jest nagrodą — ekran nagrodę <em>zapowiada</em>. Pętla zamyka się dopiero w pokoju, smaczkiem z ręki. Projektujemy więc interakcję, w której człowiek siedzi obok, a nie zostawia psa z telefonem.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="f-claim">
+          <p class="mono">Wiek a kontrast</p>
+          <p>Z wiekiem soczewka psa traci przezierność, co obniża wrażliwość na kontrast. Auri i Karmel dzielą tę samą bazę dichromata, ale nie ten sam próg.</p>
+          <div class="data"><span>Auri = próg dolny</span></div>
+        </div>
+        <div class="f-impl">
+          <p class="mono">Co z tego wynika</p>
+          <p>Minimalny kontrast i minimalny rozmiar celu ustala Auri, nie Karmel. Jeśli coś jest czytelne dla dwunastolatki, jest czytelne dla obojga — odwrotnie nie.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Benchmark, część pierwsza</p>
+      <h2>Psie aplikacje dzielą się na dwie rodziny i żadna nie robi tego, co my</h2>
+      <p class="lede">Rynek jest wyraźnie rozdzielony: albo apka społeczna, w której psa <em>reprezentuje</em> człowiek, albo zabawka, w którą pies gra, ale która nic nie produkuje. Przestrzeń między nimi jest pusta.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Rodzina</th><th>Przykłady</th><th>Kto operuje</th><th>Co produkuje</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Społeczne dla psów</td>
+            <td>Pawmates, Tindog, BarkHappy, Wowzer</td>
+            <td>Człowiek. Pies jest treścią profilu, nie użytkownikiem.</td>
+            <td>Geolokalizowane playdate'y i kontakt między właścicielami.</td>
+          </tr>
+          <tr>
+            <td>Zabawki dla psów</td>
+            <td>App for Dog, BetterPawPlay, Dog Squeaky Toy, Puppy Tapper, DOGLi</td>
+            <td>Pies. Nosem albo łapą, telefon położony płasko.</td>
+            <td>Nic trwałego. Rozrywka i stymulacja w obrębie sesji.</td>
+          </tr>
+          <tr>
+            <td class="take"><strong>Nasza pozycja</strong></td>
+            <td class="take">Tinder for Chihuahua</td>
+            <td class="take">Pies operuje, człowiek interpretuje.</td>
+            <td class="take"><strong>Ranking preferencji</strong>, który człowiek zamienia w realne spotkanie.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stack" style="padding-top: 26px; max-width: 66ch;">
+      <p>Dwie obserwacje warte zapamiętania. Pierwsza: <em>App for Dog</em> opisuje swoje przyciski jako „duże, pełnoekranowe, żeby ciekawski nos nie mógł ich nie trafić" — dokładnie ten wzorzec, do którego doszliśmy z researchu o morfologii gestu, tylko sprawdzony już komercyjnie. Druga: historia założycielska „Tindera dla psów" z Toronto to człowiek, który zrobił apkę, bo jego starszy pies nie mógł znaleźć towarzystwa do zabawy. To jest twoja historia. Motywacja jest więc zwalidowana rynkowo, a wyróżnikiem musi być to, że u nas swipe'uje pies.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Benchmark, część druga</p>
+      <h2>Czego uczą apki randkowe i apki o pracę</h2>
+      <p class="lede">Wzorzec talii kart z decyzją binarną przeszedł w tych dwóch kategoriach pełny cykl życia — od objawienia do zmęczenia i wycofania. Mamy więc darmowy dostęp do ich wniosków, w tym do ich porażek.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Wzorzec / źródło</th><th>Czego dowodzi</th><th>Co z tego bierzemy</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Swipe Tindera</td>
+            <td>Siła gestu leży w decyzji binarnej przy zerowym chrome interfejsu — nic nie stoi między treścią a wyborem.</td>
+            <td class="take">Gest <em>i</em> pusty ekran. U nas to nie stylistyka: każdy element, który nie jest kartą albo strefą decyzji, odbiera psu czytelność.</td>
+          </tr>
+          <tr>
+            <td>Rewind / undo</td>
+            <td>W apkach ludzkich cofnięcie swipe'a jest funkcją premium — drobnym błędem, na którym da się zarobić.</td>
+            <td class="take"><strong>U nas undo jest funkcją rdzeniową, nie premium.</strong> Mokry nos pomyli się regularnie, więc cofnięcie musi być duże, natychmiastowe i dostępne dla człowieka obok.</td>
+          </tr>
+          <tr>
+            <td>Hinge</td>
+            <td>Celowo odeszli od swipe'owania na rzecz promptów i komentarzy, pod hasłem „aplikacja zaprojektowana, żeby ją usunąć" — i urośli o 22% przychodu, robiąc to.</td>
+            <td class="take">Wolumen nie jest celem. Mała, kuratorowana talia bije nieskończony feed. Metryką sukcesu nie może być czas w aplikacji.</td>
+          </tr>
+          <tr>
+            <td>Bumble</td>
+            <td>Whitney Wolfe Herd wprost: odchodzą od „optymalizowania pod prędkość i wolumen swipe'ów" w stronę „mniejszej liczby lepszych, bardziej przemyślanych sygnałów".</td>
+            <td class="take">Talia ma sufit: 8–12 kart na sesję. Zgadza się to jednocześnie z psią uwagą i z ramą wzbogacenia poznawczego.</td>
+          </tr>
+          <tr>
+            <td>Double opt-in</td>
+            <td>Match wymaga zgody obu stron — to ten mechanizm, nie sam swipe, tworzy poczucie bezpieczeństwa i wartość dopasowania.</td>
+            <td class="take"><strong>Przepisujemy go na nasze dwie strony:</strong> match wymaga swipe'a psa <em>oraz</em> potwierdzenia człowieka. Wzorzec zostaje, strony się zmieniają.</td>
+          </tr>
+          <tr>
+            <td>Switch, Jobr i reszta „Tinderów do pracy"</td>
+            <td>Wszystkie umarły. Switch zamknął się w 2018, Jobr został kupiony przez Monstera głównie po ludzi. Diagnoza: apka, w której swipe tylko odkłada ofertę na stos „może później", nie oszczędza użytkownikowi niczego — odblokowanie następuje dopiero, gdy swipe w prawo <em>wykonuje</em> właściwą akcję.</td>
+            <td class="take"><strong>Najmocniejszy wniosek całego benchmarku.</strong> Każde „tak" musi natychmiast coś zrobić: szczeknięcie, zapowiedź smaczka, wpis w rankingu. Żadnego cichego stosu do obrobienia później.</td>
+          </tr>
+          <tr>
+            <td>Cold start dwustronnego rynku</td>
+            <td>Apki randkowe i rekrutacyjne umierają na pustej podaży — bez masy po drugiej stronie produkt nie działa, niezależnie od jakości interfejsu.</td>
+            <td class="take">Nasze v1 jest jednostronne z premedytacją: stała, lokalna talia z twoich wideo od Groka. To nie kompromis wobec „prawdziwej" apki — to omijanie problemu, który zabił konkurencję.</td>
+          </tr>
+          <tr>
+            <td>Zmęczenie swipe'em</td>
+            <td>Rozpoznane zjawisko: monetyzacja ponad cel, powtarzalna praca zamiast przyjemności, użytkownik zostaje mimo braku efektu.</td>
+            <td class="take">Zero streaków, zero powiadomień, zero nieskończonego przewijania. Sesja ma zaplanowany koniec i ekran, który się wycisza.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Persony</p>
+      <h2>Dwóch użytkowników na łapach i jeden na dwóch nogach</h2>
+      <p class="lede">Persony psie opisujemy przez profil sensoryczny, motorykę i motywację, bo tego nie da się zapytać. Persona ludzka ma zupełnie inną strukturę, bo jej problemem nie jest percepcja, a rola.</p>
+    </div>
+
+    <div class="personas">
+      <article class="persona">
+        <div class="p-head">
+          <h3>Karmel</h3>
+          <p class="p-role">Primary swiper — i test obciążeniowy wejścia</p>
+        </div>
+        <dl class="spec">
+          <div><dt>Wiek, płeć</dt><dd>5 lat, samiec</dd></div>
+          <div><dt>Profil sensoryczny</dt><dd>Dichromat, ostrość ~20/75, próg migotania 70–80 Hz. Widzi niebieski i żółto-zielony.</dd></div>
+          <div><dt>Motoryka</dt><dd>Zwinny, szybki. Wygeneruje najbardziej niechlujne, wielopunktowe, długie pociągnięcia nosem.</dd></div>
+          <div><dt>Motywacja</dt><dd>Nowość, smaczek, uwaga człowieka. W tej kolejności.</dd></div>
+          <div><dt>Cel</dt><dd>Ktoś do kochania, kto nie jest mamą.</dd></div>
+          <div><dt>Frustracja</dt><dd>Dotknął i nic się nie stało. Dźwięk za cichy. Ekran za daleko.</dd></div>
+        </dl>
+        <div class="verdict">
+          <p class="mono">Rola w procesie</p>
+          <p>Na Karmelu testujemy tolerancję wejścia. Jeśli jego swipe przechodzi, przejdzie każdy.</p>
+        </div>
+      </article>
+
+      <article class="persona">
+        <div class="p-head">
+          <h3>Auri</h3>
+          <p class="p-role">Użytkowniczka, dla której ta aplikacja ma realną wartość</p>
+        </div>
+        <dl class="spec">
+          <div><dt>Wiek, płeć</dt><dd>12 lat, suczka. Matka Karmela.</dd></div>
+          <div><dt>Profil sensoryczny</dt><dd>Ta sama baza dichromata, ale obniżona wrażliwość na kontrast wskutek zmian w soczewce.</dd></div>
+          <div><dt>Motoryka</dt><dd>Spokojniejsza. Dłuższa zwłoka przed decyzją, mniej prób w sesji.</dd></div>
+          <div><dt>Motywacja</dt><dd>Rutyna, spokój, obecność człowieka, jedzenie.</dd></div>
+          <div><dt>Cel</dt><dd>Ktoś do kochania, kto nie jest synem.</dd></div>
+          <div><dt>Wartość ukryta</dt><dd>Stymulacja poznawcza — dokładnie ta populacja, do której kierowano wiedeńskie „sudoku dla psów".</dd></div>
+        </dl>
+        <div class="verdict">
+          <p class="mono">Rola w procesie</p>
+          <p>Auri ustala progi: minimalny kontrast, minimalny rozmiar celu i maksymalną długość sesji.</p>
+        </div>
+      </article>
+    </div>
+
+    <div style="padding-top: 24px;">
+      <article class="persona human">
+        <div class="p-head">
+          <h3>Konstancja</h3>
+          <p class="p-role">Właścicielka, operatorka, swatka — i jedyna osoba, która rozumie, po co to wszystko</p>
+        </div>
+        <dl class="spec">
+          <div><dt>Zadania</dt><dd>Przygotować talię i profile, uruchomić sesję, siedzieć obok, nagradzać, odczytać wynik, zaaranżować prawdziwe spotkanie.</dd></div>
+          <div><dt>Cel</dt><dd>Dwa mniej znudzone psy, jedno realne spotkanie — i satysfakcja z rzeczy, którą sama zbudowała.</dd></div>
+          <div><dt>Potrzeba</dt><dd>Setup w minutach, nie w godzinach. Wynik czytelny na pierwszy rzut oka. Cisza, kiedy sesja się skończyła.</dd></div>
+          <div><dt>Ograniczenie</dt><dd>Nie może być w dwóch trybach naraz: kiedy pies pracuje, ona nagradza, a nie klika.</dd></div>
+        </dl>
+        <div class="verdict">
+          <p class="mono">Konsekwencja projektowa, najważniejsza w całym dokumencie</p>
+          <p>To są <strong>dwa interfejsy, nie jeden</strong>. Tryb psi: pełny ekran, zero chrome, skala czterokrotna, niebieski i żółto-zielony. Tryb ludzki: normalna gęstość, normalna typografia, czytelne dane. Muszą być rozdzielone — i pies nie może wejść w tryb ludzki. Dostęp nadzorowany załatwia poziom systemu, ale wewnątrz aplikacji potrzebny jest gest, którego nos nie wykona.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">User journey — sesja psa</p>
+      <h2>Pętla, która nie zamyka się na ekranie</h2>
+      <p class="lede">Oznaczenie po lewej mówi, gdzie dany krok się dzieje. Cztery z jedenastu kroków są poza szkłem — i to nie usterka opisu, tylko sedno projektu: nagroda jest fizyczna, więc pętli nie da się domknąć w aplikacji.</p>
+    </div>
+
+    <div class="journey">
+      <div class="step"><span class="step-n num">01</span><span class="where room">Pokój</span><p>Telefon leży płasko na podłodze pod małym kątem. Konstancja siada obok, ma smaczki w dłoni.</p></div>
+      <div class="step"><span class="step-n num">02</span><span class="where glass">Ekran</span><p>Wybór psa: kto teraz pracuje. Dotyka człowiek, nie pies — to jeszcze przed sesją.</p></div>
+      <div class="step"><span class="step-n num">03</span><span class="where glass">Ekran</span><p>Rozgrzewka. Jeden duży, ruchomy obiekt; dowolne dotknięcie liczy się jako sukces.</p></div>
+      <div class="step"><span class="step-n num">04</span><span class="where room">Pokój</span><p>Smaczek za pierwsze dotknięcie. Buduje skojarzenie nos → skutek i jednocześnie kalibruje nam, <em>jak</em> ten konkretny pies dotyka.</p></div>
+      <div class="step"><span class="step-n num">05</span><span class="where glass">Ekran</span><p>Pierwsza karta kandydata: wideo pyska w ruchu, wypełniające kadr, z dźwiękiem.</p></div>
+      <div class="step"><span class="step-n num">06</span><span class="where glass">Nos</span><p>Swipe w lewo albo w prawo. Dowolny drag, niski próg dystansu, kierunek z połowy ekranu.</p></div>
+      <div class="step"><span class="step-n num">07</span><span class="where glass">Ekran</span><p>Reakcja natychmiastowa. W prawo: szczeknięcie i zapowiedź nagrody. W lewo: neutralny dźwięk i następna karta. Blokada wejścia ~1,5 s.</p></div>
+      <div class="step"><span class="step-n num">08</span><span class="where room">Pokój</span><p>Smaczek przy „tak". To tutaj domyka się pętla — ekran tylko ją zapowiedział.</p></div>
+      <div class="step"><span class="step-n num">09</span><span class="where glass">Ekran</span><p>Powtórzenie kroków 05–08 dla 8–12 kart. Talia ma sufit.</p></div>
+      <div class="step"><span class="step-n num">10</span><span class="where glass">Ekran</span><p>Koniec talii. Ekran przechodzi w spokojny stan końcowy — nie ładuje kolejnych kart.</p></div>
+      <div class="step"><span class="step-n num">11</span><span class="where room">Pokój</span><p>Konstancja przechodzi gestem w tryb ludzki i czyta wynik sesji.</p></div>
+    </div>
+
+    <div class="sechead" style="padding-top: 56px;">
+      <p class="mono">User journey — swatka</p>
+      <h2>Wyjściem aplikacji nie jest match</h2>
+      <p class="lede">Journey Konstancji jest dłuższy niż jedna sesja i wychodzi poza telefon. Aplikacja obsługuje trzy z pięciu jego kroków.</p>
+    </div>
+
+    <div class="journey">
+      <div class="step"><span class="step-n num">01</span><span class="where glass">Ekran</span><p>Setup: wgrywa wideo z Groka, wypełnia profile, ustawia <code>familyIds</code> — filtr rodziny wyklucza Auri z talii Karmela i odwrotnie.</p></div>
+      <div class="step"><span class="step-n num">02</span><span class="where room">Pokój</span><p>Prowadzi sesję. Siedzi obok, nagradza, obserwuje. Nie klika.</p></div>
+      <div class="step"><span class="step-n num">03</span><span class="where glass">Ekran</span><p>Odczyt: która karta zebrała „tak", ile razy, jak szybko pies zdecydował, przy której się znudził. To jest ranking preferencji.</p></div>
+      <div class="step"><span class="step-n num">04</span><span class="where room">Pokój</span><p>Decyzja swatki. Człowiek wybiera, z kim aranżować spotkanie — aplikacja nie kojarzy, tylko doradza.</p></div>
+      <div class="step"><span class="step-n num">05</span><span class="where room">Park</span><p>Prawdziwe spotkanie. Tu weryfikuje się wszystko, bo psy dobierają się węchem, a nie obrazem.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Inwentarz ekranów</p>
+      <h2>Z czterech ekranów zrobiło się dziewięć</h2>
+      <p class="lede">Twoja pierwotna lista miała cztery ekrany. Research dodał pięć — i to jest konkretna wartość zrobienia go przed projektowaniem, a nie po.</p>
+    </div>
+
+    <h3 style="margin-bottom: 14px;">Tryb psi — skala czterokrotna, zero chrome</h3>
+    <div class="screens" style="margin-bottom: 42px;">
+      <div class="screen"><code>D1</code><span class="nm">Wybór psa</span><span class="jb">Dwa gigantyczne kafle. Dotyka człowiek.</span></div>
+      <div class="screen"><code>D2</code><span class="nm">Rozgrzewka <span class="newflag">nowy</span></span><span class="jb">Kalibracja wejścia i budowa skojarzenia nos → skutek.</span></div>
+      <div class="screen"><code>D3</code><span class="nm">Karta kandydata</span><span class="jb">Rdzeń aplikacji. Wideo pyska, dwie strefy decyzji na pełnej wysokości.</span></div>
+      <div class="screen"><code>D4</code><span class="nm">Moment match <span class="newflag">przedefiniowany</span></span><span class="jb">Nie gratulacje, a <em>zapowiedź nagrody</em>: szczeknięcie i sygnał dla człowieka, że czas na smaczek.</span></div>
+      <div class="screen"><code>D5</code><span class="nm">Koniec sesji <span class="newflag">nowy</span></span><span class="jb">Spokojny stan końcowy zamiast kolejnej karty. Talia się skończyła.</span></div>
+    </div>
+
+    <h3 style="margin-bottom: 14px;">Tryb ludzki — normalna gęstość, czytelne dane</h3>
+    <div class="screens">
+      <div class="screen"><code>H1</code><span class="nm">Wynik sesji <span class="newflag">nowy</span></span><span class="jb">Ranking preferencji: kto, ile „tak", jak szybko, gdzie spadło zaangażowanie.</span></div>
+      <div class="screen"><code>H2</code><span class="nm">Lista kandydatów</span><span class="jb">Ci, których człowiek zatwierdził do realnego spotkania. Druga strona double opt-in.</span></div>
+      <div class="screen"><code>H3</code><span class="nm">Profile i rodzina</span><span class="jb">Edycja profili, <code>familyIds</code>, filtr wykluczający.</span></div>
+      <div class="screen"><code>H4</code><span class="nm">Setup sesji <span class="newflag">nowy</span></span><span class="jb">Wideo, dźwięki, długość talii, głośność.</span></div>
+      <div class="screen"><code>—</code><span class="nm">Wejście w tryb ludzki <span class="newflag">nowy</span></span><span class="jb">Gest, którego nos nie wykona. Nie ekran, ale wymaga zaprojektowania.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Zasady projektowe</p>
+      <h2>Osiem reguł, każda sprawdzalna</h2>
+      <p class="lede">Zasada, której nie da się sprawdzić na gotowym ekranie, jest ozdobą. Te osiem da się.</p>
+    </div>
+
+    <div class="principles">
+      <div class="principle"><p class="mono num">01</p><h4>Projektujemy dla Auri, testujemy Karmelem</h4><p>Progi kontrastu i rozmiaru ustala starsza suczka. Tolerancję wejścia weryfikuje młodszy pies.</p></div>
+      <div class="principle"><p class="mono num">02</p><h4>Nic czerwonego, nic zielonego jako nośnik znaczenia</h4><p>Tylko niebieski i żółto-zielony. Reszta może istnieć, ale nie może nic znaczyć.</p></div>
+      <div class="principle"><p class="mono num">03</p><h4>Tekst jest dla człowieka</h4><p>Każdą informację potrzebną psu niesie kształt, ruch albo dźwięk. Litera nigdy.</p></div>
+      <div class="principle"><p class="mono num">04</p><h4>Wejście to plama, nie punkt</h4><p>Liczy się każdy drag. Nic nie wymaga precyzji, nic nie wymaga tapu.</p></div>
+      <div class="principle"><p class="mono num">05</p><h4>Każde „tak" natychmiast coś robi</h4><p>Zero stosu „może później". To lekcja z cmentarza apek o pracę.</p></div>
+      <div class="principle"><p class="mono num">06</p><h4>Talia się kończy</h4><p>8–12 kart. Sesja ma koniec, aplikacja nie ma feedu.</p></div>
+      <div class="principle"><p class="mono num">07</p><h4>Nagroda jest fizyczna</h4><p>Ekran ją zapowiada, człowiek ją daje. Pętla domyka się w pokoju.</p></div>
+      <div class="principle"><p class="mono num">08</p><h4>Pies nie wchodzi w tryb ludzki</h4><p>Rozdział trybów jest wymaganiem bezpieczeństwa produktu, nie wygody.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Deliverables</p>
+      <h2>Co musi powstać, żeby to dało się zbudować</h2>
+      <p class="lede">Lista z perspektywy lead designera — w kolejności, w której rzeczy się blokują. Design system przed komponentami, spec assetów przed obróbką wideo.</p>
+    </div>
+
+    <div class="deliv">
+      <div><h4>Design system w dwóch skalach</h4><p>Jeden zestaw tokenów, dwie skale: <em>dog scale</em> (~4×) i <em>human scale</em>. To najważniejsza decyzja architektury systemu i nie ma jej w żadnym gotowym design systemie, więc trzeba ją zaprojektować od zera. Tokeny: kolor, typografia, spacing, radius, motion.</p></div>
+      <div><h4>Inwentarz komponentów</h4><p>Karta kandydata, strefa decyzji, kafel psa, wskaźnik dźwięku, cue nagrody, wiersz wyniku, kontrolki trybu ludzkiego. Każdy z wariantami dla obu skal.</p></div>
+      <div><h4>Motion spec</h4><p>120 Hz jako założenie, wyłącznie <code>transform</code> i <code>opacity</code>, czasy i easing. <code>prefers-reduced-motion</code> dotyczy trybu ludzkiego — w trybie psim ruch jest nośnikiem informacji, więc go nie wyłączamy.</p></div>
+      <div><h4>Sound spec</h4><p>Trzy dźwięki: szczeknięcie (tak), piszczenie (rozgrzewka), neutralny (nie). Długość, poziomy głośności, format, źródło i licencja zapisane przy każdym. Do nagrania albo z Creative Commons — decyzja jeszcze przed tobą.</p></div>
+      <div><h4>Spec dla wideo</h4><p>Materiał z Groka trzeba znormalizować: kadr na pysk i oczy, 3–5 s, płynna pętla bez cięć, bez ludzi i bez tła, docelowa rozdzielczość, waga i kodek. Bez tego spec każde wideo będzie zachowywać się inaczej.</p></div>
+      <div><h4>Copy po polsku</h4><p>Krótkie, wyłącznie dla człowieka. W trybie psim tekst nie przenosi treści, więc copy żyje tylko w H1–H4.</p></div>
+      <div><h4>Ergonomia sprzętu</h4><p>Kąt i wysokość telefonu, zasięg czauały przy leżącym ekranie 6,7", uchwyt, szkło hartowane, stała ładowarka, Dostęp nadzorowany. Fizyczny setup jest częścią projektu, nie dodatkiem do niego.</p></div>
+      <div><h4>Protokół testu z psami</h4><p>Co mierzymy: czy dotyka, jak dotyka, po ilu kartach się nudzi, czy wraca następnego dnia. Ile sesji, w jakich odstępach, i kiedy uznajemy, że działa. Bez tego „projektujemy dla Auri" jest hasłem, nie metodą.</p></div>
+      <div><h4>Handoff do Figmy i Storybooka</h4><p>Tokeny jako Figma Variables, komponenty z wariantami, Storybook jako źródło prawdy dla kodu. Figma trzyma design, Storybook trzyma implementację.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Do rozstrzygnięcia</p>
+      <h2>Pięć pytań, których nie powinnam rozstrzygać za ciebie</h2>
+    </div>
+
+    <div class="qs">
+      <div class="q"><p>Wspólna talia dla obojga psów czy osobne?</p><p>Wspólna jest prostsza w setupie. Osobne pozwalają na różne długości sesji — a Auri potrzebuje krótszej niż Karmel.</p></div>
+      <div class="q"><p>Czy „tak" wymaga potwierdzenia człowieka w tej samej sesji, czy później?</p><p>W sesji: mocniejsze domknięcie pętli, ale wyrywa cię z roli nagradzającej. Później: spokojniejsza sesja, słabszy związek między swipe'em a skutkiem.</p></div>
+      <div class="q"><p>Ile kart to sesja?</p><p>Przyjęłam 8–12 z ramy „mniej, lepiej" i z psiej uwagi. Prawdziwą liczbę zmierzysz na Karmelu i Auri w pierwszym tygodniu.</p></div>
+      <div class="q"><p>Jaki gest wchodzi w tryb ludzki?</p><p>Musi być niewykonalny nosem. Przytrzymanie dwoma palcami, sekwencja w narożniku, albo coś, co wymaga dwóch punktów kontaktu naraz.</p></div>
+      <div class="q"><p>Zapisujemy historię sesji?</p><p>Moim zdaniem tak, i to nie dla statystyk: przy dwunastoletniej suczce zmiana zaangażowania w czasie jest właśnie tą wartością, o której mówi wiedeński research. Ale to dane o twoim psie i twoja decyzja.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Źródła</p>
+      <h2>Na czym to stoi</h2>
+      <p class="lede">Ustalenia o psim wzroku i psim odbiorze ekranu pochodzą z literatury, nie z pamięci. Benchmark z materiałów o produktach.</p>
+    </div>
+
+    <div class="sources">
+      <ul>
+        <li>Neitz, Geist, Jacobs, <a href="https://pubmed.ncbi.nlm.nih.gov/2487095/">Color vision in the dog</a>, <em>Visual Neuroscience</em> 1989 — czopki 429 nm i 555 nm.</li>
+        <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0014483519300168">In vivo electroretinographic differentiation of rod, short- and long/medium-wavelength cone responses in dogs</a> — potwierdzenie metodą ERG.</li>
+        <li><a href="https://royalsocietypublishing.org/rsos/article/4/11/170869/93169/Are-dogs-red-green-colour-blind-Colour-vision-in">Are dogs red–green colour blind?</a>, <em>Royal Society Open Science</em>.</li>
+        <li><a href="https://link.springer.com/article/10.3758/s13423-017-1404-7">What do dogs see? A review of vision in dogs and implications for cognition research</a>, <em>Psychonomic Bulletin &amp; Review</em> — ostrość 20/75, próg migotania 70–80 Hz.</li>
+        <li><a href="https://www.vetmeduni.ac.at/en/university/infoservice/press-releases/presse-releases-2018/brain-training-for-old-dogs-could-touchscreen-games-become-the-sudoku-of-mans-best-friend">Brain training for old dogs</a>, Vetmeduni Vienna / Messerli Research Institute.</li>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6166787/">Utilising dog-computer interactions to provide mental stimulation in dogs especially during ageing</a>.</li>
+        <li><a href="https://link.springer.com/article/10.1007/s11357-015-9866-x">Aging effects on discrimination learning, logical reasoning and memory in pet dogs</a>, <em>GeroScience</em>.</li>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13331908/">On the use of touchscreen-based behavioural and cognitive research with dogs</a> — morfologia psiego gestu, rekomendacja pary niebieski–żółty.</li>
+        <li><a href="https://link.springer.com/article/10.1007/s10071-013-0713-0">How dogs scan familiar and inverted faces: an eye movement study</a>, <em>Animal Cognition</em> — fiksacja na oczach.</li>
+        <li><a href="https://www.sciencedaily.com/releases/2013/12/131218095847.htm">Dogs recognize familiar faces from images</a>.</li>
+        <li><a href="https://www.biorxiv.org/content/10.1101/2020.06.04.134064v1.full">2D or Not 2D? An fMRI study of how dogs visually process objects</a>.</li>
+        <li><a href="https://journals.sagepub.com/doi/10.1080/17470218.2017.1333623">Familiarity with images affects how dogs process life-size video projections of humans</a>.</li>
+        <li><a href="https://apps.apple.com/us/app/app-for-dog-free-puppy-painting-button-and-clicker/id968928583">App for Dog</a> — „duże, pełnoekranowe przyciski, żeby ciekawski nos nie mógł ich nie trafić".</li>
+        <li><a href="https://apps.apple.com/us/app/betterpawplay/id6760363746">BetterPawPlay</a> — jedenaście gier na nos i łapę, tablet płasko.</li>
+        <li><a href="https://www.petmd.com/dog/training/training-senior-dogs-play-games-touch-screens">Training senior dogs to play games on touch screens</a>, PetMD.</li>
+        <li><a href="https://www.pawtracks.com/dogs/tinder-for-dogs/">Pawmates i „Tinder for dogs"</a>, PawTracks.</li>
+        <li><a href="https://www.newsweek.com/man-makes-tinder-dogs-after-his-senior-pup-had-trouble-finding-playmates-1641491">Man makes „Tinder for dogs" after his senior pup couldn't find playmates</a>, Newsweek.</li>
+        <li><a href="https://finance.yahoo.com/media-advertising/articles/dating-apps-swiping-left-features-070000766.html">Dating apps are swiping left on the features that made them</a> — Hinge, Bumble, „fewer, better, more considered signals".</li>
+        <li><a href="https://www.urdesignmag.com/death-of-the-swipe-dating-apps-ux-decline/">The Death of the Swipe</a>, urdesignmag.</li>
+        <li><a href="https://totalent.eu/swiping-right-or-left-where-have-all-the-tinders-of-the-job-market-gone/">Where have all the „Tinders of the job market" gone?</a>, ToTalent.</li>
+        <li><a href="https://www.sorce.jobs/articles/why-swipe-ux-for-jobs-works">Why swipe UX for jobs works (better than you'd think)</a> — problem stosu „może później".</li>
+        <li><a href="https://en.wikipedia.org/wiki/Switch_(app)">Switch (app)</a>, Wikipedia.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Konstancja Tanjga</strong> &middot; 8 września 2026 &middot; fundament projektowy dla <strong>Tinder for Chihuahua</strong>. Następny krok: canvas z trzema kierunkami wizualnymi, zbudowany na skali psiej i palecie niebiesko-żółtej opisanej powyżej — a potem Figma i design system w Storybooku.</p>
+  </footer>
+
+</div>
