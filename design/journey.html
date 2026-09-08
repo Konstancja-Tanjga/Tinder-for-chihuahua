@@ -1,0 +1,275 @@
+<title>Cztery kroki poza szkłem</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&amp;family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;600&amp;display=swap">
+<style>
+  :root {
+    --ground: #EFF1EC;
+    --panel: #E4E8DE;
+    --tint: #E0E5F5;
+    --ink: #10131A;
+    --muted: #58606E;
+    --faint: #97A08F;
+    --blue: #1B34D8;
+    --acid: #7E8A00;
+    --acid-fill: #C8D400;
+    --rule: #CFD5C8;
+    --rule-strong: #A9B2A0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0D1014; --panel: #171B21; --tint: #171C2E;
+      --ink: #EDEFEA; --muted: #9AA3B1; --faint: #5A6470;
+      --blue: #7E92FF; --acid: #C3D122; --acid-fill: #C8D400;
+      --rule: #242A33; --rule-strong: #3A424E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0D1014; --panel: #171B21; --tint: #171C2E;
+    --ink: #EDEFEA; --muted: #9AA3B1; --faint: #5A6470;
+    --blue: #7E92FF; --acid: #C3D122; --acid-fill: #C8D400;
+    --rule: #242A33; --rule-strong: #3A424E;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 52px 24px 88px; }
+  h1, h2, h3 { font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; margin: 0; text-wrap: balance; letter-spacing: -0.015em; }
+  h1 { font-size: clamp(36px, 5.6vw, 58px); line-height: 1.03; }
+  h2 { font-size: clamp(24px, 3.2vw, 31px); line-height: 1.12; }
+  p { margin: 0; }
+  a { color: var(--blue); text-underline-offset: 2px; }
+  a:hover { color: var(--ink); }
+  a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 600; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  header.top { display: flex; flex-direction: column; gap: 20px; padding-bottom: 34px; border-bottom: 2px solid var(--ink); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--muted); }
+  .deck { font-size: 21px; line-height: 1.5; max-width: 62ch; }
+  .deck em { font-style: italic; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; background: var(--rule); margin-top: 30px; }
+  @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .stat { background: var(--ground); padding: 16px 18px; display: flex; flex-direction: column; gap: 3px; }
+  .stat .mono { color: var(--muted); font-size: 10.5px; }
+  .stat .v { font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 34px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat .v small { font-size: 15px; font-weight: 600; color: var(--muted); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin: 26px 0 0; }
+  .badge { font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; padding: 4px 9px; white-space: nowrap; }
+  .b-ekran { background: var(--blue); color: var(--ground); }
+  .b-nos { background: transparent; color: var(--blue); box-shadow: inset 0 0 0 2px var(--blue); }
+  .b-pokoj { background: var(--acid-fill); color: #10131A; }
+  .b-park { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--rule-strong); }
+  .legend span.lbl { color: var(--muted); font-size: 15px; }
+
+  section { padding-top: 56px; }
+  .sechead { display: flex; flex-direction: column; gap: 11px; margin-bottom: 26px; }
+  .sechead .mono { color: var(--acid); }
+  .lede { color: var(--muted); max-width: 66ch; font-size: 17.5px; }
+
+  .scroller { overflow-x: auto; border-top: 2px solid var(--rule-strong); border-bottom: 2px solid var(--rule-strong); }
+  .jgrid { display: grid; min-width: max-content; }
+  .ja { grid-template-columns: 108px repeat(11, 156px); }
+  .jb { grid-template-columns: 108px repeat(5, 210px); }
+  .cell { padding: 11px 13px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 14.5px; line-height: 1.42; }
+  .lane {
+    position: sticky; left: 0; z-index: 2;
+    background: var(--panel);
+    border-right: 2px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule);
+    padding: 11px 13px;
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .r-step { background: var(--tint); font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .r-place { background: var(--ground); }
+  .r-dog { background: var(--ground); }
+  .r-screen { background: var(--ground); font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11.5px; letter-spacing: 0.02em; text-transform: none; font-weight: 600; color: var(--blue); }
+  .r-human { background: var(--ground); color: var(--muted); }
+  .none { color: var(--faint); }
+  .loopbar {
+    grid-column: 6 / 11;
+    background: var(--tint);
+    border-right: 1px solid var(--rule);
+    padding: 9px 13px;
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--blue);
+    text-align: center;
+  }
+  .loopfill { border-right: 1px solid var(--rule); background: var(--ground); }
+  .scrollhint { color: var(--muted); font-size: 13.5px; padding-top: 10px; font-style: italic; }
+
+  .closing { margin-top: 34px; background: var(--tint); padding: 24px 26px; display: flex; flex-direction: column; gap: 11px; max-width: 74ch; }
+  .closing .mono { color: var(--blue); }
+  .closing p { font-size: 18px; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 2px solid var(--ink); color: var(--muted); font-size: 15px; }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="meta mono"><span>Tinder for Chihuahua</span><span>User journey</span><span class="num">8 września 2026</span></p>
+    <h1>Cztery kroki poza szkłem</h1>
+    <p class="deck">Sesja Karmela ma jedenaście kroków, ale <em>cztery z nich nie dzieją się w aplikacji</em>. Nagroda jest fizyczna, więc pętli nie da się domknąć na ekranie — i to nie usterka opisu, tylko sedno projektu.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><p class="mono">Kroków w sesji psa</p><p class="v num">11</p></div>
+    <div class="stat"><p class="mono">Poza ekranem</p><p class="v num">4 <small>z 11</small></p></div>
+    <div class="stat"><p class="mono">Ekranów psich</p><p class="v num">5 <small>D1–D5</small></p></div>
+    <div class="stat"><p class="mono">Pętla</p><p class="v num">D3 ⇄ D4</p></div>
+  </div>
+
+  <div class="legend">
+    <span class="badge b-ekran">Ekran</span><span class="lbl">na szkle</span>
+    <span class="badge b-nos">Nos</span><span class="lbl">dotyk psa</span>
+    <span class="badge b-pokoj">Pokój</span><span class="lbl">poza aplikacją</span>
+    <span class="badge b-park">Park</span><span class="lbl">prawdziwe spotkanie</span>
+  </div>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Journey pierwszy</p>
+      <h2>Sesja psa, krok po kroku</h2>
+      <p class="lede">Wiersz „Ekran" mówi, który z dziewięciu ekranów jest w tym momencie aktywny. Kreska oznacza, że w danym wierszu nic się nie dzieje — i te puste miejsca są tu najbardziej informacyjne.</p>
+    </div>
+
+    <div class="scroller">
+      <div class="jgrid ja">
+
+        <div class="lane">Krok</div>
+        <div class="cell r-step num">01</div><div class="cell r-step num">02</div><div class="cell r-step num">03</div><div class="cell r-step num">04</div><div class="cell r-step num">05</div><div class="cell r-step num">06</div><div class="cell r-step num">07</div><div class="cell r-step num">08</div><div class="cell r-step num">09</div><div class="cell r-step num">10</div><div class="cell r-step num">11</div>
+
+        <div class="lane">Miejsce</div>
+        <div class="cell r-place"><span class="badge b-pokoj">Pokój</span></div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-pokoj">Pokój</span></div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-nos">Nos</span></div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-pokoj">Pokój</span></div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-pokoj">Pokój</span></div>
+
+        <div class="lane">Karmel</div>
+        <div class="cell r-dog">Czeka, węszy telefon</div>
+        <div class="cell r-dog">Patrzy, jeszcze nie działa</div>
+        <div class="cell r-dog">Widzi duży ruchomy obiekt</div>
+        <div class="cell r-dog">Dostaje pierwszą nagrodę</div>
+        <div class="cell r-dog">Patrzy na pysk w kadrze</div>
+        <div class="cell r-dog"><strong>Przesuwa nosem</strong> w lewo albo w prawo</div>
+        <div class="cell r-dog">Słyszy szczeknięcie</div>
+        <div class="cell r-dog">Dostaje smaczek</div>
+        <div class="cell r-dog">Decyduje coraz dłużej</div>
+        <div class="cell r-dog">Traci zainteresowanie</div>
+        <div class="cell r-dog">Odchodzi, sesja skończona</div>
+
+        <div class="lane">Ekran</div>
+        <div class="cell r-screen"><span class="none">—</span></div>
+        <div class="cell r-screen">D1 Wybór psa</div>
+        <div class="cell r-screen">D2 Rozgrzewka</div>
+        <div class="cell r-screen">D2 &middot; pisk 0,4 s</div>
+        <div class="cell r-screen">D3 Karta kandydata</div>
+        <div class="cell r-screen">D3 &middot; strefy decyzji</div>
+        <div class="cell r-screen">D4 Nagroda, albo następna karta</div>
+        <div class="cell r-screen"><span class="none">—</span></div>
+        <div class="cell r-screen">D3 &#8646; D4</div>
+        <div class="cell r-screen">D5 Koniec sesji</div>
+        <div class="cell r-screen">H1 Wynik sesji</div>
+
+        <div class="lane">Konstancja</div>
+        <div class="cell r-human">Kładzie telefon płasko, siada obok, bierze smaczki</div>
+        <div class="cell r-human">Wybiera Karmela &mdash; ten krok dotyka człowiek</div>
+        <div class="cell r-human">Czeka. Nie podpowiada, nie prowadzi łapy</div>
+        <div class="cell r-human">Daje smaczek za pierwsze dotknięcie</div>
+        <div class="cell r-human">Obserwuje, jak długo patrzy</div>
+        <div class="cell r-human">Nie dotyka ekranu</div>
+        <div class="cell r-human">Czeka na sygnał z ekranu</div>
+        <div class="cell r-human"><strong>Daje smaczek przy każdym „tak"</strong></div>
+        <div class="cell r-human">Nagradza, liczy karty</div>
+        <div class="cell r-human">Zabiera telefon</div>
+        <div class="cell r-human">Gest w tryb ludzki, czyta ranking</div>
+
+        <div class="lane" style="border-bottom:none">Pętla</div>
+        <div class="loopfill"></div>
+        <div class="loopfill"></div>
+        <div class="loopfill"></div>
+        <div class="loopfill"></div>
+        <div class="loopbar">&#8592; kroki 05&ndash;09 powtarzają się 6&ndash;12 razy, aż talia się skończy &#8594;</div>
+        <div class="loopfill"></div>
+        <div class="loopfill"></div>
+      </div>
+    </div>
+    <p class="scrollhint">Tabela przewija się w poziomie &mdash; kolumna z nazwami wierszy zostaje na miejscu.</p>
+
+    <div class="closing">
+      <p class="mono">Co widać w pustych miejscach</p>
+      <p>Cztery kroki dzieją się w pokoju, ale ekran milczy tylko w dwóch z nich — 01 i 08. Tam wiersz „Ekran" ma kreskę. Pierwsza to ustawienie sceny, druga to <strong>moment nagrody</strong> — najważniejszy krok całej pętli dzieje się wtedy, gdy aplikacja nie robi nic. Ekran ją tylko zapowiedział w kroku 07.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <p class="mono">Journey drugi</p>
+      <h2>Journey swatki</h2>
+      <p class="lede">Dłuższy niż jedna sesja i wychodzi poza telefon. Aplikacja obsługuje trzy z pięciu kroków — ostatni dzieje się w parku i weryfikuje wszystko, bo psy dobierają się węchem, a nie obrazem.</p>
+    </div>
+
+    <div class="scroller">
+      <div class="jgrid jb">
+
+        <div class="lane">Krok</div>
+        <div class="cell r-step num">01</div><div class="cell r-step num">02</div><div class="cell r-step num">03</div><div class="cell r-step num">04</div><div class="cell r-step num">05</div>
+
+        <div class="lane">Miejsce</div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-pokoj">Pokój</span></div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-ekran">Ekran</span></div>
+        <div class="cell r-place"><span class="badge b-park">Park</span></div>
+
+        <div class="lane">Konstancja</div>
+        <div class="cell r-human">Wgrywa wideo z Groka, wypełnia profile, ustawia <code>familyIds</code></div>
+        <div class="cell r-human">Prowadzi sesję. Siedzi obok, nagradza &mdash; <strong>nie klika</strong></div>
+        <div class="cell r-human">Czyta ranking preferencji i czas decyzji</div>
+        <div class="cell r-human">Zatwierdza, kogo poznać. <strong>To druga zgoda</strong></div>
+        <div class="cell r-human">Aranżuje prawdziwe spotkanie</div>
+
+        <div class="lane">Ekran</div>
+        <div class="cell r-screen">H4 Setup &middot; H3 Profile</div>
+        <div class="cell r-screen">D1&ndash;D5 w rękach psa</div>
+        <div class="cell r-screen">H1 Wynik sesji</div>
+        <div class="cell r-screen">H2 Kandydaci</div>
+        <div class="cell r-screen"><span class="none">—</span></div>
+
+        <div class="lane" style="border-bottom:none">Psy</div>
+        <div class="cell r-dog" style="border-bottom:none"><span class="none">—</span></div>
+        <div class="cell r-dog" style="border-bottom:none">Karmel albo Auri pracuje</div>
+        <div class="cell r-dog" style="border-bottom:none"><span class="none">—</span></div>
+        <div class="cell r-dog" style="border-bottom:none"><span class="none">—</span></div>
+        <div class="cell r-dog" style="border-bottom:none">Poznają się węchem</div>
+      </div>
+    </div>
+
+    <div class="closing">
+      <p class="mono">Double opt-in, przepisany na nasze strony</p>
+      <p>Krok 06 pierwszego journeya i krok 04 drugiego to dwie połowy tego samego mechanizmu. Swipe psa jest pierwszą zgodą, zatwierdzenie człowieka drugą — i dopiero razem otwierają drogę do spotkania. Wzorzec przyszedł z Tindera i Bumble, tylko strony się zmieniły.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Konstancja Tanjga</strong> &middot; 8 września 2026 &middot; Tinder for Chihuahua</p>
+    <p style="padding-top:10px">Journey wyprowadzony z fundamentu projektowego <a href="foundation.html">Nos zamiast palca</a>. Ekrany D1&ndash;D5 i H1&ndash;H4 w <a href="canvas/">design/canvas/</a>.</p>
+  </footer>
+
+</div>
