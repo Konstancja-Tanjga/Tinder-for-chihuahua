@@ -7,6 +7,8 @@ Specyfikacja z `design/tokens.json`: **752×660**, 3–5 s,
 
 | Klip | Zrodlo | Pochodzenie | Licencja | Zgodnosc | Waga |
 |---|---|---|---|---|---|
+| `auris.mp4` | `Auris.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 478 kB, crf 26 |
+| `aurora.mp4` | `Aurora.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 669 kB, crf 26 |
 | `baltic.mp4` | `Baltic.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 821 kB, crf 26 |
 | `ciastek.mp4` | `Ciastek.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 553 kB, crf 26 |
 | `fistaszka.mp4` | `Fistaszka.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 303 kB, crf 26 |
@@ -14,10 +16,16 @@ Specyfikacja z `design/tokens.json`: **752×660**, 3–5 s,
 | `lola.mp4` | `Lola.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 418 kB, crf 26 |
 | `mafinka.mp4` | `Mafinka.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 875 kB, crf 26 |
 | `misiek.mp4` | `Misiek.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 414 kB, crf 26 |
+| `okruszek.mp4` | `Okruszek.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 771 kB, crf 26 |
+| `orotava.mp4` | `Orotava.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 456 kB, crf 26 |
 | `pindzia.mp4` | `Pindzia.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 379 kB, crf 26 |
 | `skowronek.mp4` | `Skowronek.mp4` | wygenerowane AI (Grok), wlasnosc autorki | brak osob trzecich | zgodne | 677 kB, crf 29 |
 
 ## Uwagi per klip
+
+**Auris** (`auris.mp4`, krop 422×370×13×97, domyslny) — Kadrowanie domyslne (55% wysokosci, srodek w 42%). Nie mierzone z siatki -- warto obejrzec.
+
+**Aurora** (`aurora.mp4`, krop 280×246×196×65, domyslny) — Kadrowanie domyslne (55% wysokosci, srodek w 42%). Nie mierzone z siatki -- warto obejrzec.
 
 **Baltic** (`baltic.mp4`, krop 300×264×170×70, domyslny) — Kadrowanie domyslne (55% wysokosci, srodek w 42%). Nie mierzone z siatki -- warto obejrzec.
 
@@ -32,6 +40,10 @@ Specyfikacja z `design/tokens.json`: **752×660**, 3–5 s,
 **Mafinka** (`mafinka.mp4`, krop 300×263×87×61, mierzony) — Zrodlo bylo planem calej sylwetki w biegu; krop trafil w glowe.
 
 **Misiek** (`misiek.mp4`, krop 340×298×194×96, mierzony) — Glowa przesunieta w prawo w zrodle, krop przesuniety za nia.
+
+**Okruszek** (`okruszek.mp4`, krop 400×352×40×93, domyslny) — Kadrowanie domyslne (55% wysokosci, srodek w 42%). Nie mierzone z siatki -- warto obejrzec.
+
+**Orotava** (`orotava.mp4`, krop 280×246×196×65, domyslny) — Kadrowanie domyslne (55% wysokosci, srodek w 42%). Nie mierzone z siatki -- warto obejrzec.
 
 **Pindzia** (`pindzia.mp4`, krop 560×492×0×0, mierzony) — Pysk wypelnia kadr juz w zrodle, wiec bierzemy pelna szerokosc.
 
