@@ -12,8 +12,14 @@
 // Liczby i barwy pochodza z tokenow. Jedyny wyjatek to paleta chrome tego
 // dokumentu (tokensCss) -- nie jest wartoscia produktu i nie ma jej w tokenach.
 import { readFileSync, writeFileSync, renameSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
-const T = JSON.parse(readFileSync('design/tokens.json', 'utf8'));
+// Sciezki liczone od korzenia repo, nie od cwd -- audyt zauwazyl, ze generatory
+// dzialaly "przypadkiem, bo uruchamiane z roota". npm run dev w app/ to lamalo.
+const ROOT = fileURLToPath(new URL('../../', import.meta.url));
+const at = (p) => `${ROOT}${p}`;
+
+const T = JSON.parse(readFileSync(at('design/tokens.json'), 'utf8'));
 
 // --- WALIDACJA TOKENOW ---------------------------------------------------
 // Szesc niezmiennikow, ktore audyt schematu wskazal jako "spelnione, ale cicho
@@ -447,8 +453,8 @@ ${checklist}
 `;
 }
 
-emit('design/cig.html', buildDoc(S.en), { lang: 'en' });
-emit('design/cig.pl.html', buildDoc(S.pl), { lang: 'pl' });
+emit(at('design/cig.html'), buildDoc(S.en), { lang: 'en' });
+emit(at('design/cig.pl.html'), buildDoc(S.pl), { lang: 'pl' });
 
 /* ---------- panel 1800 px do use case (EN) ---------- */
 const L = S.en;
@@ -538,6 +544,6 @@ ${GROUPS.map((g) => `  <div class="g"><div class="h"><span class="mono">CIG-${g.
 <p class="credit"><span>${esc(T.meta.author)}</span><span>${T.meta.date.en}</span><span>${esc(T.meta.project)}</span></p>
 </body></html>
 `;
-emit('design/exports/cig-panel.html', panel, { lang: 'en' });
+emit(at('design/exports/cig-panel.html'), panel, { lang: 'en' });
 
 console.log(`CIG: ${flat.length} praw w ${GROUPS.length} grupach + ${PLATFORM.length} platformowych = ${ALL.length} w checkliscie; ${nDepartures} odstepstwa od HIG`);

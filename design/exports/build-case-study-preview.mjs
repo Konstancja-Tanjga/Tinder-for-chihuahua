@@ -9,10 +9,16 @@
 import { readFileSync, writeFileSync, renameSync, existsSync, mkdirSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
+import { fileURLToPath } from 'node:url';
+
+// Sciezki liczone od korzenia repo, nie od cwd -- audyt zauwazyl, ze generatory
+// dzialaly "przypadkiem, bo uruchamiane z roota". npm run dev w app/ to lamalo.
+const ROOT = fileURLToPath(new URL('../../', import.meta.url));
+const at = (p) => `${ROOT}${p}`;
 
 const AUTHOR = 'Konstancja Tanjga';
 const DATE = '8 września 2026';
-const WALL = 'docs/case-study/wall';
+const WALL = at('docs/case-study/wall');
 const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 const CHAPTERS = [
@@ -230,5 +236,5 @@ ${body}
 </div>
 `;
 
-emit('design/case-study-preview.html', html);
+emit(at('design/case-study-preview.html'), html);
 console.log(`case-study-preview.html — ${done} rozdzialow z panelem, ${todo} bez, ${(html.length / 1024 / 1024).toFixed(2)} MB`);

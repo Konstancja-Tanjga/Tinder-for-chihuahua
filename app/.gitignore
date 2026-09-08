@@ -1,0 +1,5 @@
+node_modules
+dist
+# generowane z design/tokens.json przez npm run tokens
+src/tokens.generated.ts
+src/tokens.generated.css
