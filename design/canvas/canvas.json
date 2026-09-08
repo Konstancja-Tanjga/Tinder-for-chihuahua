@@ -33,7 +33,7 @@
       "x": 0,
       "y": -300,
       "w": 980,
-      "text": "TINDER FOR CHIHUAHUA — kierunek plakatowy, dziewięć ekranów\n\nPRZEBIEG SESJI, ekran po ekranie:\nD1 wybór psa  →  D2 rozgrzewka  →  D3 karta kandydata  ⇄  D4 zapowiedź nagrody  →  D5 koniec sesji  →  H1 wynik  →  H2 kandydaci\n\nD3 i D4 to pętla: każde „tak” wchodzi w D4 i wraca do D3, aż talia się skończy. Poza ekranem zostają dwa kroki, których żaden artboard nie pokaże: smaczek z ręki po D4 i prawdziwe spotkanie po H2.\n\nGórny rząd to TRYB PSI, dolny TRYB LUDZKI. To ten sam design system w dwóch skalach — i właśnie na tym zestawieniu widać, czy założenie się trzyma.\n\nZmiana od poprzedniej wersji: żółty #FFE400 ustąpił acid-500 #D6F000, który leży bliżej 555 nm, czyli szczytu czułości psiego czopka L/M."
+      "text": "TINDER FOR CHIHUAHUA — kierunek plakatowy, dziewięć ekranów\n\nPRZEBIEG SESJI, ekran po ekranie:\nD1 wybór psa  →  D2 rozgrzewka  →  D3 karta kandydata  ⇄  D4 zapowiedź nagrody  →  D5 koniec sesji  →  H1 wynik  →  H2 kandydaci\n\nD3 i D4 to pętla: każde „tak” wchodzi w D4 i wraca do D3, aż talia się skończy. Żaden artboard nie pokaże dwóch kroków: smaczek z ręki po D4 i prawdziwe spotkanie po H2.\n\nGórny rząd to TRYB PSI, dolny TRYB LUDZKI. To ten sam design system w dwóch skalach — i właśnie na tym zestawieniu widać, czy założenie się trzyma.\n\nZmiana od poprzedniej wersji: żółty #FFE400 ustąpił acid-500 #D6F000, który leży bliżej 555 nm, czyli szczytu czułości psiego czopka L/M."
     },
     {
       "id": "tryb-psi",
@@ -41,7 +41,7 @@
       "x": -600,
       "y": 0,
       "w": 500,
-      "text": "TRYB PSI · D1–D5\n\nSkala ~4×, zero chrome, tylko blue i acid. Strefy decyzji na pełnej wysokości 926 px, strzałka pod ikoną zamiast celu do stuknięcia — psi input to swipe.\n\nD2 jest nowy i robi dwie rzeczy naraz: buduje skojarzenie nos → skutek i mierzy wielkość plamy kontaktu dla tego psa. Wynik tej kalibracji widać potem w H4.\n\nD5 celowo nie ma ani jednego piksela acid. Brak nagrody jest tu informacją: talia się skończyła, nie ma czego przesuwać."
+      "text": "TRYB PSI · D1–D5\n\nSkala ~4×, zero chrome, sygnał wyłącznie blue i acid (rampa neutralna obsługuje tekst, nigdy znaczenie). Strefy decyzji na pełnej wysokości 926 px, strzałka pod ikoną zamiast celu do stuknięcia — psi input to swipe.\n\nD2 jest nowy i robi dwie rzeczy naraz: buduje skojarzenie nos → skutek i mierzy wielkość plamy kontaktu dla tego psa. Wynik tej kalibracji widać potem w H4.\n\nD5 celowo nie ma ani jednego piksela acid. Brak nagrody jest tu informacją: talia się skończyła, nie ma czego przesuwać."
     },
     {
       "id": "tryb-ludzki",

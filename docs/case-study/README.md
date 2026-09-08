@@ -3,7 +3,7 @@
 > Aplikacja, której użytkownik jest dichromatem o ostrości wzroku 20/75, a jego
 > urządzeniem wejściowym jest mokry nos.
 
-Lokalna PWA na iPhone 13 Pro Max dla dwóch chihuahua: **Karmela** (5 lat) i **Auri**
+Lokalna PWA na iPhone 13 Pro Max dla dwóch chihuahua: **Karmel** (5 lat) i **Auri**
 (12 lat, jego matki). Szukają partnera, który nie jest członkiem rodziny.
 
 | | |
@@ -12,7 +12,7 @@ Lokalna PWA na iPhone 13 Pro Max dla dwóch chihuahua: **Karmela** (5 lat) i **A
 | **Zakres** | 9 ekranów w dwóch skalach, design system, protokół testu |
 | **Rama** | Speculative design — zakładamy, że psy obsłużą ekran |
 | **Stack** | PWA · Vite + React + TS · Tailwind · bez backendu |
-| **Status** | Design zamknięty, implementacja przed nami |
+| **Status** | Design zamknięty poza gestem wejścia w tryb ludzki |
 | **Data** | 8 września 2026 |
 
 ## Jak czytać ten katalog

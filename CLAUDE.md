@@ -1,6 +1,6 @@
 # Tinder for Chihuahua
 
-Lokalna PWA na iPhone 13 Pro Max dla dwóch chihuahua: **Karmela** (5 lat, samiec) i **Auri**
+Lokalna PWA na iPhone 13 Pro Max dla dwóch chihuahua: **Karmel** (5 lat, samiec) i **Auri**
 (12 lat, suczka, matka Karmela). Szukają partnera, który nie jest członkiem rodziny.
 
 Rama projektowa: **speculative design**. Zakładamy, że psy obsłużą ekran dotykowy i że to
@@ -34,6 +34,22 @@ Kierunek **plakatowy**. Dwie skale w jednym systemie.
 | `--acid` | `#D6F000` | sygnał, 555 nm |
 | `--white` | `#FFFFFF` | figura |
 
+Cztery wartości powyżej to **jedyne nośniki znaczenia**. Obok nich system ma rampę
+neutralną, która obsługuje wyłącznie tekst i kontury trybu ludzkiego i **nigdy nie niesie
+sygnału**:
+
+| Token | Wartość | Rola |
+|---|---|---|
+| `--grey-100` | `#C9CCD4` | tekst drugorzędny na czerni |
+| `--grey-300` | `#8A8F9A` | etykiety sekcji |
+| `--grey-500` | `#5A5F6A` | tekst wyciszony, stany nieaktywne |
+| `--grey-700` | `#3E434C` | kontur wyciszony |
+| `--grey-800` | `#2A2E36` | kontur, obramowanie |
+| `--grey-850` | `#22262E` | linie siatki i separatory |
+| `--grey-900` | `#0A0C10` | tło wstawki z kodem |
+
+Skala ludzka ma dodatkowy stopień `micro 10,5` na etykiety w arkuszu tokenów.
+
 Typografia: **Anton** (display) + **Barlow** (600/800). `radius: 0` wszędzie.
 Dog scale: display 112 / name 80 / value 44, cel min. 214×300 px, kant 6 px.
 Human scale: stat 26 / label 13 / meta 11, cel min. 44×44 px, kant 2–3 px.
@@ -44,8 +60,11 @@ Human scale: stat 26 / label 13 / meta 11, cel min. 44×44 px, kant 2–3 px.
 2. Nic czerwonego ani zielonego jako nośnik znaczenia. Tylko blue ↔ acid.
 3. Tekst jest dla człowieka. Psu znaczenie niesie kształt, ruch albo dźwięk.
 4. Wejście to plama, nie punkt. Liczy się każdy drag (próg 40 px). Zero tapów, zero long-pressów.
+   **Jedyny wyjątek: D2 rozgrzewka**, gdzie liczy się każde dotknięcie — bo to ono kalibruje
+   wielkość plamy kontaktu dla danego psa i buduje skojarzenie nos → skutek.
 5. Każde „tak" natychmiast coś robi. Żadnego stosu „może później".
-6. Talia się kończy. Sesja ma koniec, aplikacja nie ma feedu.
+6. Talia się kończy. **6–12 kart**, dobierane do psa; dolna granica to 6, bo rosnący czas
+   decyzji jest sygnałem do skrócenia talii. Sesja ma koniec, aplikacja nie ma feedu.
 7. Nagroda jest fizyczna. Ekran ją zapowiada, człowiek ją daje.
 8. Pies nie wchodzi w tryb ludzki — gest musi być niewykonalny nosem.
 
@@ -60,10 +79,16 @@ Tryb ludzki: `H1` wynik sesji · `H2` kandydaci · `H3` profile i rodzina · `H4
 ## Przed otwarciem PR — obowiązkowo
 
 **Zawsze uruchom `/review-pr` przed przygotowaniem lub otwarciem pull requesta.** Bez
-wyjątków, także przy jednoplikowych zmianach. Komenda i jej agenci leżą w `.claude/`.
+wyjątków, także przy zmianach jednoplikowych. Komenda i jej agenci leżą w `.claude/`.
 
-Kolejność: `/review-pr` → napraw, co znaleziono → dopiero potem `gh pr create`.
+Kolejność: `/review-pr` → napraw krytyczne i ważne → poświadcz sentinelem → PR.
 Do prototypów opartych na design systemie dodatkowo `/handoff-readiness`.
+
+Wymuszenie jest **na poziomie użytkownika**, nie projektu: `~/.claude/hooks/require-pr-review.sh`
+blokuje utworzenie PR-a do momentu, w którym powstanie plik sentinela kluczowany po sesji,
+repo i branchu. Projekt **celowo nie dubluje** tej bramki własnym hookiem — audyt wykazał, że
+duplikat był bezstanowy, więc obiecywał ścieżkę „zrób review i ponów", której nigdy nie mógł
+spełnić, a przy braku `jq` cicho przepuszczał wszystko.
 
 ## Dokumentacja i assety
 
@@ -77,4 +102,6 @@ opis use case — w tym repo, nie na stronie portfolio.
   do treści (bez pustego marginesu). Cover: `docs/case-study/00-cover.png`, 1920×1502
 - Walkthrough: `docs/case-study/README.md`
 
-**Stopka każdego dokumentu i panelu:** `Konstancja Tanjga · <data> · Tinder for Chihuahua`.
+**Stopka każdego dokumentu i panelu PNG:** `Konstancja Tanjga · <data> · Tinder for Chihuahua`.
+Artboardy `*.dc.html` są z tej reguły wyłączone — to fragmenty canvasu, nie samodzielne
+dokumenty, a stopka zabierałaby przestrzeń celu dotykowego.
