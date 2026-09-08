@@ -1,45 +1,45 @@
-// Generuje design/case-study-preview.html z manifestu rozdziałów poniżej.
-// Panele PNG są wklejane jako data: URI, bo strona publikowana jako artifact
-// nie może pobierać obrazów z zewnątrz.
+// Generuje design/case-study-preview.html z manifestu rozdzialow ponizej.
+// Panele PNG sa wklejane jako data: URI, bo strona publikowana jako artifact
+// nie moze pobierac obrazow z zewnatrz.
 // Dodanie nowego panelu = jedna linijka w tablicy CHAPTERS.
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+//
+// UWAGA: ten generator NIE czyta design/tokens.json. Nie ma tu zadnych wartosci
+// produktu -- tylko opisy rozdzialow. Gdyby kiedys pojawila sie liczba z produktu,
+// musi przyjsc z tokenow, nie z tego pliku.
+import { readFileSync, writeFileSync, renameSync, existsSync, mkdirSync, statSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 
 const AUTHOR = 'Konstancja Tanjga';
 const DATE = '8 września 2026';
 const WALL = 'docs/case-study/wall';
+const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 const CHAPTERS = [
-  { n: '00', slug: 'cover', title: 'Cover', img: null, file: 'docs/case-study/00-cover.png',
+  { n: '00', slug: 'cover', title: 'Cover', file: 'docs/case-study/00-cover.png',
     what: 'Okładka use case, 1920×1502.',
-    why: 'Pierwsze, co widzi ktoś, kto trafia na katalog — musi w jednym kadrze powiedzieć, czego dotyczy projekt.',
-    look: null },
+    why: 'Pierwsze, co widzi ktoś, kto trafia na katalog — musi w jednym kadrze powiedzieć, czego dotyczy projekt.' },
   { n: '01', slug: 'brief', title: 'Problem i brief',
     what: 'Obietnica dana dwóm psom i to, co z niej wynika jako zakres produktu.',
     why: 'Bez tego reszta wygląda na żart, a nie na projekt z twardymi ograniczeniami.',
     look: 'Na rozstrzygnięcie, że v1 jest jednostronne i lokalne — to omija problem cold startu, który zabił konkurencję.' },
-  { n: '02', slug: 'research', title: 'Research: psi odbiorca',
-    what: 'Dziesięć ustaleń z literatury, każde sparowane z wymaganiem projektowym.',
+  { n: '02', slug: 'research', title: 'Research: psi odbiorca', img: 'ch02-research.png',
+    what: 'Dziesięć ustaleń z literatury, każde sparowane z wymaganiem projektowym. Prawa kolumna to nie komentarz, a specyfikacja.',
     why: 'Użytkownika nie da się zapytać, więc wymagania muszą przyjść z badań, nie z intuicji.',
-    look: '429 i 555 nm dają paletę, 20/75 daje skalę ×4, 70–80 Hz czyni 120 Hz wymaganiem sprzętowym.' },
-  { n: '03', slug: 'persony', title: 'Persony',
+    look: 'Na ustalenie czwarte: psi input z natury przypomina przesunięcie, nie stuknięcie — gest Tindera jest przypadkiem właściwym gestem. I na notę u dołu, gdzie jedno twierdzenie jest wprost oznaczone jako niepodparte źródłem.' },
+  { n: '03', slug: 'personas', title: 'Persony', img: 'ch03-personas.png',
     what: 'Dwie persony psie opisane profilem sensorycznym i motoryką, plus persona ludzka opisana rolą.',
     why: 'Karmel i Auri mają tę samą bazę dichromata, ale nie ten sam próg kontrastu.',
-    look: 'Na wniosek: projektujemy dla Auri, testujemy Karmelem.' },
-  { n: '04', slug: 'journey-sesja-psa', title: 'User journey: sesja psa',
-    img: 'ch04-journey-sesja-psa.png',
-    link: 'https://claude.ai/code/artifact/1cf92af1-fe31-4968-9f07-183df119764e',
+    look: 'Na dwa wnioski u dołu: projektujemy dla Auri i testujemy Karmelem, oraz to, że są to dwa interfejsy, nie jeden.' },
+  { n: '04', slug: 'journey-sesja-psa', title: 'User journey: sesja psa', img: 'ch04-journey-sesja-psa.png',
     what: 'Jedenaście kroków sesji w swimlane, z oznaczeniem, gdzie każdy się dzieje.',
     why: 'Nagroda jest fizyczna, więc pętla nie domyka się na ekranie — a to zmienia architekturę produktu, nie tylko copy.',
-    look: 'Na dwie kreski w wierszu „Ekran”. Druga, w kroku 08, to moment nagrody — najważniejszy krok pętli dzieje się wtedy, gdy aplikacja nie robi nic.' },
-  { n: '05', slug: 'journey-swatka', title: 'User journey: swatka',
-    img: 'ch05-journey-swatka.png',
-    link: 'https://claude.ai/code/artifact/1cf92af1-fe31-4968-9f07-183df119764e',
+    look: 'Na wiersz „Ekran”: cztery kroki dzieją się w pokoju, ale ekran milczy tylko w dwóch. Drugi z nich to moment nagrody — najważniejszy krok pętli dzieje się wtedy, gdy aplikacja nie robi nic.' },
+  { n: '05', slug: 'journey-swatka', title: 'User journey: swatka', img: 'ch05-journey-swatka.png',
     what: 'Pięć kroków journeya człowieka, od setupu do spotkania w parku.',
     why: 'Pokazuje, że wyjściem aplikacji nie jest match, a ranking preferencji.',
     look: 'Na krok 04 — zatwierdzenie człowieka jest drugą połową double opt-in przepisanego z Tindera i Bumble, tylko strony się zmieniły.' },
-  { n: '06', slug: 'blueprint', title: 'Service blueprint',
-    img: 'ch06-blueprint.png',
-    link: 'https://claude.ai/code/artifact/de345a40-9734-4477-9813-4b214a3daf98',
+  { n: '06', slug: 'blueprint', title: 'Service blueprint', img: 'ch06-blueprint.png',
     what: 'Front-stage kontra back-stage, z linią interakcji, linią widoczności i warstwą ryzyk.',
     why: 'Journey mówi, co się dzieje. Blueprint mówi, co musi zadziałać pod spodem, żeby to się stało.',
     look: 'Na wiersz ryzyk — mokry nos rejestrujący trzy przesunięcia zamiast jednego jest powodem, dla którego cooldown wynosi 1500 ms, a cofnięcie jest funkcją rdzeniową.' },
@@ -51,31 +51,82 @@ const CHAPTERS = [
     what: 'Trzy kierunki tych samych ekranów, z argumentem za i przeciw przy każdym.',
     why: 'Kierunek trzeba wybrać przed budową design systemu, a nie po.',
     look: 'Na to, że wybrany kierunek też ma wadę i jest ona nazwana wprost.' },
-  { n: '09', slug: 'cig', title: 'Canine Interface Guidelines',
-    img: 'ch09-cig.png', link: 'https://claude.ai/code/artifact/31124b22-9b81-4af4-87d4-4b39cd852c04',
-    what: 'Dwadzieścia dziewięć numerowanych praw interfejsu dla psa w sześciu grupach, plus warstwa platformowa PWA na iOS i checklista zgodności. Generowane z design/tokens.json, więc ani jedna liczba nie jest wpisana ręcznie.',
-    why: 'Human Interface Guidelines opisują człowieka: palec, 44 pt celu, czerwień jako ostrzeżenie, tekst jako treść. Każde z tych założeń pęka na dichromacie o ostrości 20/75, którego urządzeniem wejściowym jest nos — więc w trybie psim HIG nie są niewystarczające, są szkodliwe. Własne wytyczne to konieczność, nie ambicja.',
-    look: 'Na tabelę podziału odpowiedzialności: CIG rządzi trybem psim, HIG ludzkim, a dla H1–H4 nie przepisujemy HIG — odsyłamy i notujemy trzy odstępstwa. I na warstwę platformową: bez touch-action: none swipe nigdy nie dotrze do aplikacji.' },
-  { n: '10', slug: 'tryb-psi', title: 'Ekrany trybu psiego',
-    what: 'D1–D5 w skali ×4, bez chrome.',
+  { n: '09', slug: 'cig', title: 'Canine Interface Guidelines', img: 'ch09-cig.png',
+    what: 'Autorskie wytyczne interfejsu dla psa — prawa numerowane, każde z uzasadnieniem i sprawdzeniem, plus warstwa platformowa PWA na iOS i checklista zgodności. Dokument jest po angielsku, wersja robocza po polsku leży obok. Oba wychodzą z jednego generatora i z jednego pliku tokenów.',
+    why: 'Human Interface Guidelines opisują człowieka: palec, cel 44 pt, czerwień jako ostrzeżenie, tekst jako treść. Każde z tych założeń pęka na dichromacie, którego urządzeniem wejściowym jest nos — więc w trybie psim HIG nie są niewystarczające, są szkodliwe.',
+    look: 'Na tabelę podziału odpowiedzialności: CIG rządzi trybem psim, HIG ludzkim, a dla trybu ludzkiego nie przepisujemy HIG — odsyłamy i notujemy tylko te miejsca, w których się rozchodzimy. I na warstwę platformową: bez touch-action swipe nigdy nie dotrze do aplikacji.' },
+  { n: '10', slug: 'dog-mode', title: 'Ekrany trybu psiego', img: 'ch10-dog-mode.png',
+    what: 'Pięć ekranów D1–D5 w skali czterokrotnej, bez chrome, wyłącznie w dwóch barwach sygnałowych.',
     why: 'To jedyna część, którą widzi pies.',
-    look: 'Na strzałkę pod ikoną zamiast celu do stuknięcia, i na D5, w którym nie ma ani jednego piksela acid.' },
-  { n: '11', slug: 'tryb-ludzki', title: 'Ekrany trybu ludzkiego',
-    what: 'H1–H4 w normalnej gęstości.',
+    look: 'Na pasek u góry karty kandydata — jest celowo w skali ludzkiej, bo cofnięcie i licznik talii należą do człowieka obok. I na D5, gdzie brak barwy nagrody jest informacją.' },
+  { n: '11', slug: 'human-mode', title: 'Ekrany trybu ludzkiego', img: 'ch11-human-mode.png',
+    what: 'Cztery ekrany H1–H4 w normalnej gęstości: ranking preferencji, kandydaci, profile z filtrem rodziny, setup sesji.',
     why: 'Dopiero zestawienie obu trybów pokazuje, czy system dwóch skal się trzyma.',
-    look: 'Na H1 — ranking i wykres czasu decyzji. Rosnący czas to spadające zainteresowanie.' },
+    look: 'Na wykres w H1. Rosnący czas decyzji to nie metryka wydajności, a pies tracący zainteresowanie — i właśnie ten sygnał skraca następną talię.' },
   { n: '12', slug: 'testy', title: 'Plan testów z psami',
-    what: 'Co mierzymy, ile sesji, kiedy uznajemy, że działa.',
+    what: 'Co mierzymy, ile sesji, kiedy uznajemy, że działa. Plus drabina testów, w której pies wchodzi dopiero na czwartym szczeblu.',
     why: 'Bez tego „projektujemy dla Auri” jest hasłem, nie metodą.',
-    look: 'Na metryki: czy dotyka, jak dotyka, po ilu kartach się nudzi, czy wraca następnego dnia.' },
+    look: 'Na to, czego nie da się sprawdzić na laptopie: tłumienie zaznaczania i lupy, odblokowanie dźwięku, i realna wielkość plamy kontaktu.' },
 ];
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+// Audyt wykazal, ze existsSync przepuszczal plik zerobajtowy i plik ze smieciami,
+// publikujac zepsuty obrazek i chip "gotowe" z kodem wyjscia 0. Sprawdzamy magic
+// bytes i minimalny rozmiar.
+// Panele maja 1800 px (format sciany portfolio), ale na tej stronie wyswietlaja
+// sie w ~1030 px. Wklejanie pelnych dawalo strone 5,15 MB, rosnaca o ~1/3 MB na
+// rozdzial. Skalujemy do PREVIEW_W przez sips i cache'ujemy w tmp -- repo zostaje
+// czyste, a strona lekka. Bez sips (nie-macOS) build spada na pelny panel.
+const PREVIEW_W = 900;
+const CACHE = `${tmpdir()}/tfc-wall-preview`;
+function downscaled(src) {
+  try {
+    mkdirSync(CACHE, { recursive: true });
+    const out = `${CACHE}/${PREVIEW_W}-${src.split('/').pop()}`;
+    const fresh = existsSync(out) && statSync(out).mtimeMs >= statSync(src).mtimeMs;
+    if (!fresh) execFileSync('sips', ['-Z', String(PREVIEW_W), src, '--out', out], { stdio: 'ignore' });
+    return readFileSync(out);
+  } catch {
+    return null;
+  }
+}
+
 function dataUri(name) {
   const p = `${WALL}/${name}`;
   if (!existsSync(p)) return null;
-  return `data:image/png;base64,${readFileSync(p).toString('base64')}`;
+  const full = readFileSync(p);
+  if (full.length < 1024) throw new Error(`panel za maly (${full.length} B), prawdopodobnie uciety render: ${p}`);
+  if (!full.subarray(0, 8).equals(PNG_MAGIC)) throw new Error(`to nie jest PNG: ${p}`);
+  const buf = downscaled(p) ?? full;
+  return `data:image/png;base64,${buf.toString('base64')}`;
+}
+
+// Audyt wykazal tez, ze brak pola "what" w rozdziale znikal bez sladu -- strona
+// obiecuje, ze kazdy rozdzial mowi to samo trojako, wiec brak pola to blad.
+function validate() {
+  const e = [];
+  const seen = new Set();
+  for (const c of CHAPTERS) {
+    if (seen.has(c.n)) e.push(`zduplikowany numer rozdzialu ${c.n}`);
+    seen.add(c.n);
+    if (!c.title) e.push(`rozdzial ${c.n} bez tytulu`);
+    if (!c.what) e.push(`rozdzial ${c.n} bez pola "what"`);
+    if (!c.why) e.push(`rozdzial ${c.n} bez pola "why"`);
+    if (c.n !== '00' && !c.look) e.push(`rozdzial ${c.n} bez pola "look"`);
+  }
+  if (e.length) { console.error('\nMANIFEST NIEPOPRAWNY:'); e.forEach((x) => console.error(`   - ${x}`)); console.error(''); process.exit(1); }
+}
+validate();
+
+function emit(path, html) {
+  const bad = [];
+  if (/undefined/.test(html)) bad.push('slowo "undefined" w wyjsciu');
+  if (/\[object Object\]/.test(html)) bad.push('"[object Object]" w wyjsciu');
+  if (bad.length) { console.error(`\nBUILD ZATRZYMANY -- ${path}`); bad.forEach((b) => console.error(`   - ${b}`)); process.exit(1); }
+  const tmp = `${path}.tmp`;
+  writeFileSync(tmp, html);
+  renameSync(tmp, path);
 }
 
 let done = 0, todo = 0;
@@ -83,17 +134,11 @@ const body = CHAPTERS.map((c) => {
   const uri = c.img ? dataUri(c.img) : null;
   const ready = Boolean(uri);
   if (c.n !== '00') { ready ? done++ : todo++; }
-  const chip = ready
-    ? '<span class="chip ok">gotowe</span>'
-    : '<span class="chip todo">do zrobienia</span>';
+  const chip = ready ? '<span class="chip ok">gotowe</span>' : '<span class="chip todo">do zrobienia</span>';
   const figure = ready
-    ? `<figure><img src="${uri}" alt="${esc(c.title)}"><figcaption>${esc(`wall/${c.img}`)}${c.link ? ` &middot; <a href="${c.link}">wersja interaktywna</a>` : ''}</figcaption></figure>`
+    ? `<figure><img src="${uri}" alt="${esc(c.title)}"><figcaption>${esc(`wall/${c.img}`)}</figcaption></figure>`
     : `<div class="ph"><span class="mono">${esc(c.file ?? `wall/ch${c.n}-${c.slug}.png`)}</span><span>panel jeszcze nie wyrenderowany</span></div>`;
-  const rows = [
-    ['Co to jest', c.what],
-    ['Dlaczego powstało', c.why],
-    ['Na co patrzeć', c.look],
-  ].filter(([, v]) => v);
+  const rows = [['Co to jest', c.what], ['Dlaczego powstało', c.why], ['Na co patrzeć', c.look]].filter(([, v]) => v);
   return `  <article class="ch${ready ? '' : ' pending'}">
     <header>
       <span class="n mono">${c.n}</span>
@@ -121,8 +166,6 @@ const html = `<title>Dwanaście rozdziałów</title>
   h1{font-size:clamp(36px,5.4vw,56px);line-height:1.03}
   h2{font-size:23px;line-height:1.15}
   p{margin:0}
-  a{color:var(--blue);text-underline-offset:2px}a:hover{color:var(--ink)}
-  a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
   .mono{font-family:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;letter-spacing:0.09em;text-transform:uppercase;font-weight:600}
   header.top{display:flex;flex-direction:column;gap:18px;padding-bottom:30px;border-bottom:2px solid var(--ink)}
   .meta{display:flex;flex-wrap:wrap;gap:8px 24px;color:var(--muted)}
@@ -169,7 +212,7 @@ const html = `<title>Dwanaście rozdziałów</title>
     <div class="fact"><span class="mono">Rola</span><b>Lead designer</b></div>
     <div class="fact"><span class="mono">Zakres</span><b>9 ekranów, 2 skale</b></div>
     <div class="fact"><span class="mono">Rozdziały gotowe</span><b>${done} z ${done + todo}</b></div>
-    <div class="fact"><span class="mono">Status</span><b>Design zamknięty</b></div>
+    <div class="fact"><span class="mono">Status</span><b>Design zamknięty poza gestem</b></div>
   </div>
 
   <div class="howto">
@@ -187,5 +230,5 @@ ${body}
 </div>
 `;
 
-writeFileSync('design/case-study-preview.html', html);
-console.log(`case-study-preview.html — ${done} rozdziałów z panelem, ${todo} bez, ${(html.length / 1024 / 1024).toFixed(2)} MB`);
+emit('design/case-study-preview.html', html);
+console.log(`case-study-preview.html — ${done} rozdzialow z panelem, ${todo} bez, ${(html.length / 1024 / 1024).toFixed(2)} MB`);

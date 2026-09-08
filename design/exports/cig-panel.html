@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Newsreader:ital,wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
   :root{--ground:#EFF1EC;--panel:#E4E8DE;--tint:#E0E5F5;--warm:#EFE9D6;--ink:#10131A;--muted:#58606E;--faint:#97A08F;--blue:#1B34D8;--acid:#7E8A00;--rule:#CFD5C8;--rule-strong:#A9B2A0}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0D1014;--panel:#171B21;--tint:#171C2E;--warm:#1E1B14;--ink:#EDEFEA;--muted:#9AA3B1;--faint:#5A6470;--blue:#7E92FF;--acid:#C3D122;--rule:#242A33;--rule-strong:#3A424E}}
+  :root[data-theme="dark"]{--ground:#0D1014;--panel:#171B21;--tint:#171C2E;--warm:#1E1B14;--ink:#EDEFEA;--muted:#9AA3B1;--faint:#5A6470;--blue:#7E92FF;--acid:#C3D122;--rule:#242A33;--rule-strong:#3A424E}
   *{box-sizing:border-box}
   body{margin:0;width:1800px;padding:44px 40px;background:var(--ground);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55}
   h1{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:44px;line-height:1.03;margin:0 0 10px;letter-spacing:-0.015em}
@@ -44,7 +46,7 @@
 <div class="top">
   <div>
     <h1>Canine Interface Guidelines</h1>
-    <p class="lede">Human Interface Guidelines describe a human: a fingertip, a 44 pt target, red as warning, text as content. Every one of those assumptions breaks on our user, so in dog mode HIG are not merely insufficient — they are <strong>harmful</strong>. CIG states the laws for the dog; for the human we defer to HIG and record only where we depart from it.</p>
+    <p class="lede">Human Interface Guidelines describe a human: a fingertip, a 44 pt target, red as warning, text as content. Every one of those assumptions breaks on our user, so in dog mode HIG are not merely insufficient — they are <strong>harmful</strong>. CIG states the laws for the dog; for the human we defer to HIG and record only the 2 places where we depart from it.</p>
     <div class="sw">
       <div><i style="background:#000000;box-shadow:inset 0 0 0 1px var(--rule-strong)"></i><span><b>ink</b>#000000 &middot; ground</span></div>
       <div><i style="background:#0033FF"></i><span><b>blue</b>#0033FF &middot; signal, near 429 nm</span></div>
@@ -54,9 +56,9 @@
   </div>
   <div class="thesis">
     <p class="mono">A single source of truth</p>
-    <p>Every number on this page comes from <code>design/tokens.json</code> and is interpolated at build time. Not one value is typed by hand.</p>
-    <p>A review audit found the input cooldown restated in seven files and the palette hardcoded across ten artboards. This file exists so that cannot happen again.</p>
-    <p class="mono" style="color:var(--acid);padding-top:2px">29 laws &middot; 6 groups &middot; every one testable</p>
+    <p>Every number and colour in a law comes from <code>design/tokens.json</code> and is interpolated at build time. The one exception is this document's own chrome palette, which is not a product value and is not in the tokens.</p>
+    <p>A review audit found the input cooldown restated in seven files and the palette hardcoded across ten artboards. The artboards are not fixed yet — this file exists so the restating stops spreading, and the build now refuses to publish a document containing an unresolved token or Polish text in the English version.</p>
+    <p class="mono" style="color:var(--acid);padding-top:2px">34 laws &middot; 6 groups &middot; every one testable</p>
   </div>
 </div>
 
@@ -64,23 +66,23 @@
 <table>
   <thead><tr><th>Concern</th><th>Dog mode · D1–D5</th><th>Human mode · H1–H4</th></tr></thead>
   <tbody>
-    <tr><td>Minimum target</td><td><b>CIG-2.3</b> — 214×300 px</td><td>HIG — 44×44 px, adopted unchanged</td></tr>
+    <tr><td>Minimum target</td><td><b>CIG-2.3</b> — 214×300 px</td><td>HIG — 44×44 pt, adopted unchanged</td></tr>
     <tr><td>Semantic colour</td><td><b>CIG-2.2</b> — red and green forbidden as encodings</td><td class="dev"><b>Departure.</b> HIG permits destructive red; we stay on blue ↔ acid so both modes read as one product</td></tr>
     <tr><td>Typography</td><td><b>CIG-2.3</b> — display 112 px</td><td class="dev"><b>Departure.</b> HIG assumes SF Pro and Dynamic Type; we use Anton and Barlow, because identity has to span both modes</td></tr>
-    <tr><td>Gestures</td><td><b>CIG-3.1</b> — drag only</td><td>HIG — taps and standard gestures, adopted unchanged</td></tr>
+    <tr><td>Gestures</td><td><b>CIG-3.1</b> — drag only, one exception (CIG-3.6)</td><td>HIG — taps and standard gestures, adopted unchanged</td></tr>
     <tr><td>Safe areas</td><td><b>CIG-7.3</b> — 47 px and 34 px</td><td>HIG — identical</td></tr>
     <tr><td>Reduced motion</td><td><b>CIG-4.3</b> — not honoured; motion carries information</td><td>HIG — <code>prefers-reduced-motion</code> honoured</td></tr>
   </tbody>
 </table>
 
-<h2>Six groups of laws</h2>
+<h2>6 groups of laws</h2>
 <div class="groups">
-  <div class="g"><div class="h"><span class="mono">CIG-1</span><strong>The user</strong><em>6 laws</em></div><p>Dichromat: cones peaking at <b>429–435 nm</b> and <b>555 nm</b>. Red and green are indistinguishable.</p><p class="why">This is not a poorer palette. It is a differently shaped colour space.</p></div>
-  <div class="g"><div class="h"><span class="mono">CIG-2</span><strong>Perception</strong><em>6 laws</em></div><p>Meaning is carried <b>only by the blue ↔ acid opposition</b> (<code>#0033FF</code> ↔ <code>#D6F000</code>).</p><p class="why">Both hues sit near the peaks of canine cone sensitivity.</p></div>
-  <div class="g"><div class="h"><span class="mono">CIG-3</span><strong>Input</strong><em>6 laws</em></div><p>The interaction primitive is a <b>drag</b>. Forbidden: tap, long-press, double-tap, pinch, edge swipe.</p><p class="why">Canine screen input naturally resembles a swipe and a drag. The Tinder gesture is, by coincidence, the right gesture.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-1</span><strong>The user</strong><em>6 laws</em></div><p>Dichromat: cones peaking at <b>429–435 nm</b> and <b>555 nm</b>. red and green are indistinguishable.</p><p class="why">This is not a poorer palette. It is a differently shaped colour space.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-2</span><strong>Perception</strong><em>6 laws</em></div><p>Meaning is carried <b>only by the blue ↔ acid opposition</b> (<code>#0033FF</code> ↔ <code>#D6F000</code>). ink and white are figure and ground, not meanings.</p><p class="why">Both hues sit near the peaks of canine cone sensitivity.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-3</span><strong>Input</strong><em>6 laws</em></div><p>The interaction primitive is a <b>drag</b>. Forbidden: tap, long-press, double-tap, pinch, edge swipe. One exception, CIG-3.6.</p><p class="why">Canine screen input naturally resembles a swipe and a drag. The Tinder gesture is, by coincidence, the right gesture.</p></div>
   <div class="g"><div class="h"><span class="mono">CIG-4</span><strong>Feedback</strong><em>5 laws</em></div><p>Every "yes" <b>does something immediately</b>. No "maybe later" pile.</p><p class="why">The lesson from the graveyard of swipe-for-jobs apps: a swipe that only defers an item saves nobody anything.</p></div>
   <div class="g"><div class="h"><span class="mono">CIG-5</span><strong>Session</strong><em>3 laws</em></div><p>A deck holds <b>6–12 cards</b> and it ends.</p><p class="why">The floor is 6 because a rising decision time is the signal to shorten the deck.</p></div>
-  <div class="g"><div class="h"><span class="mono">CIG-6</span><strong>The mode boundary</strong><em>3 laws</em></div><p><b>The dog does not enter human mode.</b> The transition gesture must be impossible for a nose — it needs two simultaneous contact points, or a sequence.</p><p class="why">Human mode holds data, profile editing and meeting approvals. A nose must not land there by accident.</p></div>
+  <div class="g"><div class="h"><span class="mono">CIG-6</span><strong>The mode boundary</strong><em>3 laws</em></div><p><b>The dog does not enter human mode.</b> The transition gesture must be impossible for a nose — two simultaneous contact points, or a sequence.</p><p class="why">Human mode holds data, profile editing and meeting approvals. A nose must not land there by accident.</p></div>
 </div>
 
 <div class="plat">
@@ -94,10 +96,10 @@ user-select: none;
 -webkit-tap-highlight-color: transparent;</pre>
   </div>
   <div style="display:flex;flex-direction:column;gap:9px">
-    <p style="font-size:15.5px;line-height:1.5"><strong>Without the first three rules the input law is unsatisfiable.</strong> A nose dragged across the glass selects text, raises the magnifier loupe and scrolls the page. This is not an implementation detail — it is the precondition for a swipe reaching the app at all.</p>
-    <p style="font-size:14.5px;line-height:1.45;color:var(--muted)">Two further iOS constraints shape the flow rather than the code: audio needs a user gesture, so <strong>D2 warm-up</strong> must unlock the AudioContext or the bark on D4 will not play. And video only autoplays as <code>muted</code> <code>playsinline</code> <code>loop</code> <code>autoplay</code>, so a profile clip's own soundtrack is irrelevant.</p>
+    <p style="font-size:15.5px;line-height:1.5"><strong>Without the first 3 rules the input law is unsatisfiable.</strong> Without <code>touch-action</code>, <code>overscroll-behavior</code>, <code>-webkit-user-select</code> a nose dragged across the glass selects text, raises the magnifier loupe and scrolls the page. This is not an implementation detail — it is the precondition for a swipe reaching the app at all.</p>
+    <p style="font-size:14.5px;line-height:1.45;color:var(--muted)">Two further iOS constraints shape the flow rather than the code: iOS will not play sound without a user gesture, and the dog's first touch is the only gesture before the decision loop, so <strong>D2 warm-up</strong> must unlock the AudioContext. And iOS autoplays video only when muted and inline, so the clip's own audio track is irrelevant — sound plays separately from the unlocked AudioContext.</p>
   </div>
 </div>
 
-<p class="credit"><span>Konstancja Tanjga</span><span>8 września 2026</span><span>Tinder for Chihuahua</span></p>
+<p class="credit"><span>Konstancja Tanjga</span><span>8 September 2026</span><span>Tinder for Chihuahua</span></p>
 </body></html>

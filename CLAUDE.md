@@ -25,7 +25,9 @@ Wyjściem produktu jest ranking preferencji, nie „match".
 
 ## Design system
 
-**`design/tokens.json` jest jedynym źródłem prawdy dla liczb i barw.** Dokument CIG, panel
+**`design/tokens.json` jest jedynym źródłem prawdy dla liczb i barw.** Tabele poniżej to
+**ręcznie utrzymywane lustro** tego pliku, dla czytelności — przy rozbieżności wygrywa
+`tokens.json`. Dokument CIG, panel
 do use case, konfiguracja Tailwinda i Storybook czytają stąd. Nie wpisujemy wartości na
 sztywno — audyt wykazał, że cooldown żył w siedmiu plikach, a paleta w dziesięciu
 artboardach. Zmiana wartości to jedna edycja plus `node design/exports/build-cig.mjs`.
@@ -33,8 +35,8 @@ artboardach. Zmiana wartości to jedna edycja plus `node design/exports/build-ci
 Wytyczne interfejsu: **CIG, Canine Interface Guidelines** — `design/cig.html`, 29 praw w
 sześciu grupach plus warstwa platformowa i checklista zgodności. Generowane z tokenów.
 Podział odpowiedzialności: **CIG rządzi trybem psim D1–D5, HIG trybem ludzkim H1–H4.**
-Dla H1–H4 nie przepisujemy HIG — odsyłamy i notujemy tylko odstępstwa (kolor semantyczny,
-typografia, redukcja ruchu).
+Dla H1–H4 nie przepisujemy HIG — odsyłamy i notujemy tylko odstępstwa. Ich liczbę
+wylicza generator z tablicy `SPLIT`; nie wpisujemy jej w prozę, bo raz się rozjechała.
 
 
 Kierunek **plakatowy**. Dwie skale w jednym systemie.
@@ -109,6 +111,9 @@ opis use case — w tym repo, nie na stronie portfolio.
 
 - Źródła paneli: `design/exports/*.html`, albo dokument z `design/` renderowany bezpośrednio,
   jeśli jest theme-aware — headless Chrome domyślnie renderuje jasny motyw
+- Z `tokens.json` czytają: `build-cig.mjs` i `build-screen-panels.mjs`. **Nie czyta**
+  `build-case-study-preview.mjs` (nie ma tam wartości produktu) ani artboardy w
+  `design/canvas/` — tam paleta jest wpisana na sztywno i to jest znany, nienaprawiony dług
 - Render: headless Chrome `--force-device-scale-factor=2` → `sips -Z 1800`
 - Panele: `docs/case-study/wall/chNN-<slug>.png`, szerokość **1800 px**, wysokość dociągnięta
   do treści (bez pustego marginesu). Cover: `docs/case-study/00-cover.png`, 1920×1502
