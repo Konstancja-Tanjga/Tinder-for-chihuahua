@@ -1,0 +1,64 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Plakatowy — pełny set" },
+    { "id": "page-2", "name": "Kierunki (archiwum)" }
+  ],
+  "artboards": [
+    { "file": "PlakatWybor.dc.html",     "page": "page-1", "title": "D1 · Wybór psa",          "x": 0,    "y": 0,    "w": 428, "h": 926 },
+    { "file": "PlakatRozgrzewka.dc.html","page": "page-1", "title": "D2 · Rozgrzewka",          "x": 508,  "y": 0,    "w": 428, "h": 926 },
+    { "file": "Main.dc.html",            "page": "page-1", "title": "D3 · Karta kandydata",     "x": 1016, "y": 0,    "w": 428, "h": 926 },
+    { "file": "PlakatNagroda.dc.html",   "page": "page-1", "title": "D4 · Zapowiedź nagrody",   "x": 1524, "y": 0,    "w": 428, "h": 926 },
+    { "file": "PlakatKoniec.dc.html",    "page": "page-1", "title": "D5 · Koniec sesji",        "x": 2032, "y": 0,    "w": 428, "h": 926 },
+
+    { "file": "PlakatWynik.dc.html",     "page": "page-1", "title": "H1 · Wynik sesji",         "x": 0,    "y": 1046, "w": 428, "h": 926 },
+    { "file": "PlakatKandydaci.dc.html", "page": "page-1", "title": "H2 · Kandydaci",           "x": 508,  "y": 1046, "w": 428, "h": 926 },
+    { "file": "PlakatProfile.dc.html",   "page": "page-1", "title": "H3 · Profile i rodzina",   "x": 1016, "y": 1046, "w": 428, "h": 926 },
+    { "file": "PlakatSetup.dc.html",     "page": "page-1", "title": "H4 · Setup sesji",         "x": 1524, "y": 1046, "w": 428, "h": 926 },
+    { "file": "PlakatTokeny.dc.html",    "page": "page-1", "title": "Tokeny",                   "x": 2032, "y": 1046, "w": 640, "h": 926 },
+
+    { "file": "MiekkiWybor.dc.html",     "page": "page-2", "title": "A · Wybór psa",            "x": 0,    "y": 0,    "w": 428, "h": 926 },
+    { "file": "MiekkiKarta.dc.html",     "page": "page-2", "title": "A · Karta kandydata",      "x": 508,  "y": 0,    "w": 428, "h": 926 },
+    { "file": "MiekkiNagroda.dc.html",   "page": "page-2", "title": "A · Nagroda",              "x": 1016, "y": 0,    "w": 428, "h": 926 },
+    { "file": "MiekkiTokeny.dc.html",    "page": "page-2", "title": "A · Tokeny",               "x": 1524, "y": 0,    "w": 640, "h": 926 },
+
+    { "file": "GeoWybor.dc.html",        "page": "page-2", "title": "B · Wybór psa",            "x": 0,    "y": 1046, "w": 428, "h": 926 },
+    { "file": "GeoKarta.dc.html",        "page": "page-2", "title": "B · Karta kandydata",      "x": 508,  "y": 1046, "w": 428, "h": 926 },
+    { "file": "GeoNagroda.dc.html",      "page": "page-2", "title": "B · Nagroda",              "x": 1016, "y": 1046, "w": 428, "h": 926 },
+    { "file": "GeoTokeny.dc.html",       "page": "page-2", "title": "B · Tokeny",               "x": 1524, "y": 1046, "w": 640, "h": 926 }
+  ],
+  "annotations": [
+    {
+      "id": "flow",
+      "page": "page-1",
+      "x": 0,
+      "y": -300,
+      "w": 980,
+      "text": "TINDER FOR CHIHUAHUA — kierunek plakatowy, dziewięć ekranów\n\nPRZEBIEG SESJI, ekran po ekranie:\nD1 wybór psa  →  D2 rozgrzewka  →  D3 karta kandydata  ⇄  D4 zapowiedź nagrody  →  D5 koniec sesji  →  H1 wynik  →  H2 kandydaci\n\nD3 i D4 to pętla: każde „tak” wchodzi w D4 i wraca do D3, aż talia się skończy. Żaden artboard nie pokaże dwóch kroków: smaczek z ręki po D4 i prawdziwe spotkanie po H2.\n\nGórny rząd to TRYB PSI, dolny TRYB LUDZKI. To ten sam design system w dwóch skalach — i właśnie na tym zestawieniu widać, czy założenie się trzyma.\n\nZmiana od poprzedniej wersji: żółty #FFE400 ustąpił acid-500 #D6F000, który leży bliżej 555 nm, czyli szczytu czułości psiego czopka L/M."
+    },
+    {
+      "id": "tryb-psi",
+      "page": "page-1",
+      "x": -600,
+      "y": 0,
+      "w": 500,
+      "text": "TRYB PSI · D1–D5\n\nSkala ~4×, zero chrome, sygnał wyłącznie blue i acid (rampa neutralna obsługuje tekst, nigdy znaczenie). Strefy decyzji na pełnej wysokości 926 px, strzałka pod ikoną zamiast celu do stuknięcia — psi input to swipe.\n\nD2 jest nowy i robi dwie rzeczy naraz: buduje skojarzenie nos → skutek i mierzy wielkość plamy kontaktu dla tego psa. Wynik tej kalibracji widać potem w H4.\n\nD5 celowo nie ma ani jednego piksela acid. Brak nagrody jest tu informacją: talia się skończyła, nie ma czego przesuwać."
+    },
+    {
+      "id": "tryb-ludzki",
+      "page": "page-1",
+      "x": -600,
+      "y": 1046,
+      "w": 500,
+      "text": "TRYB LUDZKI · H1–H4\n\nNormalna gęstość, dane, liczby tabelaryczne. Ta sama paleta i ta sama typografia, ale w drugim rejestrze.\n\nH1 jest właściwym produktem tej aplikacji: nie „match”, a ranking preferencji plus wykres czasu decyzji. Rosnący czas oznacza spadające zainteresowanie — i to jest ta wartość poznawcza, o której mówi wiedeński research o starszych psach.\n\nDO ZAPROJEKTOWANIA, nie ma go tu jeszcze: gest wejścia w tryb ludzki. Musi być niewykonalny nosem, więc dwa punkty kontaktu naraz albo sekwencja w narożniku."
+    },
+    {
+      "id": "archiwum",
+      "page": "page-2",
+      "x": -600,
+      "y": 0,
+      "w": 500,
+      "text": "ARCHIWUM\n\nDwa odrzucone kierunki: A miękki i B geometryczny. Zostawione dla zapisu decyzji.\n\nWybrany został C plakatowy — najwyższy kontrast figury i tła, czyli to, czego wymaga obniżony próg kontrastu u dwunastoletniej Auri.\n\nZ B warto jeszcze wziąć jedną rzecz: jawne liczby w monospace przy specyfikacji. W wersji plakatowej trafiło to do arkusza tokenów."
+    }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

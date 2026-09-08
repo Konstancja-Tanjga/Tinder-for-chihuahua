@@ -1,0 +1,18 @@
+{
+  "name": "tinder-for-chihuahua-spike",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Pionowy przekrol D2-D3-D5. Zadaniem tego spike'u jest zmierzyc to, czego design nie rozstrzyga: czy pies przesunie nosem, czy jedno pociagniecie nie zarejestruje sie trzy razy, i czy dzwiek sie odblokuje.",
+  "scripts": {
+    "tokens": "node ../design/exports/build-app-tokens.mjs",
+    "videos": "node ../videos/normalize.mjs",
+    "dev": "npm run tokens && vite --host",
+    "build": "npm run tokens && tsc --noEmit && vite build",
+    "preview": "vite preview --host"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
+  }
+}

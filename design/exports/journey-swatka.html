@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root{--ground:#EFF1EC;--panel:#E4E8DE;--tint:#E0E5F5;--ink:#10131A;--muted:#58606E;--faint:#97A08F;--blue:#1B34D8;--acid:#7E8A00;--acid-fill:#C8D400;--rule:#CFD5C8;--rule-strong:#A9B2A0}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.6;width:1800px;padding:44px 40px}
+  h1{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:40px;line-height:1.05;margin:0 0 10px;letter-spacing:-0.015em}
+  p{margin:0}
+  .eyebrow{font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;color:var(--acid);margin-bottom:12px}
+  .lede{color:var(--muted);font-size:17px;max-width:88ch;margin-bottom:22px}
+  .legend{display:flex;flex-wrap:wrap;gap:9px 20px;align-items:center;margin-bottom:20px}
+  .badge{font-family:'IBM Plex Mono',Menlo,monospace;font-size:10.5px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;padding:4px 9px;white-space:nowrap}
+  .b-ekran{background:var(--blue);color:var(--ground)}
+  .b-pokoj{background:var(--acid-fill);color:#10131A}
+  .b-park{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--rule-strong)}
+  .legend .lbl{color:var(--muted);font-size:15px}
+  .jgrid{display:grid;grid-template-columns:108px repeat(5,320px);border-top:2px solid var(--rule-strong);border-bottom:2px solid var(--rule-strong)}
+  .cell{padding:12px 13px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);font-size:14.5px;line-height:1.42;background:var(--ground)}
+  .lane{padding:12px 13px;background:var(--panel);border-right:2px solid var(--rule-strong);border-bottom:1px solid var(--rule);font-family:'IBM Plex Mono',Menlo,monospace;font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+  .r-step{background:var(--tint);font-family:'IBM Plex Mono',Menlo,monospace;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+  .r-screen{font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:600;color:var(--blue)}
+  .r-human{color:var(--muted)}
+  .none{color:var(--faint)}
+  .note{margin-top:22px;background:var(--tint);padding:18px 20px;max-width:96ch}
+  .note .k{font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--blue);margin-bottom:6px}
+  .note p{font-size:16.5px;line-height:1.55}
+  .credit{margin-top:30px;padding-top:14px;border-top:2px solid var(--ink);font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--muted);display:flex;gap:22px;flex-wrap:wrap}
+</style></head><body>
+<p class="eyebrow">Tinder for Chihuahua &middot; User journey 2 z 2</p>
+<h1>Journey swatki</h1>
+<p class="lede">Dłuższy niż jedna sesja i wychodzi poza telefon. Aplikacja obsługuje trzy z pięciu krok&oacute;w &mdash; ostatni dzieje się w parku i weryfikuje wszystko, bo psy dobierają się węchem, a nie obrazem.</p>
+<div class="legend">
+  <span class="badge b-ekran">Ekran</span><span class="lbl">na szkle</span>
+  <span class="badge b-pokoj">Pokój</span><span class="lbl">poza aplikacją</span>
+  <span class="badge b-park">Park</span><span class="lbl">prawdziwe spotkanie</span>
+</div>
+<div class="jgrid">
+  <div class="lane">Krok</div>
+  <div class="cell r-step">01</div><div class="cell r-step">02</div><div class="cell r-step">03</div><div class="cell r-step">04</div><div class="cell r-step">05</div>
+
+  <div class="lane">Miejsce</div>
+  <div class="cell"><span class="badge b-ekran">Ekran</span></div>
+  <div class="cell"><span class="badge b-pokoj">Pokój</span></div>
+  <div class="cell"><span class="badge b-ekran">Ekran</span></div>
+  <div class="cell"><span class="badge b-ekran">Ekran</span></div>
+  <div class="cell"><span class="badge b-park">Park</span></div>
+
+  <div class="lane">Konstancja</div>
+  <div class="cell r-human">Wgrywa wideo z Groka, wypełnia profile, ustawia <code>familyIds</code></div>
+  <div class="cell r-human">Prowadzi sesję. Siedzi obok, nagradza &mdash; <strong>nie klika</strong></div>
+  <div class="cell r-human">Czyta ranking preferencji i czas decyzji</div>
+  <div class="cell r-human">Zatwierdza, kogo poznać. <strong>To druga zgoda</strong></div>
+  <div class="cell r-human">Aranżuje prawdziwe spotkanie</div>
+
+  <div class="lane">Ekran</div>
+  <div class="cell r-screen">H4 Setup &middot; H3 Profile</div>
+  <div class="cell r-screen">D1&ndash;D5 w rękach psa</div>
+  <div class="cell r-screen">H1 Wynik sesji</div>
+  <div class="cell r-screen">H2 Kandydaci</div>
+  <div class="cell r-screen"><span class="none">&mdash;</span></div>
+
+  <div class="lane" style="border-bottom:none">Psy</div>
+  <div class="cell" style="border-bottom:none"><span class="none">&mdash;</span></div>
+  <div class="cell" style="border-bottom:none">Karmel albo Auri pracuje</div>
+  <div class="cell" style="border-bottom:none"><span class="none">&mdash;</span></div>
+  <div class="cell" style="border-bottom:none"><span class="none">&mdash;</span></div>
+  <div class="cell" style="border-bottom:none">Poznają się węchem</div>
+</div>
+<div class="note"><p class="k">Double opt-in, przepisany na nasze strony</p><p>Krok 06 pierwszego journeya i krok 04 tego to dwie połowy tego samego mechanizmu. Swipe psa jest pierwszą zgodą, zatwierdzenie człowieka drugą &mdash; i dopiero razem otwierają drogę do spotkania. Wzorzec przyszedł z Tindera i Bumble, tylko strony się zmieniły.</p></div>
+<p class="credit"><span>Konstancja Tanjga</span><span>8 września 2026</span><span>Tinder for Chihuahua</span></p>
+</body></html>
