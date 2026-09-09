@@ -30,10 +30,12 @@ const PANELS = [
   { slug: 'ch04-journey-sesja-psa', src: 'design/exports/journey-sesja-psa.html' },
   { slug: 'ch05-journey-swatka', src: 'design/exports/journey-swatka.html' },
   { slug: 'ch06-blueprint', src: 'design/blueprint.html' },
+  { slug: 'ch07-benchmark', src: 'design/exports/benchmark.html' },
   { slug: 'ch08-kierunki', src: 'design/exports/directions.html' },
   { slug: 'ch09-cig', src: 'design/exports/cig-panel.html' },
   { slug: 'ch10-dog-mode', src: 'design/exports/screens-dog.html' },
   { slug: 'ch11-human-mode', src: 'design/exports/screens-human.html' },
+  { slug: 'ch12-test', src: 'design/exports/test-protocol.html' },
   // Okladka ma staly rozmiar zamiast dociagania do tresci: 1920x1502 to
   // format kart w portfolio autorki, wiec jest wymogiem, nie wynikiem.
   { slug: '00-cover', src: 'design/exports/cover.html', w: 1920, h: 1502, dir: 'docs/case-study' },

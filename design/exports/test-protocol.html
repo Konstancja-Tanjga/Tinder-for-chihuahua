@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Newsreader:ital,wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root{--ground:#EFF1EC;--panel:#E4E8DE;--tint:#E0E5F5;--warm:#EFE9D6;--bad:#F3E3DE;--ink:#10131A;--muted:#58606E;--faint:#97A08F;--blue:#1B34D8;--acid:#7E8A00;--rule:#CFD5C8;--rule-strong:#A9B2A0}
+  *{box-sizing:border-box;margin:0}
+  body{width:1800px;padding:44px 40px;background:var(--ground);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.5}
+  h1{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:44px;line-height:1.03;letter-spacing:-0.015em;margin-bottom:10px}
+  h2{font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin:34px 0 12px}
+  .eyebrow{font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;color:var(--acid);margin-bottom:12px}
+  .lede{color:var(--muted);font-size:17px;max-width:104ch}
+  .ladder{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+  .r{display:flex;flex-direction:column;gap:10px;padding:18px;background:var(--panel);border-top:3px solid var(--rule-strong)}
+  .r.failed{background:var(--bad);border-top-color:#B4462E}
+  .r.pending{background:var(--ground);border-top-color:var(--rule);box-shadow:inset 0 0 0 1px var(--rule)}
+  .rh{display:flex;align-items:baseline;gap:10px}
+  .rh b{font-family:'IBM Plex Mono',Menlo,monospace;font-size:26px;font-weight:600;color:var(--blue);line-height:1}
+  .rh strong{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-size:17px;font-weight:800;letter-spacing:-0.01em;line-height:1.15}
+  .tag{font-family:'IBM Plex Mono',Menlo,monospace;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:4px 8px;background:var(--rule);color:var(--muted);align-self:flex-start}
+  .r.passed .tag{background:var(--acid);color:#fff}
+  .r.failed .tag{background:#B4462E;color:#fff}
+  .checks{font-size:14px;line-height:1.44;color:var(--muted)}
+  .res{font-size:14.5px;line-height:1.44;padding-top:10px;border-top:1px solid var(--rule);margin-top:auto}
+  .res span{font-family:'IBM Plex Mono',Menlo,monospace;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:4px}
+  table{width:100%;border-collapse:collapse;border-top:2px solid var(--rule-strong)}
+  td{padding:13px 14px 13px 0;border-bottom:1px solid var(--rule);font-size:15px;line-height:1.44;vertical-align:top}
+  td:first-child{padding-left:14px;font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:16px;width:270px;white-space:nowrap}
+  .cols{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;margin-top:34px;align-items:start}
+  .note{background:var(--tint);padding:18px 22px;font-size:15.5px;line-height:1.5}
+  .note h3{font-family:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.01em;margin-bottom:8px}
+  .note code{font-family:'IBM Plex Mono',Menlo,monospace;font-size:14px}
+  .credit{margin-top:30px;padding-top:14px;border-top:2px solid var(--ink);font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--muted);display:flex;gap:22px}</style></head><body>
+
+<p class="eyebrow">Tinder for Chihuahua &middot; Chapter 12 &middot; Test protocol</p>
+<h1>Four rungs, from a laptop to a dog on the floor</h1>
+<p class="lede">Each rung can only be climbed once the one below it holds, and each one checks something the rung below cannot. The statuses are the state of play, not the plan &mdash; including the one that failed.</p>
+
+<h2>The ladder</h2>
+<div class="ladder">
+  <div class="r passed">
+    <div class="rh"><b>1</b><strong>Laptop, in a browser</strong></div>
+    <span class="tag">passed</span>
+    <p class="checks">Decision logic, the 1500 ms cooldown, undo. Mouse input is a developer path onto this rung only &mdash; it is tagged separately so a trackpad never pollutes the contact-patch statistics.</p>
+    <p class="res"><span>Result</span>Logic holds. Undo works from the keyboard and the pointer.</p>
+  </div>
+  <div class="r failed">
+    <div class="rh"><b>2</b><strong>iPhone in Safari, over Wi-Fi</strong></div>
+    <span class="tag">failed</span>
+    <p class="checks">Selection and magnifier suppression, audio unlocking on the first gesture, and 120 Hz.</p>
+    <p class="res"><span>Result</span>Suppression and audio: fine. Refresh rate: <strong>the session log reports 60 fps, not 120</strong>. Cause not yet established.</p>
+  </div>
+  <div class="r pending">
+    <div class="rh"><b>3</b><strong>iPhone as a PWA, with Guided Access</strong></div>
+    <span class="tag">partial</span>
+    <p class="checks">No Safari chrome, no way out of the app, safe areas respected.</p>
+    <p class="res"><span>Result</span>Installed and running full-screen &mdash; the recording is proof. Guided Access not yet verified with a dog trying to leave.</p>
+  </div>
+  <div class="r pending">
+    <div class="rh"><b>4</b><strong>iPhone flat on the floor, Karmel and Auri</strong></div>
+    <span class="tag">not yet</span>
+    <p class="checks">Whether the design makes any sense at all.</p>
+    <p class="res"><span>Result</span>The only rung that can answer the three questions design could not settle.</p>
+  </div>
+</div>
+
+<div class="cols">
+  <div>
+    <h2 style="margin-top:0">What gets measured</h2>
+    <table>
+      <tr><td>Does it touch</td><td>Contact-patch size in millimetres, per dog. The values currently in the token file are placeholders and are labelled as such.</td></tr>
+      <tr><td>How it touches</td><td>Drag distance against the 40 px threshold, and every rejected event with its reason &mdash; below threshold, or inside cooldown.</td></tr>
+      <tr><td>When it gets bored</td><td>Decision latency per card. A rising time is the signal to shorten the next deck, not to add cards.</td></tr>
+      <tr><td>Whether it comes back</td><td>Session history across days. With a twelve-year-old dog, change over time is the cognitive value the research points at.</td></tr>
+    </table>
+  </div>
+  <div>
+    <h2 style="margin-top:0">Getting the log out</h2>
+    <div class="note">
+      <h3>Two fingers, held apart</h3>
+      <p>On the end screen, hold <strong>two fingers more than 120 px apart</strong> for one second. The log is selectable, so it can be copied off the phone.</p>
+      <p style="margin-top:10px">Not a button, because <code>CIG-6.2</code> forbids a nose-sized target on D5 and <code>CIG-6.1</code> requires that entering human mode be impossible for a nose. Writing it revealed that &ldquo;two fingers&rdquo; alone is not enough &mdash; iOS can report a single wet nose as several touch points &mdash; so a real spread is required.</p>
+    </div>
+  </div>
+</div>
+
+<p class="credit"><span>Konstancja Tanjga</span><span>9 September 2026</span><span>Tinder for Chihuahua</span></p>
+
+</body></html>

@@ -98,7 +98,8 @@ warstwą ryzyk.
 jest powodem, dla którego cooldown wynosi 1500 ms, a undo jest funkcją rdzeniową.
 
 ### 07 · Benchmark
-`wall/ch07-benchmark.png` · **do zrobienia**
+![Benchmark](wall/ch07-benchmark.png)
+`wall/ch07-benchmark.png` · **gotowe**
 **Co to jest:** psie apki w dwóch rodzinach plus wnioski z apek randkowych i rekrutacyjnych.
 **Dlaczego:** wzorzec talii kart przeszedł w tych kategoriach pełny cykl życia, więc mamy
 darmowy dostęp do ich porażek.
@@ -147,7 +148,8 @@ ma ani jednego piksela acid.
 zainteresowanie.
 
 ### 12 · Plan testów z psami
-`wall/ch12-testy.png` · **do zrobienia**
+![Protokół testu](wall/ch12-test.png)
+`wall/ch12-test.png` · **gotowe**
 **Co to jest:** co mierzymy, ile sesji, kiedy uznajemy, że działa.
 **Dlaczego:** bez tego „projektujemy dla Auri" jest hasłem, nie metodą.
 **Na co patrzeć:** na metryki — czy dotyka, jak dotyka, po ilu kartach się nudzi, czy wraca
