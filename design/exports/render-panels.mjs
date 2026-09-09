@@ -34,6 +34,9 @@ const PANELS = [
   { slug: 'ch09-cig', src: 'design/exports/cig-panel.html' },
   { slug: 'ch10-dog-mode', src: 'design/exports/screens-dog.html' },
   { slug: 'ch11-human-mode', src: 'design/exports/screens-human.html' },
+  // Okladka ma staly rozmiar zamiast dociagania do tresci: 1920x1502 to
+  // format kart w portfolio autorki, wiec jest wymogiem, nie wynikiem.
+  { slug: '00-cover', src: 'design/exports/cover.html', w: 1920, h: 1502, dir: 'docs/case-study' },
 ];
 
 const PL_DIA = /[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/;
@@ -82,7 +85,8 @@ function measure(html, name) {
   return h;
 }
 
-function render({ slug, src }) {
+function render(spec) {
+  const { slug, src } = spec;
   const srcPath = at(src);
   if (!existsSync(srcPath)) throw new Error(`${slug}: brak zrodla ${src}`);
   const html = readFileSync(srcPath, 'utf8');
@@ -94,25 +98,30 @@ function render({ slug, src }) {
     throw new Error(`${slug}: polska diakrytyka w tresci panelu (${src})`);
   }
 
-  const height = measure(html, slug);
+  const fixed = Boolean(spec.w && spec.h);
+  const targetW = fixed ? spec.w : WIDTH;
+  const height = fixed ? spec.h : measure(html, slug);
   const raw = join(work, `${slug}@2x.png`);
   chrome([
-    `--window-size=${WIDTH},${height}`,
+    `--window-size=${targetW},${height}`,
     '--force-device-scale-factor=2',
     '--virtual-time-budget=8000',
     `--screenshot=${raw}`, `file://${srcPath}`,
   ]);
   if (!existsSync(raw)) throw new Error(`${slug}: Chrome nie zapisal zrzutu`);
 
-  const outDir = at('docs/case-study/wall');
+  const outDir = at(spec.dir ?? 'docs/case-study/wall');
   mkdirSync(outDir, { recursive: true });
   const out = join(outDir, `${slug}.png`);
-  execFileSync('sips', ['-Z', String(WIDTH), raw, '--out', out], { stdio: 'ignore' });
+  execFileSync('sips', ['-Z', String(targetW), raw, '--out', out], { stdio: 'ignore' });
 
-  const { width, bytes } = probe(out);
-  if (width !== WIDTH) throw new Error(`${slug}: szerokosc ${width} px, oczekiwana ${WIDTH}`);
+  const { width, height: gotH, bytes } = probe(out);
+  if (width !== targetW) throw new Error(`${slug}: szerokosc ${width} px, oczekiwana ${targetW}`);
+  // Staly format musi wyjsc dokladnie -- inaczej karta w portfolio przestaje
+  // pasowac do pozostalych, a tego nie widac na jednym renderze.
+  if (fixed && gotH !== spec.h) throw new Error(`${slug}: wysokosc ${gotH} px, oczekiwana ${spec.h}`);
   if (bytes < 20000) throw new Error(`${slug}: plik ${bytes} B -- za maly, render prawdopodobnie pusty`);
-  return { slug, height, width, bytes };
+  return { slug, height: gotH, width, bytes };
 }
 
 /** Diakrytyka w <style> i w nazwach fontow nie jest trescia panelu. */
@@ -145,6 +154,6 @@ try {
 }
 
 for (const d of done) {
-  console.log(`  ${d.slug.padEnd(26)} ${d.width}x${probe(at(`docs/case-study/wall/${d.slug}.png`)).height}  ${(d.bytes / 1024).toFixed(0)} kB`);
+  console.log(`  ${d.slug.padEnd(26)} ${d.width}x${d.height}  ${(d.bytes / 1024).toFixed(0)} kB`);
 }
 console.log(`${done.length} paneli w docs/case-study/wall/`);

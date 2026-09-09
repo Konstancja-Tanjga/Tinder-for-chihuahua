@@ -37,7 +37,15 @@ zbiera sygnał i przekazuje go swatce. Wyjściem produktu jest ranking preferenc
 ## Rozdziały
 
 ### 00 · Cover
-`00-cover.png` — 1920×1502 · **do zrobienia**
+![Cover](00-cover.png)
+`00-cover.png` — 1920×1502 · **gotowe**
+**Co to jest:** karta projektu w formacie okladek portfolio: plaskie tlo blue, typografia
+po lewej, iPhone schodzacy z prawej krawedzi. Na ekranie telefonu jest prawdziwa klatka z
+nagrania, nie artboard.
+**Dlaczego:** pozostale use case'y maja tam laptopa ze zrzutem. Ten produkt nie istnieje na
+desktopie, wiec urzadzenie musialo sie zmienic, a format nie.
+**Na co patrzec:** na pierscien acid wokol obudowy. Kazda barwa palety wystepuje takze w
+aplikacji, wiec bez niego strefa NIE zlewa sie z tlem i telefon traci krawedz.
 
 ### 01 · Problem i brief
 `wall/ch01-brief.png` · **do zrobienia**

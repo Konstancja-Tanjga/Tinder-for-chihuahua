@@ -3,3 +3,9 @@ design/canvas/tinder-for-chihuahua.html
 
 # macOS
 .DS_Store
+
+# Surowy zapis ekranu: 127 MB na 33 sekundy, z ktorych powstaje
+# videos/showcase-sesja.mp4 (2,1 MB). Zrodlo zostaje lokalnie -- w repo
+# ma sens produkt, nie tasma.
+videos/ScreenRecording*.mov
+videos/ScreenRecording*.mp4
