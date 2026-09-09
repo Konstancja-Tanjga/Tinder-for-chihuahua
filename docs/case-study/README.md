@@ -98,7 +98,8 @@ darmowy dostęp do ich porażek.
 „może później", nie oszczędza niczego.
 
 ### 08 · Kierunki wizualne
-`wall/ch08-kierunki.png` · **do zrobienia**
+![Kierunki wizualne](wall/ch08-kierunki.png)
+`wall/ch08-kierunki.png` · **gotowe**
 **Co to jest:** trzy kierunki tych samych ekranów, z argumentem za i przeciw przy każdym.
 **Dlaczego:** kierunek trzeba wybrać przed budową design systemu, a nie po.
 **Na co patrzeć:** na to, że wybrany kierunek też ma wadę i jest ona nazwana.

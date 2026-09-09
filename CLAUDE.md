@@ -114,7 +114,11 @@ opis use case — w tym repo, nie na stronie portfolio.
 - Z `tokens.json` czytają: `build-cig.mjs` i `build-screen-panels.mjs`. **Nie czyta**
   `build-case-study-preview.mjs` (nie ma tam wartości produktu) ani artboardy w
   `design/canvas/` — tam paleta jest wpisana na sztywno i to jest znany, nienaprawiony dług
-- Render: headless Chrome `--force-device-scale-factor=2` → `sips -Z 1800`
+- Render: `node design/exports/render-panels.mjs [slug ...]` — headless Chrome
+  `--force-device-scale-factor=2` → `sips -Z 1800`. Wysokość jest mierzona z **body**, nie
+  z `documentElement`, bo `scrollHeight` korzenia nie schodzi poniżej viewportu i każdy panel
+  niższy od okna dostawał pusty margines. Skrypt przerywa build, jeśli w treści panelu jest
+  polska diakrytyka — panele idą do dokumentacji po angielsku
 - Panele: `docs/case-study/wall/chNN-<slug>.png`, szerokość **1800 px**, wysokość dociągnięta
   do treści (bez pustego marginesu). Cover: `docs/case-study/00-cover.png`, 1920×1502
 - Walkthrough: `docs/case-study/README.md`
