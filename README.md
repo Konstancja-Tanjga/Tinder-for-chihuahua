@@ -6,6 +6,10 @@ whose input device is a wet nose.**
 **▶ Live: [konstancja-tanjga.github.io/Tinder-for-chihuahua](https://konstancja-tanjga.github.io/Tinder-for-chihuahua/)**
 — open it on a phone and add it to the home screen; it runs as a standalone PWA.
 
+**▶ The case study: [how this was designed and built](https://konstancja-tanjga.github.io/portfolio-site/work/tinder-for-chihuahua/)**
+— research, personas, guidelines, the token pipeline, the screens, and what it
+cost. Start there if you want the reasoning rather than the code.
+
 ---
 
 ## The premise
@@ -38,7 +42,7 @@ second user and no network.
 | [`app/`](app/) | The working PWA — the five dog screens D1–D5 as a vertical slice. Human mode (H1–H4) is designed but not built. Vite + TypeScript, no framework, no backend. |
 | [`design/tokens.json`](design/tokens.json) | **Single source of truth.** Every colour, size, timing and threshold. The guidelines, the app CSS and the app's TypeScript constants are all generated from it. |
 | [`design/cig.html`](design/cig.html) | **Canine Interface Guidelines** — 29 numbered laws in 6 groups, plus 5 platform laws. Generated, so not one number in it is typed by hand. |
-| [`docs/case-study/`](docs/case-study/) | The use case: a chapter-by-chapter walkthrough of how the project was made, with the panels. In Polish. |
+| [`docs/case-study/`](docs/case-study/) | The use case: a chapter-by-chapter walkthrough of how the project was made, with the panels. Walkthrough in Polish; the panels themselves are in English. Published version: **[the case study](https://konstancja-tanjga.github.io/portfolio-site/work/tinder-for-chihuahua/)**. |
 | [`videos/`](videos/) | Candidate clips, normalised to spec by [`normalize.mjs`](videos/normalize.mjs). |
 
 ## Why its own guidelines instead of Apple's

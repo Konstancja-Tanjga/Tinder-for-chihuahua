@@ -5,11 +5,15 @@
 // projektu i do portfolio, wiec kadr i waga musza byc odtwarzalne. Recznie
 // znaczy "nie da sie powtorzyc" i "nie da sie sprawdzic".
 //
-// Identyfikacja psow nie jest zgadywana z nazw plikow -- nazwy plikow nic nie
-// mowia. Karmel to rudy dlugowlosy z ciemna maska, Auri kremowa o jasnym
-// pysku; potwierdzone przez autorke. IMG_9905 celowo nie jest uzyte: to pies
-// krotkowlosy, czyli ani Karmel, ani Auri, a podpisanie go imieniem byloby
-// bledem w widocznym miejscu.
+// Karmel i Auri maja teraz wlasne pliki zrodlowe, wiec identyfikacja nie jest
+// juz wnioskowana z wygladu. Poprzednia wersja wnioskowala i pomylila sie:
+// Karmel to faktycznie rudy dlugowlosy, ale Auri jest KROTKOWLOSA, tan-and-
+// white -- a za Auri wzialem wtedy kremowego dlugowlosego, czyli innego psa.
+// IMG_9905, odrzucone wtedy jako "ani Karmel, ani Auri", to wlasnie Auri.
+//
+// Galeria talii nie jest juz skladana ze zdjec, tylko z klatek prawdziwych
+// klipow, ktore siedza w aplikacji. Zdjecia wymagaly zgadywania, kto jest kim;
+// klip zna swojego kandydata z nazwy pliku, wiec nie ma czego pomylic.
 //
 //   node videos/build-photos.mjs
 import { existsSync, mkdirSync, statSync, readdirSync, rmSync } from 'node:fs';
@@ -33,23 +37,30 @@ const GALLERY = 760;
 /* offsetY: przesuniecie kadru w dol od srodka, w procentach wysokosci
    zrodla. Psy rzadko stoja w geometrycznym srodku klatki. */
 const PHOTOS = [
-  { out: 'karmel', src: 'IMG_2376.heic', side: PORTRAIT, offsetY: -6, who: 'Karmel' },
-  { out: 'auri', src: 'IMG_8922.JPG', side: PORTRAIT, offsetY: -4, who: 'Auri' },
-  { out: 'karmel-persona', src: 'IMG_2378.heic', side: PORTRAIT, offsetY: -8, who: 'Karmel' },
-  { out: 'auri-persona', src: 'IMG_9290.jpg', side: PORTRAIT, offsetY: 0, who: 'Auri' },
-  { out: 'oboje', src: 'IMG_2358.heic', side: PORTRAIT, offsetY: 0, who: 'Auri i Karmel' },
+  { out: 'karmel', src: 'Karmel.JPG', side: PORTRAIT, offsetY: 0, who: 'Karmel' },
+  { out: 'karmel-bieg', src: 'Karmel_bieg.JPG', side: PORTRAIT, offsetY: 0, who: 'Karmel' },
+  { out: 'auri', src: 'Auri.JPG', side: PORTRAIT, offsetY: -6, who: 'Auri' },
+  { out: 'auri-bieg', src: 'Auri_bieg.JPG', side: PORTRAIT, offsetY: 0, who: 'Auri' },
+  { out: 'oboje', src: 'IMG_2358.heic', side: PORTRAIT, offsetY: 0, who: 'Auri lezy, Karmel siedzi' },
+];
 
-  // Galeria: psy bez podpisow imiennych. W aplikacji wystepuja pod
-  // zmienionymi imionami, a ja nie mam mapowania zdjecie -> klip, wiec
-  // podpis mowi o praktyce, nie o konkretnym psie.
-  { out: 'deck-1', src: 'IMG_0100.JPG', side: GALLERY, offsetY: -8 },
-  { out: 'deck-2', src: 'IMG_0101.JPG', side: GALLERY, offsetY: 0 },
-  { out: 'deck-3', src: 'IMG_0102.JPG', side: GALLERY, offsetY: 0 },
-  { out: 'deck-4', src: 'IMG_0103.JPG', side: GALLERY, offsetY: 0 },
-  { out: 'deck-5', src: 'IMG_0105.JPG', side: GALLERY, offsetY: 0 },
-  { out: 'deck-6', src: 'IMG_0107.JPG', side: GALLERY, offsetY: -8 },
-  { out: 'deck-7', src: 'IMG_2418.heic', side: GALLERY, offsetY: -6 },
-  { out: 'deck-8', src: 'IMG_0341.jpg', side: GALLERY, offsetY: 0 },
+/* Talia, z klatek klipow, ktore naprawde sa w aplikacji. Kandydaci nosza
+   zmienione imiona -- pliki zrodlowe maja prawdziwe -- wiec podpis bierze
+   imie z talii, a nie z nazwy pliku. */
+const DECK = [
+  { file: 'auris', name: 'Fasola' },
+  { file: 'aurora', name: 'Malina' },
+  { file: 'baltic', name: 'Rogal' },
+  { file: 'ciastek', name: 'Piegus' },
+  { file: 'fistaszka', name: 'Bąbel' },
+  { file: 'kwiatuch', name: 'Szpilka' },
+  { file: 'lola', name: 'Kluska' },
+  { file: 'mafinka', name: 'Truskawka' },
+  { file: 'misiek', name: 'Pączek' },
+  { file: 'okruszek', name: 'Bajgiel' },
+  { file: 'orotava', name: 'Tofik' },
+  { file: 'pindzia', name: 'Sernik' },
+  { file: 'skowronek', name: 'Kajtek' },
 ];
 
 const MAX_BYTES = 420_000;
@@ -127,13 +138,38 @@ try {
   rmSync(work, { recursive: true, force: true });
 }
 
+/* Klatka z klipu. Klip jest boomerangiem 3-5 s, wiec bierzemy ujecie z okolic
+   1/3 dlugosci -- na samym poczatku pies czesto jest jeszcze w ruchu. */
+const deckMade = [];
+for (const d of DECK) {
+  const clip = at(`app/public/videos/${d.file}.mp4`);
+  if (!existsSync(clip)) throw new Error(`talia: brak klipu ${d.file}.mp4`);
+  const out = join(OUT, `deck-${d.file}.jpg`);
+  execFileSync('ffmpeg', [
+    '-v', 'error', '-y', '-ss', '1.2', '-i', clip, '-frames:v', '1',
+    // Klip ma 752x660, wiec kwadrat bierzemy z pelnej wysokosci i srodka szerokosci.
+    '-vf', `crop=660:660:(iw-660)/2:0,scale=${GALLERY}:${GALLERY}:flags=lanczos`,
+    '-q:v', '4', out,
+  ], { stdio: ['ignore', 'pipe', 'pipe'] });
+  if (!existsSync(out)) throw new Error(`talia: ffmpeg nie zapisal ${d.file}`);
+  const g = dims(out);
+  if (g.w !== GALLERY || g.h !== GALLERY) throw new Error(`talia ${d.file}: ${g.w}x${g.h}`);
+  deckMade.push({ ...d, bytes: statSync(out).size });
+}
+
 // Zdjecia, ktore zostaly w katalogu wyjsciowym, a nie sa na liscie, to smieci
 // po poprzednim przebiegu -- lepiej o nich wiedziec, niz wysylac je na strone.
-const expected = new Set(PHOTOS.map((p) => `${p.out}.jpg`));
+const expected = new Set([
+  ...PHOTOS.map((p) => `${p.out}.jpg`),
+  ...DECK.map((d) => `deck-${d.file}.jpg`),
+]);
 const stray = readdirSync(OUT).filter((f) => f.endsWith('.jpg') && !expected.has(f));
 if (stray.length) console.log(`  UWAGA, pliki poza lista: ${stray.join(', ')}`);
 
 for (const m of made) {
   console.log(`  ${m.out.padEnd(16)} ${m.side}x${m.side}  ${(m.bytes / 1024).toFixed(0)} kB  ${m.who ?? '(bez podpisu imiennego)'}`);
 }
-console.log(`${made.length} zdjec w docs/case-study/photos/`);
+for (const d of deckMade) {
+  console.log(`  deck-${d.file.padEnd(11)} ${GALLERY}x${GALLERY}  ${(d.bytes / 1024).toFixed(0)} kB  ${d.name}`);
+}
+console.log(`${made.length} zdjec + ${deckMade.length} klatek talii w docs/case-study/photos/`);
