@@ -9,3 +9,11 @@ design/canvas/tinder-for-chihuahua.html
 # ma sens produkt, nie tasma.
 videos/ScreenRecording*.mov
 videos/ScreenRecording*.mp4
+
+# Surowe zdjecia z telefonu: 14 MB oryginalow, z ktorych powstaje
+# docs/case-study/photos/ (1,7 MB kadrow). Ta sama zasada co przy nagraniu
+# ekranu -- w repo idzie produkt, zrodlo zostaje lokalnie.
+videos/IMG_*.heic
+videos/IMG_*.JPG
+videos/IMG_*.jpg
+videos/[0-9A-F][0-9A-F]*-*.JPG
