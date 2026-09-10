@@ -1,8 +1,51 @@
 # Post na LinkedIn — wersje do wyboru
 
-Nie do repo dla potomności, tylko roboczy plik do skopiowania. Trzy wersje,
-bo długość na LinkedInie jest decyzją, a nie szczegółem: **pierwsze ~200 znaków**
-widać przed „zobacz więcej", więc one muszą zarobić na kliknięcie.
+**WYBRANA: wersja B po angielsku.** Leży pierwsza, gotowa do skopiowania.
+Polskie wersje zostają niżej jako materiał źródłowy.
+
+**Uwaga, którą przeoczyłam w polskich wersjach:** LinkedIn **nie renderuje
+markdownu**. Gwiazdki wyświetlą się dosłownie, jako gwiazdki. Wersja angielska
+poniżej jest czystym tekstem — jedyną strukturą są emoji i puste linie.
+
+Pierwsze ~200 znaków widać przed „zobacz więcej", więc one zarabiają na
+kliknięcie.
+
+---
+
+## ✅ Wersja B — angielska, do skopiowania
+
+My most recent user couldn't read, couldn't speak, and his pointing device was a wet nose.
+
+That's Karmel, five. He cornered me one afternoon together with his mother Auri, twelve, and delivered a brief: they would like to meet a kindred spirit who is neither mum nor son. I said I'd build them an app.
+
+Sounds like a joke, right up until you do the numbers. A dog is a dichromat with roughly 20/75 acuity, so:
+
+🔵 Two hues carry all the meaning. Cone peaks sit near 429 and 555 nm, so blue and yellow-green do every job. Red as a warning is a warning nobody receives.
+
+📏 Everything is about four times bigger. The acuity factor is 3.75 — applied deliberately, not "looks about right".
+
+⚡ 120 Hz is a hardware requirement, not a flex. Canine flicker fusion runs 70–80 Hz against a human 60, so a 60 Hz screen visibly flickers to a dog. That's why the brief names a specific handset: the phone spec came out of the eye research.
+
+👃 The gesture is a drag, not a tap. A nose doesn't land as a point — it lands as a large, wet, multi-point moving patch.
+
+So I wrote my own guidelines. Thirty-four numbered laws, because Apple's Human Interface Guidelines describe a fingertip, a 44 pt target, red meaning danger and text carrying the content. Every one of those premises is false for this user, and adapting a document whose every premise has failed isn't adaptation, it's fan fiction.
+
+Then I built the thing, instrumented it, and tested it on an actual dog.
+
+The first result was negative. The session log reads 60 fps, not 120 — so the one law that dictated the choice of phone did not survive contact with the platform. I don't yet know why, and I'm not going to pretend I do.
+
+Which is, genuinely, the good news. A requirement came out of research, became a numbered law, got designed for, got built — and the very first recorded session caught it failing. A specification that can't be caught failing isn't a specification. It's a wish.
+
+Karmel went through the whole deck. He has preferences. He's not saying why 🐕
+
+Built for fun and for practice — but the method is the one I use at work: research before design, tokens as the single source of truth, and a prototype that measures itself. The brief was just absurd enough that no stakeholder was ever going to rescue a weak decision by agreeing with it.
+
+🐕 Open it on a phone: https://konstancja-tanjga.github.io/Tinder-for-chihuahua/
+📖 The whole process: https://konstancja-tanjga.github.io/portfolio-site/work/tinder-for-chihuahua/
+
+The candidates are real chihuahuas under assumed names. The deck deliberately excludes family — a filter makes sure Karmel never gets served his own mother.
+
+#UX #ProductDesign #DesignSystems #Accessibility #SpeculativeDesign
 
 ---
 
