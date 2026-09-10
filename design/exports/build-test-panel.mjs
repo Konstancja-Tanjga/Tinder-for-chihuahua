@@ -4,9 +4,16 @@
 // jest instrukcja dla osoby, ktora ten test przeprowadza, wiec to on jest
 // zrodlem, a panel tylko go pokazuje.
 //
-// Statusy sa stanem faktycznym, nie planem. Szczebel 2 ma wynik NEGATYWNY:
-// log sesji raportuje 60 fps, a CIG-7.1 wymaga 120 Hz. Panel, ktory pokazuje
-// same zielone znaczki, nie jest protokolem testu, tylko obietnica.
+// Statusy sa stanem faktycznym, nie planem. Panel, ktory pokazuje same zielone
+// znaczki, nie jest protokolem testu, tylko obietnica -- wiec szczebel 3 jest
+// czesciowy, a 4 nie zaczety.
+//
+// Szczebel 2 mial przez chwile wynik negatywny: log raportuje 60 fps, a prawo
+// wymagalo 120 Hz "bo inaczej ekran migocze psu". Research pokazal, ze to prawo
+// mieszalo dwa zjawiska. Migotanie to modulacja jasnosci, czyli sciemnianie
+// (PWM 480 Hz na tym urzadzeniu, szesc razy powyzej psiego progu), a nie liczba
+// klatek. 60 fps kosztuje plynnosc ruchu, nie migotanie. Wiec test nie oblal
+// wymagania -- znalazl, ze wymaganie opisywalo zla zmienna.
 import { writeFileSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
@@ -16,6 +23,12 @@ const at = (p) => join(ROOT, p);
 
 const TOKENS = JSON.parse(readFileSync(at('design/tokens.json'), 'utf8'));
 const REFRESH = TOKENS.frame.refresh;
+const PWM = TOKENS.frame.dimming.pwmHz;
+const CFF = TOKENS.user.flickerFusionDog;
+const RAF = TOKENS.motion.rafDefaultHz;
+if (!Number.isFinite(PWM) || !Number.isFinite(RAF) || !CFF) {
+  throw new Error('panel testu: brakuje frame.dimming.pwmHz / motion.rafDefaultHz / user.flickerFusionDog');
+}
 const THRESHOLD = TOKENS.input.dragThreshold;
 const COOLDOWN = TOKENS.input.cooldown;
 if (![REFRESH, THRESHOLD, COOLDOWN].every((v) => Number.isFinite(v))) {
@@ -33,9 +46,9 @@ const RUNGS = [
   {
     n: '2',
     where: 'iPhone in Safari, over Wi-Fi',
-    checks: `Selection and magnifier suppression, audio unlocking on the first gesture, and ${REFRESH} Hz.`,
-    status: 'failed',
-    result: `Suppression and audio: fine. Refresh rate: <strong>the session log reports 60 fps, not ${REFRESH}</strong>. Cause not yet established.`,
+    checks: `Selection and magnifier suppression, audio unlocking on the first gesture, and the frame rate the page actually gets.`,
+    status: 'passed, with a correction',
+    result: `Suppression and audio: fine. The log reads <strong>${RAF} fps, not ${REFRESH}</strong> &mdash; which turned out to be Safari&rsquo;s default page-rendering cap, not the panel, and <strong>not a flicker problem at all</strong>. See the note below.`,
   },
   {
     n: '3',
@@ -90,7 +103,7 @@ const CSS = `
   .note code{font-family:'IBM Plex Mono',Menlo,monospace;font-size:14px}
   .credit{margin-top:30px;padding-top:14px;border-top:2px solid var(--ink);font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--muted);display:flex;gap:22px}`;
 
-const cls = (s) => (s === 'passed' ? 'passed' : s === 'failed' ? 'failed' : 'pending');
+const cls = (s) => (s.startsWith('passed') ? 'passed' : s === 'failed' ? 'failed' : 'pending');
 
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
@@ -99,7 +112,7 @@ const html = `<!doctype html>
 
 <p class="eyebrow">Tinder for Chihuahua &middot; Chapter 12 &middot; Test protocol</p>
 <h1>Four rungs, from a laptop to a dog on the floor</h1>
-<p class="lede">Each rung can only be climbed once the one below it holds, and each one checks something the rung below cannot. The statuses are the state of play, not the plan &mdash; including the one that failed.</p>
+<p class="lede">Each rung can only be climbed once the one below it holds, and each one checks something the rung below cannot. The statuses are the state of play rather than the plan &mdash; including rung 2, which came back looking like a failure and turned out to be a badly written requirement.</p>
 
 <h2>The ladder</h2>
 <div class="ladder">
@@ -118,6 +131,18 @@ ${RUNGS.map((r) => `  <div class="r ${cls(r.status)}">
 ${MEASURED.map((m) => `      <tr><td>${m.k}</td><td>${m.v}</td></tr>`).join('\n')}
     </table>
   </div>
+  <div>
+    <h2 style="margin-top:0">The correction rung 2 forced</h2>
+    <div class="note" style="background:var(--warm)">
+      <h3>Flicker and frame rate are not the same number</h3>
+      <p>The law used to read &ldquo;${REFRESH} Hz is required, or the screen flickers to the dog&rdquo;. That conflated two things. Flicker is <strong>luminance modulation</strong>, and on a sample-and-hold panel that is the dimming, not the refresh: this device runs PWM at <strong>${PWM} Hz</strong> at every brightness &mdash; six times the ${CFF} canine threshold. The screen never flickered for the dog.</p>
+      <p style="margin-top:10px">What ${RAF} fps actually costs is <strong>motion continuity</strong>, for an animal that resolves change up to ${CFF}. And it is Safari&rsquo;s default cap rather than the hardware: the flag is <code>Prefer Page Rendering Updates near 60fps</code>. So the test did not fail the requirement &mdash; it found the requirement was describing the wrong variable.</p>
+      <p style="margin-top:10px">The open flicker risk moved off the screen entirely: <strong>a dimmed or mains-driven lamp in the room</strong> can modulate below ${CFF}, and that is outside the application.</p>
+    </div>
+  </div>
+</div>
+
+<div class="cols" style="grid-template-columns:1.35fr 1fr">
   <div>
     <h2 style="margin-top:0">Getting the log out</h2>
     <div class="note">

@@ -1,14 +1,14 @@
 # Post na LinkedIn — wersje do wyboru
 
 **WYBRANA: wersja B po angielsku.** Leży pierwsza, gotowa do skopiowania.
-Polskie wersje zostają niżej jako materiał źródłowy.
+Polskie wersje niżej są **nieaktualne** — powstały przed researchem o migotaniu
+i twierdzą, że wymóg 120 Hz nie został dowieziony. Zostawiam je tylko jako
+zapis, jak brzmiała historia przed sprawdzeniem.
 
-**Uwaga, którą przeoczyłam w polskich wersjach:** LinkedIn **nie renderuje
-markdownu**. Gwiazdki wyświetlą się dosłownie, jako gwiazdki. Wersja angielska
-poniżej jest czystym tekstem — jedyną strukturą są emoji i puste linie.
+**LinkedIn nie renderuje markdownu** — gwiazdki wyświetlą się dosłownie.
+Wersja angielska jest czystym tekstem; struktura to emoji i puste linie.
 
-Pierwsze ~200 znaków widać przed „zobacz więcej", więc one zarabiają na
-kliknięcie.
+Pierwsze ~200 znaków widać przed „zobacz więcej".
 
 ---
 
@@ -24,28 +24,47 @@ Sounds like a joke, right up until you do the numbers. A dog is a dichromat with
 
 📏 Everything is about four times bigger. The acuity factor is 3.75 — applied deliberately, not "looks about right".
 
-⚡ 120 Hz is a hardware requirement, not a flex. Canine flicker fusion runs 70–80 Hz against a human 60, so a 60 Hz screen visibly flickers to a dog. That's why the brief names a specific handset: the phone spec came out of the eye research.
+⚡ Dogs resolve change faster than we do: flicker fusion at 70–80 Hz against our 60.
 
 👃 The gesture is a drag, not a tap. A nose doesn't land as a point — it lands as a large, wet, multi-point moving patch.
 
-So I wrote my own guidelines. Thirty-four numbered laws, because Apple's Human Interface Guidelines describe a fingertip, a 44 pt target, red meaning danger and text carrying the content. Every one of those premises is false for this user, and adapting a document whose every premise has failed isn't adaptation, it's fan fiction.
+So I wrote my own guidelines. Thirty-four numbered laws, because Apple's Human Interface Guidelines describe a fingertip, a 44 pt target and text carrying the content. Every one of those premises is false for this user, and adapting a document whose every premise has failed isn't adaptation, it's fan fiction.
 
-Then I built the thing, instrumented it, and tested it on an actual dog.
+Then I built the thing, instrumented it, tested it on an actual dog — and one of my own laws fell over.
 
-The first result was negative. The session log reads 60 fps, not 120 — so the one law that dictated the choice of phone did not survive contact with the platform. I don't yet know why, and I'm not going to pretend I do.
+The law said: 120 Hz is required, or the screen flickers to the dog. My session log said 60 fps. For about an hour that looked like a straightforward failure.
 
-Which is, genuinely, the good news. A requirement came out of research, became a numbered law, got designed for, got built — and the very first recorded session caught it failing. A specification that can't be caught failing isn't a specification. It's a wish.
+It wasn't. The law was wrong.
+
+Flicker is luminance modulation — how often the light actually goes on and off. On a modern sample-and-hold OLED that's the dimming, not the refresh rate. This phone runs PWM dimming at 480 Hz at every brightness level. Against a dog's 70–80 Hz threshold, that's six times the headroom. The screen never flickered for the dog and never could have.
+
+What 60 fps actually costs is motion continuity — a swipe following his nose is genuinely steppier to Karmel than to me. And that 60 wasn't the hardware either: iOS Safari caps page rendering near 60 fps by default, ProMotion or not, to save battery. There's a feature flag that lifts it.
+
+So the requirement became two requirements, because it had been one law doing two jobs badly. And the actual flicker risk turned out to be somewhere I wasn't looking at all: a dimmed or mains-driven lamp in the room can modulate below 80 Hz. The risk was in the ceiling light, not the device.
+
+The measurement I thought had caught my build failing had caught my reasoning failing. I'd take that trade every time — but I only went looking because a number disagreed with me.
 
 Karmel went through the whole deck. He has preferences. He's not saying why 🐕
 
-Built for fun and for practice — but the method is the one I use at work: research before design, tokens as the single source of truth, and a prototype that measures itself. The brief was just absurd enough that no stakeholder was ever going to rescue a weak decision by agreeing with it.
+Built for fun and for practice, but the method is the one I use at work: research before design, tokens as the single source of truth, and a prototype that measures itself hard enough to embarrass its author.
 
 🐕 Open it on a phone: https://konstancja-tanjga.github.io/Tinder-for-chihuahua/
-📖 The whole process: https://konstancja-tanjga.github.io/portfolio-site/work/tinder-for-chihuahua/
+📖 The whole process, including this correction: https://konstancja-tanjga.github.io/portfolio-site/work/tinder-for-chihuahua/
 
 The candidates are real chihuahuas under assumed names. The deck deliberately excludes family — a filter makes sure Karmel never gets served his own mother.
 
 #UX #ProductDesign #DesignSystems #Accessibility #SpeculativeDesign
+
+---
+
+## Źródła do researchu o migotaniu
+
+- Psi próg fuzji migotania 80 Hz: Coile i in., 1989 — https://www.sciencedirect.com/topics/immunology-and-microbiology/critical-flicker-fusion
+- PWM w OLED-ach smartfonowych, 240/480 Hz: https://www.oled-info.com/pulse-width-modulation-pwm-oled-displays
+- Pomiar iPhone 13 Pro Max, 480,19 Hz, modulacja 97,6%: https://www.dxomark.com/apple-iphone-13-pro-max-display-test-retested/
+- Safari domyślnie ~60 fps i flaga funkcji: https://www.macrumors.com/how-to/enable-smoother-120hz-browsing-in-safari/
+- WebKit, wsparcie 120 Hz rAF: https://bugs.webkit.org/show_bug.cgi?id=173434
+- Zachowanie psów pod świetlówkami vs LED (ryzyko po stronie oświetlenia): https://www.sciencedirect.com/science/article/abs/pii/S016815912500190X
 
 ---
 

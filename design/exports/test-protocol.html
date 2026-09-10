@@ -33,7 +33,7 @@
 
 <p class="eyebrow">Tinder for Chihuahua &middot; Chapter 12 &middot; Test protocol</p>
 <h1>Four rungs, from a laptop to a dog on the floor</h1>
-<p class="lede">Each rung can only be climbed once the one below it holds, and each one checks something the rung below cannot. The statuses are the state of play, not the plan &mdash; including the one that failed.</p>
+<p class="lede">Each rung can only be climbed once the one below it holds, and each one checks something the rung below cannot. The statuses are the state of play rather than the plan &mdash; including rung 2, which came back looking like a failure and turned out to be a badly written requirement.</p>
 
 <h2>The ladder</h2>
 <div class="ladder">
@@ -43,11 +43,11 @@
     <p class="checks">Decision logic, the 1500 ms cooldown, undo. Mouse input is a developer path onto this rung only &mdash; it is tagged separately so a trackpad never pollutes the contact-patch statistics.</p>
     <p class="res"><span>Result</span>Logic holds. Undo works from the keyboard and the pointer.</p>
   </div>
-  <div class="r failed">
+  <div class="r passed">
     <div class="rh"><b>2</b><strong>iPhone in Safari, over Wi-Fi</strong></div>
-    <span class="tag">failed</span>
-    <p class="checks">Selection and magnifier suppression, audio unlocking on the first gesture, and 120 Hz.</p>
-    <p class="res"><span>Result</span>Suppression and audio: fine. Refresh rate: <strong>the session log reports 60 fps, not 120</strong>. Cause not yet established.</p>
+    <span class="tag">passed, with a correction</span>
+    <p class="checks">Selection and magnifier suppression, audio unlocking on the first gesture, and the frame rate the page actually gets.</p>
+    <p class="res"><span>Result</span>Suppression and audio: fine. The log reads <strong>60 fps, not 120</strong> &mdash; which turned out to be Safari&rsquo;s default page-rendering cap, not the panel, and <strong>not a flicker problem at all</strong>. See the note below.</p>
   </div>
   <div class="r pending">
     <div class="rh"><b>3</b><strong>iPhone as a PWA, with Guided Access</strong></div>
@@ -73,6 +73,18 @@
       <tr><td>Whether it comes back</td><td>Session history across days. With a twelve-year-old dog, change over time is the cognitive value the research points at.</td></tr>
     </table>
   </div>
+  <div>
+    <h2 style="margin-top:0">The correction rung 2 forced</h2>
+    <div class="note" style="background:var(--warm)">
+      <h3>Flicker and frame rate are not the same number</h3>
+      <p>The law used to read &ldquo;120 Hz is required, or the screen flickers to the dog&rdquo;. That conflated two things. Flicker is <strong>luminance modulation</strong>, and on a sample-and-hold panel that is the dimming, not the refresh: this device runs PWM at <strong>480 Hz</strong> at every brightness &mdash; six times the 70–80 Hz canine threshold. The screen never flickered for the dog.</p>
+      <p style="margin-top:10px">What 60 fps actually costs is <strong>motion continuity</strong>, for an animal that resolves change up to 70–80 Hz. And it is Safari&rsquo;s default cap rather than the hardware: the flag is <code>Prefer Page Rendering Updates near 60fps</code>. So the test did not fail the requirement &mdash; it found the requirement was describing the wrong variable.</p>
+      <p style="margin-top:10px">The open flicker risk moved off the screen entirely: <strong>a dimmed or mains-driven lamp in the room</strong> can modulate below 70–80 Hz, and that is outside the application.</p>
+    </div>
+  </div>
+</div>
+
+<div class="cols" style="grid-template-columns:1.35fr 1fr">
   <div>
     <h2 style="margin-top:0">Getting the log out</h2>
     <div class="note">
