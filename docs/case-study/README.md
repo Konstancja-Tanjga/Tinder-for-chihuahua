@@ -175,4 +175,52 @@ wprowadzałoby w błąd. Do przeglądania służą panele PNG powyżej.
 
 ---
 
+## Źródła
+
+Bibliografia, nie przypisy. Prace naukowe są **nazwane, a nie linkowane** — tytuł
+i czasopismo to jest to, co pozwala pracę znaleźć. Źródła sieciowe są linkowane,
+bo URL to wszystko, co mają.
+
+Pełna lista z opisami leży w [`design/foundation.html`](../../design/foundation.html)
+(rozdział „Na czym to stoi") oraz w
+[opublikowanym use case](https://konstancja-tanjga.github.io/portfolio-site/work/tinder-for-chihuahua/#sources).
+
+**Jedno twierdzenie jest świadomie niepodparte źródłem** i trzeba o tym wiedzieć,
+bo na nim stoi cały podział person: że kontrast u Auri jest niższy **dlatego**, że
+ma dwanaście lat. Zmiany soczewki z wiekiem u psów są opisane; zmierzony próg
+kontrastu dla tej konkretnej dwunastolatki nie, i nie miałam czym go zmierzyć.
+Więc „projektujemy dla Auri" jest argumentem z kierunku efektu, nie z liczby.
+Sprawdza to szczebel 4 protokołu testu.
+
+### Psi wzrok
+- Neitz, Geist, Jacobs, *Color vision in the dog*, Visual Neuroscience 1989 — czopki 429 i 555 nm
+- *In vivo electroretinographic differentiation of rod, short- and long/medium-wavelength cone responses in dogs* — to samo metodą ERG
+- *Are dogs red–green colour blind?*, Royal Society Open Science
+- *What do dogs see? A review of vision in dogs and implications for cognition research*, Psychonomic Bulletin & Review — ostrość 20/75 i próg migotania 70–80 Hz
+- Coile i in., 1989 — psi próg fuzji migotania 80 Hz, streszczone w [przeglądzie o critical flicker fusion](https://www.sciencedirect.com/topics/immunology-and-microbiology/critical-flicker-fusion)
+- *On the use of touchscreen-based behavioural and cognitive research with dogs* — morfologia psiego gestu, rekomendacja pary niebieski–żółty
+- *How dogs scan familiar and inverted faces: an eye movement study*, Animal Cognition — fiksacja na oczach
+- *Dogs recognize familiar faces from images*; *2D or Not 2D? An fMRI study of how dogs visually process objects*; *Familiarity with images affects how dogs process life-size video projections of humans*
+
+### Starzenie się i sens tej aplikacji
+- *Brain training for old dogs*, Vetmeduni Vienna / Messerli Research Institute
+- *Utilising dog-computer interactions to provide mental stimulation in dogs especially during ageing*
+- *Aging effects on discrimination learning, logical reasoning and memory in pet dogs*, GeroScience
+
+### Ekrany, migotanie i platforma — korekta z rozdziału 12
+- [PWM dimming in OLED displays](https://www.oled-info.com/pulse-width-modulation-pwm-oled-displays) — dlaczego prawie każdy OLED ściemnia w 240 albo 480 Hz i dlaczego to ta częstotliwość decyduje o migotaniu
+- [DXOMARK, test ekranu iPhone 13 Pro Max](https://www.dxomark.com/apple-iphone-13-pro-max-display-test-retested/) — zmierzone 480,19 Hz przy 97,6% głębokości modulacji, przy każdej jasności, bez DC dimming
+- [Flicker, the display affliction](https://www.dxomark.com/flicker-the-display-affliction/) — migotanie jako modulacja jasności, nie jako liczba klatek
+- [Domyślne 60 fps w Safari i flaga, która to zdejmuje](https://www.macrumors.com/how-to/enable-smoother-120hz-browsing-in-safari/) oraz [WebKit bug 173434](https://bugs.webkit.org/show_bug.cgi?id=173434)
+- [Zachowanie psów w schronisku pod świetlówkami kontra LED](https://www.sciencedirect.com/science/article/abs/pii/S016815912500190X) — dlaczego resztkowe ryzyko migotania siedzi w oświetleniu pokoju, nie w urządzeniu
+
+### Produkty z benchmarku
+- App for Dog — „duże, pełnoekranowe przyciski, żeby ciekawski nos nie mógł ich nie trafić"; BetterPawPlay — jedenaście gier na nos i łapę
+- *Training senior dogs to play games on touch screens*, PetMD
+- Pawmates i „Tinder for dogs", PawTracks; *Man makes „Tinder for dogs" after his senior pup couldn't find playmates*, Newsweek
+- *Dating apps are swiping left on the features that made them* — Hinge, Bumble; *The Death of the Swipe*, urdesignmag
+- *Where have all the „Tinders of the job market" gone?*, ToTalent; *Why swipe UX for jobs works (better than you'd think)*; Switch (app), Wikipedia
+
+---
+
 **Konstancja Tanjga** · 8 września 2026 · Tinder for Chihuahua

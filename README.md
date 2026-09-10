@@ -61,9 +61,13 @@ A few of the laws, to show what the research buys you:
 - **Everything ×4.** Canine acuity is roughly 20/75 against a human 20/20 — a
   factor of about 3.75 — so the dog-scale type and target floors are multiples of
   the human ones, not "a bit bigger".
-- **120 Hz is a hardware requirement.** Canine flicker fusion runs 70–80 Hz against
-  a human ~60 Hz. On a 60 Hz panel the screen visibly flickers to a dog. This is
-  why the device is named in the brief.
+- **Canine flicker fusion runs 70–80 Hz** against a human ~60 Hz, so dogs resolve
+  change faster than we do. This is why the device is named in the brief — and it
+  is also the finding I first drew the wrong conclusion from. Flicker is luminance
+  modulation, not frame rate: on this phone that is PWM dimming at 480 Hz, six
+  times the canine threshold, so the screen never flickered for the dog. What a
+  higher frame rate actually buys is motion continuity. The correction, and how a
+  test caught it, is in chapter 12 of the case study.
 - **Drag, not tap.** A nose lands as a large multi-point contact patch, not a
   point. The app takes the centroid, ignores the touch count, needs 40 px of travel
   and then refuses input for 1500 ms — because one wet-nose swipe otherwise
